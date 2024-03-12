@@ -14,9 +14,7 @@ class DesaController extends Controller
      */
     public function index()
     {
-        // $desa = Desa::all();
-        // $desa = Desa::select('Nama_Desa', 'Nama_Kades')->get();
-
+        //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
         $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')

@@ -19,6 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//route untuk get table
 Route::get('index', [DesaController::class, 'index']);
-
-Route::get('test', [DesaController::class, 'index']);

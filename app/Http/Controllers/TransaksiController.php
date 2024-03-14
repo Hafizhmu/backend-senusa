@@ -15,7 +15,7 @@ class TransaksiController extends Controller
     public function index()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga')
+        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.id_desa','desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
             ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')

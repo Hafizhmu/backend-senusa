@@ -24,6 +24,15 @@ class DesaController extends Controller
         return DesaResource::collection($desa);
     }
 
+    public function getDesa()
+    {
+        //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
+        $desa = Desa::select('id_desa','nama_desa')->paginate(10);
+
+
+        return DesaResource::collection($desa);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

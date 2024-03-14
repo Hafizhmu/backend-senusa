@@ -21,7 +21,7 @@ class TransaksiController extends Controller
             ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'transaksis.id_kabupaten', '=', 'kabupatens.id')
             ->orderBy('transaksis.id_transaksi')
-            ->paginate(10);
+            ->paginate(5);
 
 
         return TransaksiResource::collection($transaksis);

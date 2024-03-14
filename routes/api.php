@@ -27,3 +27,5 @@ Route::get('index', [DesaController::class, 'index']);
 Route::get('transaksi', [TransaksiController::class, 'index']);
 //route untuk get id dan nama desa
 Route::get('desa', [DesaController::class, 'getDesa']);
+//route untuk get id dan nama desa
+Route::get('desa/detail', [TransaksiController::class, 'searchTransaksiByDesa']);

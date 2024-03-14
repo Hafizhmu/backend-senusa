@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\DesaController;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DesaController;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //route untuk get table
 Route::get('index', [DesaController::class, 'index']);
+
+Route::get('transaksi', [TransaksiController::class, 'index']);

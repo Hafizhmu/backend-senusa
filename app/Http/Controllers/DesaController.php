@@ -18,7 +18,8 @@ class DesaController extends Controller
         $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')
-            ->get();
+            ->paginate(10);
+
 
         return DesaResource::collection($desa);
     }

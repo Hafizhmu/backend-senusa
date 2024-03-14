@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
+use Illuminate\Http\Request;
 use App\Http\Resources\TransaksiResource;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
@@ -15,7 +16,7 @@ class TransaksiController extends Controller
     public function index()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.id_desa','desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga')
+        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
             ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')
@@ -25,6 +26,28 @@ class TransaksiController extends Controller
 
 
         return TransaksiResource::collection($transaksis);
+    }
+    public function searchTransaksiByDesa(Request $request)
+    {
+        // Ambil ID desa dari request
+        $idDesa = $request->input('id');
+
+        // Cek jika ID desa telah diberikan
+        if ($idDesa) {
+            // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama', 'desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga')
+                ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
+                ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+                ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')
+                ->join('kabupatens', 'transaksis.id_kabupaten', '=', 'kabupatens.id')
+                ->where('transaksis.id_desa', $idDesa)
+                ->get();
+
+            return TransaksiResource::collection($transaksis);
+        } else {
+            // Jika ID desa tidak diberikan, kembalikan pesan kesalahan
+            return response()->json(['message' => 'ID desa harus disediakan.'], 400);
+        }
     }
 
     /**

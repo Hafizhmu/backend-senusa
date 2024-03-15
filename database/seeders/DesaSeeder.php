@@ -22,7 +22,8 @@ class DesaSeeder extends Seeder
                 'Nama_Kades' => $faker->name,
                 'id_kabupaten' => $faker->numberBetween(1,20),
                 'id_kecamatan' => $faker->numberBetween(1,20),
-                'alamat' => $faker->address()
+                'alamat' => $faker->address(),
+                'telepon' => $faker->randomNumber()
             ]);
         }
     }

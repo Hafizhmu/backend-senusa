@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kecamatan;
+use App\Http\Resources\KecamatanResource;
 use App\Http\Requests\StoreKecamatanRequest;
 use App\Http\Requests\UpdateKecamatanRequest;
 
@@ -13,7 +14,8 @@ class KecamatanController extends Controller
      */
     public function index()
     {
-        //
+        $kec = Kecamatan::paginate(10);
+        return KecamatanResource::collection($kec);
     }
 
     /**

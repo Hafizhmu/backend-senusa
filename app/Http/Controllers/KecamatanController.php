@@ -31,7 +31,21 @@ class KecamatanController extends Controller
      */
     public function store(StoreKecamatanRequest $request)
     {
-        //
+        try {
+            Kecamatan::create([
+                'id_kabupaten' => $request->id_kabupaten,
+                'kecamatan' => $request->kecamatan
+            ]);
+
+            //return response json
+            return response()->json([
+                'message' => 'Data Berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan" . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ class StoreKecamatanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,16 @@ class StoreKecamatanRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if (request()->isMethod('post')) {
+            return [
+                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
+                'kecamatan' => 'required|string'
+            ];
+        } else {
+            return [
+                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
+                'kecamatan' => 'required|string'
+            ];
+        }
     }
 }

@@ -63,7 +63,25 @@ class TransaksiController extends Controller
      */
     public function store(StoreTransaksiRequest $request)
     {
-        //
+        try {
+            Transaksi::create([
+                'id_projek' => $request->id_projek,
+                'id_desa' => $request->id_desa,
+                'id_kecamatan' => $request->id_kecamatan,
+                'id_kabupaten' => $request->id_kabupaten,
+                'status_kontrak' => $request->status_kontrak,
+                'status_pembayaran' => $request->status_pembayaran
+            ]);
+
+            //return response json
+            return response()->json([
+                'message' => 'Data Berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan" . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

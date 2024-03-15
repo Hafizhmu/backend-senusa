@@ -32,7 +32,20 @@ class KabupatenController extends Controller
      */
     public function store(StoreKabupatenRequest $request)
     {
-        //
+        try {
+            Kabupaten::create([
+                'kabupaten' => $request->kabupaten
+            ]);
+
+            //return response json
+            return response()->json([
+                'message' => 'Data Berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan". $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

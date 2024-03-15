@@ -29,7 +29,21 @@ class ProjekController extends Controller
      */
     public function store(StoreProjekRequest $request)
     {
-        //
+        try {
+            Projek::create([
+                'nama' => $request->nama,
+                'harga' => $request->harga
+            ]);
+
+            //return response json
+            return response()->json([
+                'message' => 'Data Berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan" . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

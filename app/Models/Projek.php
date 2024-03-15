@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Projek extends Model
 {
-    use HasFactory;
+    protected $guarded = ['id_projek'];
 }

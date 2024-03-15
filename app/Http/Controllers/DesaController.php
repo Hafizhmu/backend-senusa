@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Desa;
+use Illuminate\Http\Request;
+use App\Http\Resources\DesaResource;
 use App\Http\Requests\StoreDesaRequest;
 use App\Http\Requests\UpdateDesaRequest;
-use App\Http\Resources\DesaResource;
 
 class DesaController extends Controller
 {
@@ -46,7 +47,24 @@ class DesaController extends Controller
      */
     public function store(StoreDesaRequest $request)
     {
-        //
+        try {
+            Desa::create([
+                'nama_desa' => $request->nama_desa,
+                'nama_kades' => $request->nama_kades,
+                'id_kecamatan' => $request->id_kecamatan,
+                'id_kabupaten' => $request->id_kabupaten,
+                'alamat' => $request->alamat
+            ]);
+
+            //return response json
+            return response()->json([
+                'message' => 'Data Berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan" . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

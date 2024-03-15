@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Projek extends Model
 {
     protected $guarded = ['id_projek'];
+    protected $primaryKey = 'id_projek';
 }

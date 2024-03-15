@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Desa;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Http\Resources\TransaksiResource;
@@ -27,20 +28,20 @@ class TransaksiController extends Controller
 
         return TransaksiResource::collection($transaksis);
     }
-    public function searchTransaksiByDesa(Request $request)
+    public function searchTransaksiByDesa(Request $request, $id_desa)
     {
         // Ambil ID desa dari request
-        $idDesa = $request->input('id');
+        $find = Desa::find($id_desa);
 
         // Cek jika ID desa telah diberikan
-        if ($idDesa) {
+        if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
             $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama', 'desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga', 'desas.alamat')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')
                 ->join('kabupatens', 'transaksis.id_kabupaten', '=', 'kabupatens.id')
-                ->where('transaksis.id_desa', $idDesa)
+                ->where('transaksis.id_desa', $find->id_desa)
                 ->get();
 
             return TransaksiResource::collection($transaksis);

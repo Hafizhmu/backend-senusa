@@ -9,6 +9,8 @@ class Desa extends Model
 {
 
     protected $guarded = ['id_desa'];
+
+    protected $primaryKey = 'id_desa';
     public function kecamatan()
     {
         return $this->belongsTo(Kecamatan::class, 'id_kecamatan');

@@ -27,7 +27,8 @@ class StoreDesaRequest extends FormRequest
                 'nama_kades' => 'required|string',
                 'id_kecamatan' => 'required|integer|exists:kecamatans,id',
                 'id_kabupaten' => 'required|integer|exists:kabupatens,id',
-                'alamat' => 'required|string'
+                'alamat' => 'required|string',
+                'telepon' => 'required|string'
             ];
         } else {
             return [
@@ -35,7 +36,8 @@ class StoreDesaRequest extends FormRequest
                 'nama_kades' => 'required|string',
                 'id_kecamatan' => 'required|integer|exists:kecamatans,id',
                 'id_kabupaten' => 'required|integer|exists:kabupatens,id',
-                'alamat' => 'required|string'
+                'alamat' => 'required|string',
+                'telepon' => 'required|string'
             ];
         }
     }

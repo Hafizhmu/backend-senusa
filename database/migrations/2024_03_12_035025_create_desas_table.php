@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer("id_kecamatan");
             $table->integer("id_kabupaten");
             $table->text("alamat");
+            $table->string("telepon");
             $table->timestamps();
         });
     }

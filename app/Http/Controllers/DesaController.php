@@ -53,7 +53,8 @@ class DesaController extends Controller
                 'nama_kades' => $request->nama_kades,
                 'id_kecamatan' => $request->id_kecamatan,
                 'id_kabupaten' => $request->id_kabupaten,
-                'alamat' => $request->alamat
+                'alamat' => $request->alamat,
+                'telepon' => $request->telepon
             ]);
 
             //return response json

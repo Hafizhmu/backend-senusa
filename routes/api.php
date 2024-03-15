@@ -1,9 +1,13 @@
 <?php
 
+use App\Models\Kabupaten;
+use App\Models\Kecamatan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DesaController;
+use App\Http\Controllers\KabupatenController;
+use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\TransaksiController;
 
 /*
@@ -25,7 +29,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('index', [DesaController::class, 'index']);
 //route untuk get table transaksi
 Route::get('transaksi', [TransaksiController::class, 'index']);
-//route untuk get id dan nama desa
+//route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
+//route untuk get kecamatan
+Route::get('kecamatan', [KecamatanController::class, 'index']);
+//route untuk get kabupaten
+Route::get('kabupaten', [KabupatenController::class, 'index']);
 //route untuk detail desa
 Route::get('desa/detail', [TransaksiController::class, 'searchTransaksiByDesa']);

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kabupaten;
+use App\Http\Resources\KabupatenResource;
 use App\Http\Requests\StoreKabupatenRequest;
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\UpdateKabupatenRequest;
 
 class KabupatenController extends Controller
@@ -13,7 +15,8 @@ class KabupatenController extends Controller
      */
     public function index()
     {
-        //
+        $kab = Kabupaten::paginate(10);
+        return KabupatenResource::collection($kab);
     }
 
     /**

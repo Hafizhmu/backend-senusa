@@ -21,7 +21,9 @@ class TransaksiSeeder extends Seeder
                 'id_projek' => $faker->numberBetween(1, 3),
                 'id_desa' => $faker->numberBetween(1, 20),
                 'id_kecamatan' => $faker->numberBetween(1, 20),
-                'id_kabupaten' => $faker->numberBetween(1, 20)
+                'id_kabupaten' => $faker->numberBetween(1, 20),
+                'status_kontrak' => $faker->boolean(),
+                'status_pembayaran' => $faker->boolean()
             ]);
         }
     }

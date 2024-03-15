@@ -15,7 +15,7 @@ class DesaController extends Controller
     public function index()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')
             ->paginate(10);
@@ -27,7 +27,7 @@ class DesaController extends Controller
     public function getDesa()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $desa = Desa::select('id_desa','nama_desa')->paginate(10);
+        $desa = Desa::select('id_desa', 'nama_desa', 'alamat')->paginate(10);
 
 
         return DesaResource::collection($desa);

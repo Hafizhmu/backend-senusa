@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('id_desa');
             $table->integer('id_kecamatan');
             $table->integer('id_kabupaten');
+            $table->boolean('status_kontrak');
+            $table->boolean('status_pembayaran');
             $table->timestamps();
         });
     }

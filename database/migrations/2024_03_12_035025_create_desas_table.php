@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("nama_kades");
             $table->integer("id_kecamatan");
             $table->integer("id_kabupaten");
+            $table->text("alamat");
             $table->timestamps();
         });
     }

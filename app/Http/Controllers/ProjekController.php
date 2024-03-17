@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Projek;
 use App\Http\Requests\StoreProjekRequest;
 use App\Http\Requests\UpdateProjekRequest;
+use App\Http\Resources\ProjekResource;
 
 class ProjekController extends Controller
 {
@@ -13,7 +14,9 @@ class ProjekController extends Controller
      */
     public function index()
     {
-        //
+        $get =  Projek::all();
+
+        return ProjekResource::collection($get);
     }
 
     /**
@@ -65,16 +68,57 @@ class ProjekController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProjekRequest $request, Projek $projek)
+    public function update(UpdateProjekRequest $request, $id)
     {
-        //
+        try {
+            $update = Projek::find($id);
+            if (!$update) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $update->nama = $request->nama;
+            $update->harga = $request->harga;
+
+            $update->save();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil diperbarui'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui data', $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Projek $projek)
+    public function destroy($id)
     {
-        //
+        try {
+            $delete = Projek::find($id);
+            if (!$delete) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $delete->delete();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
     }
 }

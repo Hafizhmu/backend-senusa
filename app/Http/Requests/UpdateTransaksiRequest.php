@@ -21,7 +21,7 @@ class UpdateTransaksiRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('post')) {
+        if (request()->isMethod('put')) {
             return [
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',

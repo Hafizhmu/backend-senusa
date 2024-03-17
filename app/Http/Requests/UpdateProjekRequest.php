@@ -21,7 +21,7 @@ class UpdateProjekRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('post')) {
+        if (request()->isMethod('put')) {
             return [
                 'nama' => 'required|string',
                 'harga' => 'required|integer',

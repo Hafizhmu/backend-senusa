@@ -21,7 +21,7 @@ class UpdateKecamatanRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('post')) {
+        if (request()->isMethod('put')) {
             return [
                 'id_kabupaten' => 'required|integer|exists:kabupatens,id',
                 'kecamatan' => 'required|string'

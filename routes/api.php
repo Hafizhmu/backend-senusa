@@ -40,6 +40,8 @@ Route::get('desa/detail/{idDesa}', [TransaksiController::class, 'searchTransaksi
 Route::get('kecamatan', [KecamatanController::class, 'index']);
 //route untuk get kabupaten
 Route::get('kabupaten', [KabupatenController::class, 'index']);
+//route untuk get projek
+Route::get('projek', [ProjekController::class, 'index']);
 
 
 //method POST
@@ -58,3 +60,23 @@ Route::post('add/transaksi', [TransaksiController::class, 'store']);
 //method PUT
 //route untuk update desa
 Route::put('update/desa/{id}', [DesaController::class, 'update']);
+//route untuk update kecamatan
+Route::put('update/kecamatan/{id}', [KecamatanController::class, 'update']);
+//route untuk update kabupaten
+Route::put('update/kabupaten/{id}', [KabupatenController::class, 'update']);
+//route untuk update projek
+Route::put('update/projek/{id}', [ProjekController::class, 'update']);
+//route untuk update transaksi
+Route::put('update/transaksi/{id}', [TransaksiController::class, 'update']);
+
+//method DELETE
+//route untuk mengapus desa
+Route::delete('delete/desa/{id}', [DesaController::class, 'destroy']);
+//route untuk mengapus kecamatan
+Route::delete('delete/kecamatan/{id}', [KecamatanController::class, 'destroy']);
+//route untuk mengapus kabupaten
+Route::delete('delete/kabupaten/{id}', [KabupatenController::class, 'destroy']);
+//route untuk mengapus projek
+Route::delete('delete/projek/{id}', [ProjekController::class, 'destroy']);
+//route untuk mengapus transaksi
+Route::delete('delete/transaksi/{id}', [TransaksiController::class, 'destroy']);

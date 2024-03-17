@@ -87,10 +87,37 @@ class DesaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDesaRequest $request, Desa $desa)
+    public function update(UpdateDesaRequest $request, $id)
     {
-        //
+        try {
+            $update = Desa::find($id);
+            if (!$update) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $update->nama_desa = $request->nama_desa;
+            $update->nama_kades = $request->nama_kades;
+            $update->id_kecamatan = $request->id_kecamatan;
+            $update->id_kabupaten = $request->id_kabupaten;
+            $update->alamat = $request->alamat;
+            $update->telepon = $request->telepon;
+
+            $update->save();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil diperbarui'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui data', $e->getMessage()
+            ], 500);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

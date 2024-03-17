@@ -53,3 +53,8 @@ Route::post('add/kabupaten', [KabupatenController::class, 'store']);
 Route::post('add/projek', [ProjekController::class, 'store']);
 //route untuk add kecamatan
 Route::post('add/transaksi', [TransaksiController::class, 'store']);
+
+
+//method PUT
+//route untuk update desa
+Route::put('update/desa/{id}', [DesaController::class, 'update']);

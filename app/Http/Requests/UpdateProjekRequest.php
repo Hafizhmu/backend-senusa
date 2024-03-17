@@ -11,7 +11,7 @@ class UpdateProjekRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,16 @@ class UpdateProjekRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if (request()->isMethod('post')) {
+            return [
+                'nama' => 'required|string',
+                'harga' => 'required|integer',
+            ];
+        } else {
+            return [
+                'nama' => 'required|string',
+                'harga' => 'required|integer',
+            ];
+        }
     }
 }

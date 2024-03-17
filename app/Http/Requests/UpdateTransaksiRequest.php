@@ -11,7 +11,7 @@ class UpdateTransaksiRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,24 @@ class UpdateTransaksiRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if (request()->isMethod('post')) {
+            return [
+                'id_projek' => 'required|integer|exists:projeks,id_projek',
+                'id_desa' => 'required|integer|exists:desas,id_desa',
+                'id_kecamatan' => 'required|integer|exists:kecamatans,id',
+                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
+                'status_kontrak' => 'required|boolean',
+                'status_pembayaran' => 'required|boolean'
+            ];
+        } else {
+            return [
+                'id_projek' => 'required|integer|exists:projeks,id_projek',
+                'id_desa' => 'required|integer|exists:desas,id_desa',
+                'id_kecamatan' => 'required|integer|exists:kecamatans,id',
+                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
+                'status_kontrak' => 'required|boolean',
+                'status_pembayaran' => 'required|boolean'
+            ];
+        }
     }
 }

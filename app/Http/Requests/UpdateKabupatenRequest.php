@@ -11,7 +11,7 @@ class UpdateKabupatenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,14 @@ class UpdateKabupatenRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if (request()->isMethod('post')) {
+            return [
+                'kabupaten' => 'required|string'
+            ];
+        } else {
+            return [
+                'kabupaten' => 'required|string'
+            ];
+        }
     }
 }

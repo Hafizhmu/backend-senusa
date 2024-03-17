@@ -10,6 +10,8 @@ class Desa extends Model
 
     protected $guarded = ['id_desa'];
 
+    protected $fillable =['nama_kades'];
+
     protected $primaryKey = 'id_desa';
     public function kecamatan()
     {

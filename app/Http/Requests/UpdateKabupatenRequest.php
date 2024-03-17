@@ -21,7 +21,7 @@ class UpdateKabupatenRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('post')) {
+        if (request()->isMethod('put')) {
             return [
                 'kabupaten' => 'required|string'
             ];

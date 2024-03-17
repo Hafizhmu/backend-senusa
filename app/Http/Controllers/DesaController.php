@@ -122,8 +122,27 @@ class DesaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Desa $desa)
+    public function destroy($id)
     {
-        //
+        try {
+            $delete = Desa::find($id);
+            if (!$delete) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $delete->delete();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
     }
 }

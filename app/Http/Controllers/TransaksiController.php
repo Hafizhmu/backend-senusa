@@ -104,16 +104,61 @@ class TransaksiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
+    public function update(UpdateTransaksiRequest $request, $id)
     {
-        //
+        try {
+            $update = Transaksi::find($id);
+            if (!$update) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $update->id_projek = $request->id_projek;
+            $update->id_desa = $request->id_desa;
+            $update->id_kecamatan = $request->id_kecamatan;
+            $update->id_kabupaten = $request->id_kabupaten;
+            $update->status_kontrak = $request->status_kontrak;
+            $update->status_pembayaran = $request->status_pembayaran;
+
+            $update->save();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil diperbarui'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui data', $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaksi $transaksi)
+    public function destroy($id)
     {
-        //
+        try {
+            $delete = Transaksi::find($id);
+            if (!$delete) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $delete->delete();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
     }
 }

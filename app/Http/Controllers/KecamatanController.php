@@ -67,16 +67,57 @@ class KecamatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKecamatanRequest $request, Kecamatan $kecamatan)
+    public function update(UpdateKecamatanRequest $request, $id)
     {
-        //
+        try {
+            $update = Kecamatan::find($id);
+            if (!$update) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $update->id_kabupaten = $request->id_kabupaten;
+            $update->kecamatan = $request->kecamatan;
+
+            $update->save();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil diperbarui'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui data', $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kecamatan $kecamatan)
+    public function destroy($id)
     {
-        //
+        try {
+            $delete = Kecamatan::find($id);
+            if (!$delete) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $delete->delete();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
     }
 }

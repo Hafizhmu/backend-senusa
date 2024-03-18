@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id('id_transaksi');
             $table->integer('id_projek');
             $table->integer('id_desa');
-            $table->integer('id_kecamatan');
-            $table->integer('id_kabupaten');
+            $table->double('harga');
+            $table->double('ppn');
+            $table->double('pph');
             $table->boolean('status_kontrak');
             $table->boolean('status_pembayaran');
             $table->timestamps();

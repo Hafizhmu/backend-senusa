@@ -24,12 +24,10 @@ class UpdateProjekRequest extends FormRequest
         if (request()->isMethod('put')) {
             return [
                 'nama' => 'required|string',
-                'harga' => 'required|integer',
             ];
         } else {
             return [
                 'nama' => 'required|string',
-                'harga' => 'required|integer',
             ];
         }
     }

@@ -25,8 +25,9 @@ class UpdateTransaksiRequest extends FormRequest
             return [
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
-                'id_kecamatan' => 'required|integer|exists:kecamatans,id',
-                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
+                'harga' => 'required|integer',
+                'ppn' => 'required|integer',
+                'pph' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
                 'status_pembayaran' => 'required|boolean'
             ];
@@ -34,8 +35,9 @@ class UpdateTransaksiRequest extends FormRequest
             return [
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
-                'id_kecamatan' => 'required|integer|exists:kecamatans,id',
-                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
+                'harga' => 'required|integer',
+                'ppn' => 'required|integer',
+                'pph' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
                 'status_pembayaran' => 'required|boolean'
             ];

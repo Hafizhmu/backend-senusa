@@ -24,12 +24,10 @@ class StoreProjekRequest extends FormRequest
         if (request()->isMethod('post')) {
             return [
                 'nama' => 'required|string',
-                'harga' => 'required|integer',
             ];
         } else {
             return [
                 'nama' => 'required|string',
-                'harga' => 'required|integer',
             ];
         }
     }

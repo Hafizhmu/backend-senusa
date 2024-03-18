@@ -35,10 +35,31 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga','transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->where('transaksis.id_desa', $find->id_desa)
+                ->get();
+
+            return TransaksiResource::collection($transaksis);
+        } else {
+            // Jika ID desa tidak diberikan, kembalikan pesan kesalahan
+            return response()->json(['message' => 'ID desa harus disediakan.'], 400);
+        }
+    }
+
+    public function searchTransaksiById(Request $request, $id_transaksi)
+    {
+        // Ambil ID desa dari request
+        $find = Transaksi::find($id_transaksi);
+
+        // Cek jika ID desa telah diberikan
+        if ($find) {
+            // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+                ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
+                ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+                ->where('transaksis.id_transaksi', $find->id_transaksi)
                 ->get();
 
             return TransaksiResource::collection($transaksis);
@@ -112,8 +133,6 @@ class TransaksiController extends Controller
                 ], 404);
             }
 
-            $update->id_projek = $request->id_projek;
-            $update->id_desa = $request->id_desa;
             $update->harga = $request->harga;
             $update->ppn = $request->ppn;
             $update->pph = $request->pph;

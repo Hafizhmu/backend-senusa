@@ -23,8 +23,8 @@ class UpdateTransaksiRequest extends FormRequest
     {
         if (request()->isMethod('put')) {
             return [
-                'id_projek' => 'required|integer|exists:projeks,id_projek',
-                'id_desa' => 'required|integer|exists:desas,id_desa',
+                'id_projek' => 'integer|exists:projeks,id_projek',
+                'id_desa' => 'integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
                 'ppn' => 'required|integer',
                 'pph' => 'required|integer',

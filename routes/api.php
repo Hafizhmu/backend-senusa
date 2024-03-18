@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('index', [DesaController::class, 'index']);
 //route untuk get table transaksi
 Route::get('transaksi', [TransaksiController::class, 'index']);
+//route untuk get table transaksi
+Route::get('transaksi/{id_transaksi}', [TransaksiController::class, 'searchTransaksiById']);
 //route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
 //route untuk detail desa

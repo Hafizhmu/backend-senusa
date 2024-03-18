@@ -65,6 +65,9 @@ class TransaksiController extends Controller
             Transaksi::create([
                 'id_projek' => $request->id_projek,
                 'id_desa' => $request->id_desa,
+                'harga' => $request->harga,
+                'ppn' => $request->ppn,
+                'pph' => $request->pph,
                 'status_kontrak' => $request->status_kontrak,
                 'status_pembayaran' => $request->status_pembayaran
             ]);
@@ -110,7 +113,10 @@ class TransaksiController extends Controller
             }
 
             $update->id_projek = $request->id_projek;
-            $update->id_kabupaten = $request->id_kabupaten;
+            $update->id_desa = $request->id_desa;
+            $update->harga = $request->harga;
+            $update->ppn = $request->ppn;
+            $update->pph = $request->pph;
             $update->status_kontrak = $request->status_kontrak;
             $update->status_pembayaran = $request->status_pembayaran;
 

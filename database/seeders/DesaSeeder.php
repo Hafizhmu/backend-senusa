@@ -18,7 +18,7 @@ class DesaSeeder extends Seeder
 
         for ($i = 0; $i < 20; $i++) {
             DB::table('desas')->insert([
-                'Nama_Desa' => $faker->firstName,
+                'Nama_Desa' => 'Desa '. $faker->firstName,
                 'Nama_Kades' => $faker->name,
                 'id_kabupaten' => $faker->numberBetween(1,20),
                 'id_kecamatan' => $faker->numberBetween(1,20),

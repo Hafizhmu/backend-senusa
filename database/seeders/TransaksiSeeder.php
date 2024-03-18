@@ -20,8 +20,9 @@ class TransaksiSeeder extends Seeder
             DB::table('transaksis')->insert([
                 'id_projek' => $faker->numberBetween(1, 3),
                 'id_desa' => $faker->numberBetween(1, 20),
-                'id_kecamatan' => $faker->numberBetween(1, 20),
-                'id_kabupaten' => $faker->numberBetween(1, 20),
+                'harga' => $faker->randomNumber(),
+                'ppn' => $faker->numberBetween(10, 20),
+                'pph' => $faker->numberBetween(10, 20),
                 'status_kontrak' => $faker->boolean(),
                 'status_pembayaran' => $faker->boolean()
             ]);

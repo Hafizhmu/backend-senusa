@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Desa;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -17,11 +18,9 @@ class TransaksiController extends Controller
     public function index()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'kecamatans.kecamatan', 'kabupatens.kabupaten', 'projeks.harga', 'transaksis.status_kontrak', 'transaksis.status_pembayaran')
+        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_kontrak', 'transaksis.status_pembayaran')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
-            ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')
-            ->join('kabupatens', 'transaksis.id_kabupaten', '=', 'kabupatens.id')
             ->orderBy('transaksis.id_transaksi')
             ->paginate(10);
 
@@ -36,11 +35,9 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa','projeks.harga')
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga','transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
-                ->join('kecamatans', 'transaksis.id_kecamatan', '=', 'kecamatans.id')
-                ->join('kabupatens', 'transaksis.id_kabupaten', '=', 'kabupatens.id')
                 ->where('transaksis.id_desa', $find->id_desa)
                 ->get();
 
@@ -68,8 +65,6 @@ class TransaksiController extends Controller
             Transaksi::create([
                 'id_projek' => $request->id_projek,
                 'id_desa' => $request->id_desa,
-                'id_kecamatan' => $request->id_kecamatan,
-                'id_kabupaten' => $request->id_kabupaten,
                 'status_kontrak' => $request->status_kontrak,
                 'status_pembayaran' => $request->status_pembayaran
             ]);
@@ -115,8 +110,6 @@ class TransaksiController extends Controller
             }
 
             $update->id_projek = $request->id_projek;
-            $update->id_desa = $request->id_desa;
-            $update->id_kecamatan = $request->id_kecamatan;
             $update->id_kabupaten = $request->id_kabupaten;
             $update->status_kontrak = $request->status_kontrak;
             $update->status_pembayaran = $request->status_pembayaran;

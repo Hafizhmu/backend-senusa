@@ -18,8 +18,7 @@ class ProjekSeeder extends Seeder
 
         for ($i = 0; $i < 3; $i++) {
             DB::table('projeks')->insert([
-                'nama' => $faker->unique()->lastName(),
-                'harga' => $faker->randomNumber()
+                'nama' => 'Proyek ' . $faker->unique()->lastName(),
             ]);
         }
     }

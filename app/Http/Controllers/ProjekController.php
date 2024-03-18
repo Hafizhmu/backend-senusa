@@ -35,7 +35,6 @@ class ProjekController extends Controller
         try {
             Projek::create([
                 'nama' => $request->nama,
-                'harga' => $request->harga
             ]);
 
             //return response json
@@ -79,7 +78,6 @@ class ProjekController extends Controller
             }
 
             $update->nama = $request->nama;
-            $update->harga = $request->harga;
 
             $update->save();
 

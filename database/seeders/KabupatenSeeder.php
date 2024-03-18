@@ -18,7 +18,7 @@ class KabupatenSeeder extends Seeder
 
         for ($i = 0; $i < 20; $i++) {
             DB::table('kabupatens')->insert([
-                'kabupaten' => $faker->city()
+                'kabupaten' => "Kabupaten ".$faker->city()
             ]);
         }
     }

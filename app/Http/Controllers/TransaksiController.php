@@ -62,7 +62,7 @@ class TransaksiController extends Controller
                 ->where('transaksis.id_transaksi', $find->id_transaksi)
                 ->get();
 
-            return TransaksiResource::collection($transaksis);
+                return response()->json($transaksis, 200);
         } else {
             // Jika ID desa tidak diberikan, kembalikan pesan kesalahan
             return response()->json(['message' => 'ID desa harus disediakan.'], 400);

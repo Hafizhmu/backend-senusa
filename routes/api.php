@@ -36,6 +36,8 @@ Route::get('transaksi', [TransaksiController::class, 'index']);
 Route::get('transaksi/{id_transaksi}', [TransaksiController::class, 'searchTransaksiById']);
 //route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
+//route untuk get desa by ID
+Route::get('desa/{id}', [DesaController::class, 'getDesaById']);
 //route untuk detail desa
 Route::get('desa/detail/{idDesa}', [TransaksiController::class, 'searchTransaksiByDesa']);
 //route untuk get kecamatan

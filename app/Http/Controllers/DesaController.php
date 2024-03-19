@@ -19,7 +19,7 @@ class DesaController extends Controller
         $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')
-            
+
             ->paginate(10);
 
 
@@ -35,11 +35,12 @@ class DesaController extends Controller
         return DesaResource::collection($desa);
     }
 
-    public function getDesaById($id){
+    public function getDesaById($id)
+    {
         $find = Desa::find($id);
 
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat','desas.telepon', 'desas.nama_kades', 'kecamatans.id','kecamatans.kecamatan', 'kabupatens.id','kabupatens.kabupaten')
+        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.telepon', 'desas.nama_kades', 'kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')
             ->where('desas.id_desa', $find->id_desa)

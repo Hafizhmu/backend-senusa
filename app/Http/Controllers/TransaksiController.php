@@ -56,13 +56,13 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->where('transaksis.id_transaksi', $find->id_transaksi)
                 ->get();
 
-                return response()->json($transaksis, 200);
+            return response()->json($transaksis, 200);
         } else {
             // Jika ID desa tidak diberikan, kembalikan pesan kesalahan
             return response()->json(['message' => 'ID desa harus disediakan.'], 400);

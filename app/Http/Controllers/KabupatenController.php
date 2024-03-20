@@ -17,10 +17,8 @@ class KabupatenController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->has('data') ? $request->data : 10; // Jumlah item per halaman, default 10 jika tidak disediakan
-
         // Lakukan paginasi pada kueri builder
-        $kab = Kabupaten::paginate($perPage);
+        $kab = Kabupaten::paginate($request->data);
 
         // Gunakan KabupatenResource untuk mengubah koleksi data
         return KabupatenResource::collection($kab);

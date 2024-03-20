@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cv;
+use Illuminate\Http\Request;
+use App\Http\Resources\CvResource;
 use App\Http\Requests\StoreCvRequest;
 use App\Http\Requests\UpdateCvRequest;
 
@@ -11,9 +13,12 @@ class CvController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Cv::all(),200);
+        $paginator = CV::paginate($request->data);
+
+        return CvResource::collection($paginator);
+        // return response()->json(Cv::paginate($request->has('data')),200);
     }
 
     /**

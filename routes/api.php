@@ -33,7 +33,7 @@ Route::get('index', [DesaController::class, 'index']);
 //route untuk get table transaksi
 Route::get('transaksi', [TransaksiController::class, 'index']);
 //route untuk get table transaksi
-Route::get('transaksi/{id_transaksi}', [TransaksiController::class, 'searchTransaksiById']);
+Route::get('transaksi', [TransaksiController::class, 'searchTransaksiById']);
 //route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
 //route untuk get desa by ID

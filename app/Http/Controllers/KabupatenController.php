@@ -19,6 +19,8 @@ class KabupatenController extends Controller
         return KabupatenResource::collection($kab);
     }
 
+    
+
     /**
      * Show the form for creating a new resource.
      */

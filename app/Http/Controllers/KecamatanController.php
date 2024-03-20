@@ -6,6 +6,8 @@ use App\Models\Kecamatan;
 use App\Http\Resources\KecamatanResource;
 use App\Http\Requests\StoreKecamatanRequest;
 use App\Http\Requests\UpdateKecamatanRequest;
+use App\Models\Kabupaten;
+use Illuminate\Http\Request;
 
 class KecamatanController extends Controller
 {
@@ -16,6 +18,41 @@ class KecamatanController extends Controller
     {
         $kec = Kecamatan::paginate(10);
         return KecamatanResource::collection($kec);
+    }
+
+    public function filter($id_kabupaten)
+    {
+        // Ambil data kecamatan berdasarkan id_kabupaten
+        $kecamatans = Kecamatan::select('kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
+            ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
+            ->where('kabupatens.id', $id_kabupaten)
+            ->get();
+
+        // Periksa apakah ada kecamatan yang ditemukan
+        if ($kecamatans->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada kecamatan yang ditemukan untuk kabupaten ini'], 404);
+        }
+
+        // Jika ada, kembalikan data kecamatan dalam format JSON
+        return response()->json($kecamatans, 200);
+    }
+
+    public function filterParams(Request $request, $id_kabupaten)
+    {
+        $id_kabupaten = $request->query('id_kabupaten');
+        // Ambil data kecamatan berdasarkan id_kabupaten
+        $kecamatans = Kecamatan::select('kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
+            ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
+            ->where('kabupatens.id', $id_kabupaten)
+            ->get();
+
+        // Periksa apakah ada kecamatan yang ditemukan
+        if ($kecamatans->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada kecamatan yang ditemukan untuk kabupaten ini'], 404);
+        }
+
+        // Jika ada, kembalikan data kecamatan dalam format JSON
+        return response()->json($kecamatans, 200);
     }
 
     /**

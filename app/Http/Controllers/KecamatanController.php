@@ -16,10 +16,8 @@ class KecamatanController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->has('data') ? $request->data : 10; // Jumlah item per halaman, default 10 jika tidak disediakan
-
         // Lakukan paginasi pada kueri builder
-        $kec = Kecamatan::paginate($perPage);
+        $kec = Kecamatan::paginate($request->data);
         return KecamatanResource::collection($kec);
     }
 

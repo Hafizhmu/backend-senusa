@@ -2,31 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kabupaten;
-use Illuminate\Http\Request;
-use App\Http\Resources\KabupatenResource;
-use App\Http\Requests\StoreKabupatenRequest;
-use Illuminate\Database\Eloquent\Collection;
-use App\Http\Requests\UpdateKabupatenRequest;
+use App\Models\Cv;
+use App\Http\Requests\StoreCvRequest;
+use App\Http\Requests\UpdateCvRequest;
 
-
-class KabupatenController extends Controller
+class CvController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = $request->has('data') ? $request->data : 10; // Jumlah item per halaman, default 10 jika tidak disediakan
-
-        // Lakukan paginasi pada kueri builder
-        $kab = Kabupaten::paginate($perPage);
-
-        // Gunakan KabupatenResource untuk mengubah koleksi data
-        return KabupatenResource::collection($kab);
+        return response()->json(Cv::all(),200);
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -39,11 +27,12 @@ class KabupatenController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreKabupatenRequest $request)
+    public function store(StoreCvRequest $request)
     {
         try {
-            Kabupaten::create([
-                'kabupaten' => $request->kabupaten
+            Cv::create([
+                'nama_cv' => $request->nama_cv,
+                'nama_direktur' => $request->nama_direktur
             ]);
 
             //return response json
@@ -60,7 +49,7 @@ class KabupatenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kabupaten $kabupaten)
+    public function show(Cv $cv)
     {
         //
     }
@@ -68,7 +57,7 @@ class KabupatenController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kabupaten $kabupaten)
+    public function edit(Cv $cv)
     {
         //
     }
@@ -76,17 +65,18 @@ class KabupatenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKabupatenRequest $request, $id)
+    public function update(UpdateCvRequest $request, $id)
     {
         try {
-            $update = Kabupaten::find($id);
+            $update = Cv::find($id);
             if (!$update) {
                 return response()->json([
                     'message' => "Data dengan ID $id tidak ditemukan"
                 ], 404);
             }
 
-            $update->kabupaten = $request->kabupaten;
+            $update->nama_cv = $request->nama_cv;
+            $update->nama_direktur = $request->nama_direktur;
 
             $update->save();
 
@@ -108,7 +98,7 @@ class KabupatenController extends Controller
     public function destroy($id)
     {
         try {
-            $delete = Kabupaten::find($id);
+            $delete = Cv::find($id);
             if (!$delete) {
                 return response()->json([
                     'message' => "Data dengan ID $id tidak ditemukan"

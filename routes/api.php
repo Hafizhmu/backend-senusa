@@ -6,6 +6,7 @@ use App\Models\Kecamatan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CvController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\ProjekController;
 use App\Http\Controllers\KabupatenController;
@@ -42,8 +43,12 @@ Route::get('desa/{id}', [DesaController::class, 'getDesaById']);
 Route::get('desa/detail/{idDesa}', [TransaksiController::class, 'searchTransaksiByDesa']);
 //route untuk get kecamatan
 Route::get('kecamatan', [KecamatanController::class, 'filterParams']);
+//route untuk get kecamatan
+Route::get('getKecamatan', [KecamatanController::class, 'index']);
 //route untuk get kabupaten
 Route::get('kabupaten', [KabupatenController::class, 'index']);
+//route untuk get cv
+Route::get('cv', [CvController::class, 'index']);
 // //route untuk get kabupaten
 // Route::get('kabupaten/kecamatan/{id}', [KecamatanController::class, 'filter']);
 // //route untuk get kabupaten
@@ -63,6 +68,8 @@ Route::post('add/kabupaten', [KabupatenController::class, 'store']);
 Route::post('add/projek', [ProjekController::class, 'store']);
 //route untuk add kecamatan
 Route::post('add/transaksi', [TransaksiController::class, 'store']);
+//route untuk add cv
+Route::post('add/cv', [CvController::class, 'store']);
 
 
 //method PUT
@@ -76,6 +83,8 @@ Route::put('update/kabupaten/{id}', [KabupatenController::class, 'update']);
 Route::put('update/projek/{id}', [ProjekController::class, 'update']);
 //route untuk update transaksi
 Route::put('update/transaksi/{id}', [TransaksiController::class, 'update']);
+//route untuk update cv
+Route::put('update/cv/{id}', [CvController::class, 'update']);
 
 //method DELETE
 //route untuk mengapus desa
@@ -88,3 +97,5 @@ Route::delete('delete/kabupaten/{id}', [KabupatenController::class, 'destroy']);
 Route::delete('delete/projek/{id}', [ProjekController::class, 'destroy']);
 //route untuk mengapus transaksi
 Route::delete('delete/transaksi/{id}', [TransaksiController::class, 'destroy']);
+//route untuk mengapus transaksi
+Route::delete('delete/cv/{id}', [CvController::class, 'destroy']);

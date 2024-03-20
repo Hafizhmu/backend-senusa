@@ -14,9 +14,12 @@ class KecamatanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kec = Kecamatan::paginate(10);
+        $perPage = $request->has('data') ? $request->data : 10; // Jumlah item per halaman, default 10 jika tidak disediakan
+
+        // Lakukan paginasi pada kueri builder
+        $kec = Kecamatan::paginate($perPage);
         return KecamatanResource::collection($kec);
     }
 

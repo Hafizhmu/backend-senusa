@@ -41,13 +41,13 @@ Route::get('desa/{id}', [DesaController::class, 'getDesaById']);
 //route untuk detail desa
 Route::get('desa/detail/{idDesa}', [TransaksiController::class, 'searchTransaksiByDesa']);
 //route untuk get kecamatan
-Route::get('kecamatan', [KecamatanController::class, 'index']);
+Route::get('kecamatan', [KecamatanController::class, 'filterParams']);
 //route untuk get kabupaten
 Route::get('kabupaten', [KabupatenController::class, 'index']);
-//route untuk get kabupaten
-Route::get('kabupaten/kecamatan/{id}', [KecamatanController::class, 'filter']);
 // //route untuk get kabupaten
-// Route::get('kabupaten/kecamatanan/{id}', [KecamatanController::class, 'filterParams']);
+// Route::get('kabupaten/kecamatan/{id}', [KecamatanController::class, 'filter']);
+// //route untuk get kabupaten
+// Route::get('kabupaten/kecamatan', [KecamatanController::class, 'filterParams']);
 //route untuk get projek
 Route::get('projek', [ProjekController::class, 'index']);
 

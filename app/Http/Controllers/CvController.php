@@ -21,8 +21,9 @@ class CvController extends Controller
         // return response()->json(Cv::paginate($request->has('data')),200);
     }
 
-    public function getCvById($id){
-        $find = Cv::find($id);
+    public function getCvById(Request $request)
+    {
+        $find = Cv::find($request->id);
         // Ambil data Cv berdasarkan id_kabupaten
 
         if (!$find) {

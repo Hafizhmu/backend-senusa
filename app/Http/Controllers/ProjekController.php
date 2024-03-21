@@ -6,6 +6,7 @@ use App\Models\Projek;
 use App\Http\Requests\StoreProjekRequest;
 use App\Http\Requests\UpdateProjekRequest;
 use App\Http\Resources\ProjekResource;
+use Illuminate\Http\Request;
 
 class ProjekController extends Controller
 {
@@ -19,9 +20,9 @@ class ProjekController extends Controller
         return ProjekResource::collection($get);
     }
 
-    public function getProjekById($id)
+    public function getProjekById(Request $request)
     {
-        $find = Projek::find($id);
+        $find = Projek::find($request->id);
         // Ambil data Projek berdasarkan id_kabupaten
 
         if (!$find) {

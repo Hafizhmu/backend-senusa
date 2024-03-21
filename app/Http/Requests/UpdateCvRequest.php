@@ -24,12 +24,14 @@ class UpdateCvRequest extends FormRequest
         if (request()->isMethod('put')) {
             return [
                 'nama_cv' => 'required|string',
-                'nama_direktur' => 'required|string'
+                'nama_direktur' => 'required|string',
+                'format_surat' => 'required|string'
             ];
         } else {
             return [
                 'nama_cv' => 'required|string',
-                'nama_direktur' => 'required|string'
+                'nama_direktur' => 'required|string',
+                'format_surat' => 'required|string'
             ];
         }
     }

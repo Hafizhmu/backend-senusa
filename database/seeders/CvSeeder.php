@@ -19,7 +19,8 @@ class CvSeeder extends Seeder
         for ($i = 0; $i < 3; $i++) {
             DB::table('cvs')->insert([
                 'nama_cv' => 'Cv. ' . $faker->company(),
-                'nama_direktur' => $faker->name()
+                'nama_direktur' => $faker->name(),
+                'format_surat' => $faker->numerify() . '/' . $faker->regexify('[A-Za-z]{3}') . '/' . '2024'
             ]);
         }
     }

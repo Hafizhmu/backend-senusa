@@ -19,6 +19,22 @@ class ProjekController extends Controller
         return ProjekResource::collection($get);
     }
 
+    public function getProjekById($id)
+    {
+        $find = Projek::find($id);
+        // Ambil data Projek berdasarkan id_kabupaten
+
+        if (!$find) {
+            return response()->json(['message' => 'Data Tidak Ditemukan'], 400);
+        }
+
+        $projeks = Projek::where('id_projek', $find->id_projek)->get();
+
+
+        // Jika ada, kembalikan data kecamatan dalam format JSON
+        return response()->json($projeks, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

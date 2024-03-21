@@ -37,6 +37,20 @@ class KecamatanController extends Controller
         // Jika ada, kembalikan data kecamatan dalam format JSON
         return response()->json($kecamatans, 200);
     }
+    public function getKecamatanById($id)
+    {
+        $find = Kecamatan::find($id);
+        
+        if (!$find) {
+            return response()->json(['message' => 'Data Tidak Ditemukan'], 400);
+        }
+
+        $kecamatans = Kecamatan::where('id', $find->id)->get();
+
+
+        // Jika ada, kembalikan data kecamatan dalam format JSON
+        return response()->json($kecamatans, 200);
+    }
 
     public function filterParams(Request $request)
     {

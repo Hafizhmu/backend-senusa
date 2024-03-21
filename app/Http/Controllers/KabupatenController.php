@@ -24,8 +24,8 @@ class KabupatenController extends Controller
         return KabupatenResource::collection($kab);
     }
 
-    public function getKabupatenById($id){
-        $find = Kabupaten::find($id);
+    public function getKabupatenById(Request $request){
+        $find = Kabupaten::find($request->id);
         // Ambil data kabupaten berdasarkan id_kabupaten
 
         if (!$find) {

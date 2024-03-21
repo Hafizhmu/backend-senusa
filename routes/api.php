@@ -55,6 +55,8 @@ Route::get('kabupaten', [KabupatenController::class, 'index']);
 Route::get('kabupaten/{id}', [KabupatenController::class, 'getKabupatenById']);
 //route untuk get cv
 Route::get('cv', [CvController::class, 'index']);
+//route untuk get cv
+Route::get('cv/{id}', [CvController::class, 'getCvById']);
 // //route untuk get kabupaten
 // Route::get('kabupaten/kecamatan/{id}', [KecamatanController::class, 'filter']);
 // //route untuk get kabupaten

@@ -37,7 +37,8 @@ class CvController extends Controller
         try {
             Cv::create([
                 'nama_cv' => $request->nama_cv,
-                'nama_direktur' => $request->nama_direktur
+                'nama_direktur' => $request->nama_direktur,
+                'format_surat' => $request->format_surat
             ]);
 
             //return response json
@@ -82,6 +83,7 @@ class CvController extends Controller
 
             $update->nama_cv = $request->nama_cv;
             $update->nama_direktur = $request->nama_direktur;
+            $update->format_surat = $request->format_surat;
 
             $update->save();
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_cv');
             $table->string('nama_direktur');
+            $table->string('format_surat');
             $table->timestamps();
         });
     }

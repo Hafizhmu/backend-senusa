@@ -21,6 +21,21 @@ class CvController extends Controller
         // return response()->json(Cv::paginate($request->has('data')),200);
     }
 
+    public function getCvById($id){
+        $find = Cv::find($id);
+        // Ambil data Cv berdasarkan id_kabupaten
+
+        if (!$find) {
+            return response()->json(['message' => 'Data Tidak Ditemukan'], 400);
+        }
+
+        $cv = Cv::where('id', $find->id)->get();
+
+
+        // Jika ada, kembalikan data kecamatan dalam format JSON
+        return response()->json($cv, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

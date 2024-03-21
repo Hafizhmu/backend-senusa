@@ -18,7 +18,7 @@ class DesaController extends Controller
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
         $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
-            ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
 
             ->paginate($request->data);
 
@@ -35,6 +35,35 @@ class DesaController extends Controller
         return DesaResource::collection($desa);
     }
 
+    public function filterDesa(Request $request)
+    {
+        $query = Desa::select('desas.id_desa as id_desa', 'desas.nama_desa', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+            ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id');
+
+        // Menambahkan kondisi kecamatan jika tersedia
+        $query->when($request->has('kecamatan'), function ($query) use ($request) {
+            return $query->where('kecamatans.id', $request->kecamatan);
+        });
+
+        // Menambahkan kondisi kabupaten jika tersedia
+        $query->when($request->has('kabupaten'), function ($query) use ($request) {
+            return $query->where('kabupatens.id', $request->kabupaten);
+        });
+
+        // Menambahkan kondisi kabupaten&kecamatan jika tersedia
+        $query->when($request->has('kabupaten') && $request->has('kecamatan'), function ($query) use ($request) {
+            return $query->where('kabupatens.id', $request->kabupaten)
+                ->where('kecamatans.id', $request->kecamatan);
+        });
+
+        $desa = $query->get();
+        return response()->json($desa, 200);
+
+
+        // return DesaResource::collection($desa);
+    }
+
     public function getDesaById($id)
     {
         $find = Desa::find($id);
@@ -42,7 +71,7 @@ class DesaController extends Controller
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
         $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.telepon', 'desas.nama_kades', 'kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
-            ->join('kabupatens', 'desas.id_kabupaten', '=', 'kabupatens.id')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
             ->where('desas.id_desa', $find->id_desa)
             ->get();
 
@@ -68,7 +97,6 @@ class DesaController extends Controller
                 'nama_desa' => $request->nama_desa,
                 'nama_kades' => $request->nama_kades,
                 'id_kecamatan' => $request->id_kecamatan,
-                'id_kabupaten' => $request->id_kabupaten,
                 'alamat' => $request->alamat,
                 'telepon' => $request->telepon
             ]);
@@ -116,7 +144,6 @@ class DesaController extends Controller
             $update->nama_desa = $request->nama_desa;
             $update->nama_kades = $request->nama_kades;
             $update->id_kecamatan = $request->id_kecamatan;
-            $update->id_kabupaten = $request->id_kabupaten;
             $update->alamat = $request->alamat;
             $update->telepon = $request->telepon;
 

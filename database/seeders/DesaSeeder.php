@@ -20,7 +20,6 @@ class DesaSeeder extends Seeder
             DB::table('desas')->insert([
                 'Nama_Desa' => 'Desa '. $faker->firstName,
                 'Nama_Kades' => $faker->name,
-                'id_kabupaten' => $faker->numberBetween(1,20),
                 'id_kecamatan' => $faker->numberBetween(1,20),
                 'alamat' => $faker->address(),
                 'telepon' => $faker->randomNumber()

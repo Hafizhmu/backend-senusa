@@ -19,7 +19,7 @@ class KecamatanSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             DB::table('kecamatans')->insert([
                 'kecamatan' => 'Kecamatan '.$faker->city(),
-                'id_kabupaten' => $faker->numberBetween(1,20)
+                'id_kabupaten' => $faker->numberBetween(1,5)
             ]);
         }
     }

@@ -26,7 +26,6 @@ class UpdateDesaRequest extends FormRequest
                 'nama_desa' => 'required|string',
                 'nama_kades' => 'required|string',
                 'id_kecamatan' => 'required|integer|exists:kecamatans,id',
-                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
                 'alamat' => 'required|string',
                 'telepon' => 'required|string'
             ];
@@ -35,7 +34,6 @@ class UpdateDesaRequest extends FormRequest
                 'nama_desa' => 'required|string',
                 'nama_kades' => 'required|string',
                 'id_kecamatan' => 'required|integer|exists:kecamatans,id',
-                'id_kabupaten' => 'required|integer|exists:kabupatens,id',
                 'alamat' => 'required|string',
                 'telepon' => 'required|string'
             ];

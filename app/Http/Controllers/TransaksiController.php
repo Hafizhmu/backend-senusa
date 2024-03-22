@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Dompdf\Dompdf;
 use App\Models\Desa;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class TransaksiController extends Controller
     public function index()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_kontrak', 'transaksis.status_pembayaran')
+        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
             ->orderBy('transaksis.id_transaksi')
@@ -79,23 +80,25 @@ class TransaksiController extends Controller
         });
 
         return response()->json($query->get(), 200);
-        // Ambil ID desa dari request
-        // $find = Transaksi::find($id_transaksi);
+    }
 
-        // // Cek jika ID desa telah diberikan
-        // if ($find) {
-        //     // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-        //     $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
-        //         ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
-        //         ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
-        //         ->where('transaksis.id_transaksi', $find->id_transaksi)
-        //         ->get();
+    public function pdfTransById(Request $request)
+    {
 
-        //     return response()->json($transaksis, 200);
-        // } else {
-        //     // Jika ID desa tidak diberikan, kembalikan pesan kesalahan
-        //     return response()->json(['message' => 'ID desa harus disediakan.'], 400);
-        // }
+        $data = $this->searchTransaksiById($request)->getData();
+
+        // Load view PDF dengan data transaksi
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('view-pdf', compact('data'))->render());
+
+        // Atur ukuran dan orientasi halaman
+        $pdf->setPaper('A4', 'landscape');
+
+        // Render PDF
+        $pdf->render();
+
+        // Simpan atau kirimkan PDF kepada pengguna
+        return $pdf->stream("invoice-pdf", array("Attachment" => false));
     }
 
     /**

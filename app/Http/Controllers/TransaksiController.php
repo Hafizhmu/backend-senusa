@@ -27,6 +27,21 @@ class TransaksiController extends Controller
 
         return TransaksiResource::collection($transaksis);
     }
+
+    public function searchTrans(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $transaksi = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
+            ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
+            ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+            ->where('desas.nama_desa', 'LIKE', "%$keyword%")
+            ->orderBy('desas.nama_desa')
+            ->paginate($request->data);
+
+        return TransaksiResource::collection($transaksi);
+    }
+
+
     public function searchTransaksiByDesa(Request $request, $id_desa)
     {
         // Ambil ID desa dari request

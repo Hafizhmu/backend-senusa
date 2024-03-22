@@ -26,6 +26,21 @@ class DesaController extends Controller
         return DesaResource::collection($desa);
     }
 
+    public function searchDesa(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+            ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+            ->where('nama_desa', 'LIKE', "%$keyword%")
+            ->orderBy('nama_desa')
+
+            ->paginate($request->data);
+
+
+        return DesaResource::collection($desa);
+    }
+
     public function getDesa()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten

@@ -38,6 +38,8 @@ Route::get('transaksi', [TransaksiController::class, 'searchTransaksiById']);
 //route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
 //route untuk get desa by ID
+Route::get('desa/search', [DesaController::class, 'searchDesa']);
+//route untuk get desa by ID
 Route::get('desa/{id}', [DesaController::class, 'getDesaById']);
 //route untuk get filter desa by kecamatan and kabupaten
 Route::get('desaFilter', [DesaController::class, 'filterDesa']);
@@ -48,9 +50,13 @@ Route::get('kecamatanFiltered', [KecamatanController::class, 'filterParams']);
 //route untuk get kecamatan
 Route::get('kecamatan', [KecamatanController::class, 'index']);
 //route untuk get kecamatan
+Route::get('kecamatan/search', [KecamatanController::class, 'searchKec']);
+//route untuk get kecamatan
 Route::get('getKecamatan', [KecamatanController::class, 'getKecamatanById']);
 //route untuk get kabupaten
 Route::get('kabupaten', [KabupatenController::class, 'index']);
+//route untuk get kabupaten
+Route::get('kabupaten/search', [KabupatenController::class, 'searchKab']);
 //route untuk get kabupaten
 Route::get('getKabupaten', [KabupatenController::class, 'getKabupatenById']);
 //route untuk get cv
@@ -59,6 +65,8 @@ Route::get('cv', [CvController::class, 'index']);
 Route::get('getCv', [CvController::class, 'getCvById']);
 //route untuk get projek
 Route::get('projek', [ProjekController::class, 'index']);
+//route untuk get projek
+Route::get('projek/search', [ProjekController::class, 'searchProjek']);
 //route untuk get projek
 Route::get('getProjek', [ProjekController::class, 'getProjekById']);
 

@@ -20,6 +20,16 @@ class ProjekController extends Controller
         return ProjekResource::collection($get);
     }
 
+    public function searchProjek(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $projek = Projek::where('nama', 'LIKE', "%$keyword%")
+            ->orderBy('nama')
+            ->paginate($request->data);
+
+        return ProjekResource::collection($projek);
+    }
+
     public function getProjekById(Request $request)
     {
         $find = Projek::find($request->id);

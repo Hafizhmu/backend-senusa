@@ -6,7 +6,7 @@ use App\Models\Kecamatan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CvController;
+use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\ProjekController;
 use App\Http\Controllers\KabupatenController;
@@ -61,10 +61,10 @@ Route::get('kabupaten', [KabupatenController::class, 'index']);
 Route::get('kabupaten', [KabupatenController::class, 'searchKab']);
 //route untuk get kabupaten
 Route::get('getKabupaten', [KabupatenController::class, 'getKabupatenById']);
-//route untuk get cv
-Route::get('cv', [CvController::class, 'index']);
-//route untuk get cv
-Route::get('getCv', [CvController::class, 'getCvById']);
+//route untuk get perusahaan
+Route::get('perusahaan', [PerusahaanController::class, 'index']);
+//route untuk get perusahaan
+Route::get('getPerusahaan', [PerusahaanController::class, 'getPerusahaanById']);
 //route untuk get projek
 Route::get('projek', [ProjekController::class, 'index']);
 //route untuk get projek
@@ -84,8 +84,8 @@ Route::post('add/kabupaten', [KabupatenController::class, 'store']);
 Route::post('add/projek', [ProjekController::class, 'store']);
 //route untuk add kecamatan
 Route::post('add/transaksi', [TransaksiController::class, 'store']);
-//route untuk add cv
-Route::post('add/cv', [CvController::class, 'store']);
+//route untuk add perusahaan
+Route::post('add/perusahaan', [PerusahaanController::class, 'store']);
 
 
 //method PUT
@@ -99,8 +99,8 @@ Route::put('update/kabupaten/{id}', [KabupatenController::class, 'update']);
 Route::put('update/projek/{id}', [ProjekController::class, 'update']);
 //route untuk update transaksi
 Route::put('update/transaksi/{id}', [TransaksiController::class, 'update']);
-//route untuk update cv
-Route::put('update/cv/{id}', [CvController::class, 'update']);
+//route untuk update perusahaan
+Route::put('update/perusahaan/{id}', [PerusahaanController::class, 'update']);
 
 //method DELETE
 //route untuk mengapus desa
@@ -114,4 +114,4 @@ Route::delete('delete/projek/{id}', [ProjekController::class, 'destroy']);
 //route untuk mengapus transaksi
 Route::delete('delete/transaksi/{id}', [TransaksiController::class, 'destroy']);
 //route untuk mengapus transaksi
-Route::delete('delete/cv/{id}', [CvController::class, 'destroy']);
+Route::delete('delete/perusahaan/{id}', [PerusahaanController::class, 'destroy']);

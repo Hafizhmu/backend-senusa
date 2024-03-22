@@ -2,39 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cv;
+use App\Models\Perusahaan;
 use Illuminate\Http\Request;
-use App\Http\Resources\CvResource;
-use App\Http\Requests\StoreCvRequest;
-use App\Http\Requests\UpdateCvRequest;
+use App\Http\Resources\PerusahaanResource;
+use App\Http\Requests\StorePerusahaanRequest;
+use App\Http\Requests\UpdatePerusahaanRequest;
 
-class CvController extends Controller
+class PerusahaanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $paginator = CV::paginate($request->data);
+        $paginator = Perusahaan::paginate($request->data);
 
-        return CvResource::collection($paginator);
-        // return response()->json(Cv::paginate($request->has('data')),200);
+        return PerusahaanResource::collection($paginator);
+        // return response()->json(Perusahaan::paginate($request->has('data')),200);
     }
 
-    public function getCvById(Request $request)
+    public function getPerusahaanById(Request $request)
     {
-        $find = Cv::find($request->id);
-        // Ambil data Cv berdasarkan id_kabupaten
+        $find = Perusahaan::find($request->id);
+        // Ambil data Perusahaan berdasarkan id_kabupaten
 
         if (!$find) {
             return response()->json(['message' => 'Data Tidak Ditemukan'], 400);
         }
 
-        $cv = Cv::where('id', $find->id)->get();
+        $perusahaan = Perusahaan::where('id', $find->id)->get();
 
 
         // Jika ada, kembalikan data kecamatan dalam format JSON
-        return response()->json($cv, 200);
+        return response()->json($perusahaan, 200);
     }
 
     /**
@@ -48,13 +48,13 @@ class CvController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCvRequest $request)
+    public function store(StorePerusahaanRequest $request)
     {
         try {
-            Cv::create([
-                'nama_cv' => $request->nama_cv,
+            Perusahaan::create([
+                'nama_perusahaan' => $request->nama_perusahaan,
                 'nama_direktur' => $request->nama_direktur,
-                'format_surat' => $request->format_surat
+                'format_nomor_surat' => $request->format_nomor_surat
             ]);
 
             //return response json
@@ -71,7 +71,7 @@ class CvController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cv $cv)
+    public function show(Perusahaan $perusahaan)
     {
         //
     }
@@ -79,7 +79,7 @@ class CvController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cv $cv)
+    public function edit(Perusahaan $perusahaan)
     {
         //
     }
@@ -87,19 +87,19 @@ class CvController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCvRequest $request, $id)
+    public function update(UpdatePerusahaanRequest $request, $id)
     {
         try {
-            $update = Cv::find($id);
+            $update = Perusahaan::find($id);
             if (!$update) {
                 return response()->json([
                     'message' => "Data dengan ID $id tidak ditemukan"
                 ], 404);
             }
 
-            $update->nama_cv = $request->nama_cv;
+            $update->nama_perusahaan = $request->nama_perusahaan;
             $update->nama_direktur = $request->nama_direktur;
-            $update->format_surat = $request->format_surat;
+            $update->format_nomor_surat = $request->format_nomor_surat;
 
             $update->save();
 
@@ -121,7 +121,7 @@ class CvController extends Controller
     public function destroy($id)
     {
         try {
-            $delete = Cv::find($id);
+            $delete = Perusahaan::find($id);
             if (!$delete) {
                 return response()->json([
                     'message' => "Data dengan ID $id tidak ditemukan"

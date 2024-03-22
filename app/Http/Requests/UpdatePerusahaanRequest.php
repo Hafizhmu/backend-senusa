@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCvRequest extends FormRequest
+class UpdatePerusahaanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,15 @@ class StoreCvRequest extends FormRequest
     {
         if (request()->isMethod('post')) {
             return [
-                'nama_cv' => 'required|string',
+                'nama_perusahaan' => 'required|string',
                 'nama_direktur' => 'required|string',
-                'format_surat' => 'required|string'
+                'format_nomor_surat' => 'required|string'
             ];
         } else {
             return [
-                'nama_cv' => 'required|string',
+                'nama_perusahaan' => 'required|string',
                 'nama_direktur' => 'required|string',
-                'format_surat' => 'required|string'
+                'format_nomor_surat' => 'required|string'
             ];
         }
     }

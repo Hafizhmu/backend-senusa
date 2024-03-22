@@ -21,6 +21,17 @@ class KecamatanController extends Controller
         return KecamatanResource::collection($kec);
     }
 
+    public function searchKec(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $kec = Kecamatan::where('kecamatan', 'LIKE', "%$keyword%")
+            ->orderBy('kecamatan')
+            ->paginate($request->data);
+
+
+        return KecamatanResource::collection($kec);
+    }
+
     public function filter($id_kabupaten)
     {
         // Ambil data kecamatan berdasarkan id_kabupaten
@@ -40,12 +51,15 @@ class KecamatanController extends Controller
     public function getKecamatanById(Request $request)
     {
         $find = Kecamatan::find($request->id);
-        
+
         if (!$find) {
             return response()->json(['message' => 'Data Tidak Ditemukan'], 400);
         }
 
-        $kecamatans = Kecamatan::where('id', $find->id)->get();
+        $kecamatans = Kecamatan::select('kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
+            ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
+            ->where('kabupatens.id', $find->id)
+            ->get();
 
 
         // Jika ada, kembalikan data kecamatan dalam format JSON

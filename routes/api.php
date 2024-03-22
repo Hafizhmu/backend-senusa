@@ -44,7 +44,7 @@ Route::get('desaFilter', [DesaController::class, 'filterDesa']);
 //route untuk detail desa
 Route::get('desa/detail/{idDesa}', [TransaksiController::class, 'searchTransaksiByDesa']);
 //route untuk get kecamatan
-Route::get('kecamatanFilltered', [KecamatanController::class, 'filterParams']);
+Route::get('kecamatanFiltered', [KecamatanController::class, 'filterParams']);
 //route untuk get kecamatan
 Route::get('kecamatan', [KecamatanController::class, 'index']);
 //route untuk get kecamatan

@@ -21,7 +21,7 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
             ->orderBy('transaksis.id_transaksi')
@@ -53,7 +53,7 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->where('transaksis.id_desa', $find->id_desa)

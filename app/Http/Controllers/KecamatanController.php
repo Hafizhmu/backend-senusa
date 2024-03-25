@@ -62,7 +62,7 @@ class KecamatanController extends Controller
 
         $kecamatans = Kecamatan::select('kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
             ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
-            ->where('kabupatens.id', $find->id)
+            ->where('kecamatans.id', $find->id)
             ->get();
 
 

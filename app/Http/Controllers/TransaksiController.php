@@ -21,9 +21,10 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+        $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.id_pajak', 'pajaks.jenis_pajak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+            ->join('pajaks', 'transaksis.id_pajak', '=', 'pajaks.id')
             ->orderBy('transaksis.id_transaksi')
             ->paginate($request->data);
 
@@ -34,9 +35,10 @@ class TransaksiController extends Controller
     public function searchTrans(Request $request)
     {
         $keyword = $request->input('keyword');
-        $transaksi = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
+        $transaksi = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.id_pajak', 'pajaks.jenis_pajak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+            ->join('pajaks', 'transaksis.id_pajak', '=', 'pajaks.id')
             ->where('desas.nama_desa', 'LIKE', "%$keyword%")
             ->orderBy('desas.nama_desa')
             ->paginate($request->data);
@@ -53,9 +55,10 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.id_pajak', 'pajaks.jenis_pajak', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'))
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+                ->join('pajaks', 'transaksis.id_pajak', '=', 'pajaks.id')
                 ->where('transaksis.id_desa', $find->id_desa)
                 ->get();
 
@@ -75,9 +78,10 @@ class TransaksiController extends Controller
         }
 
         $query->when($request->id_transaksi, function ($query) use ($request) {
-            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
+            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.ppn', 'transaksis.pph', 'transaksis.id_pajak', 'pajaks.id', DB::raw('transaksis.harga + (transaksis.harga * transaksis.ppn / 100) + (transaksis.harga * transaksis.pph / 100) as harga_total'), 'transaksis.status_pembayaran', 'status_kontrak')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+                ->join('pajaks', 'transaksis.id_pajak', '=', 'pajaks.id')
                 ->where('transaksis.id_transaksi', $request->id_transaksi);
         });
 
@@ -130,6 +134,7 @@ class TransaksiController extends Controller
                 'id_projek' => $request->id_projek,
                 'id_desa' => $request->id_desa,
                 'harga' => $request->harga,
+                'id_pajak' => $request->id_pajak,
                 'ppn' => $request->ppn,
                 'pph' => $request->pph,
                 'status_kontrak' => $request->status_kontrak,
@@ -179,6 +184,7 @@ class TransaksiController extends Controller
             $update->harga = $request->harga;
             $update->ppn = $request->ppn;
             $update->pph = $request->pph;
+            $update->id_pajak = $request->id_pajak;
             $update->status_kontrak = $request->status_kontrak;
             $update->status_pembayaran = $request->status_pembayaran;
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_transaksi');
             $table->integer('id_projek');
             $table->integer('id_desa');
+            $table->integer('id_pajak');
             $table->double('harga');
             $table->double('ppn');
             $table->double('pph');

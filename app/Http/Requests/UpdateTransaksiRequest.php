@@ -28,6 +28,7 @@ class UpdateTransaksiRequest extends FormRequest
                 'harga' => 'required|integer',
                 'ppn' => 'required|integer',
                 'pph' => 'required|integer',
+                'id_pajak' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
                 'status_pembayaran' => 'required|boolean'
             ];
@@ -38,6 +39,7 @@ class UpdateTransaksiRequest extends FormRequest
                 'harga' => 'required|integer',
                 'ppn' => 'required|integer',
                 'pph' => 'required|integer',
+                'id_pajak' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
                 'status_pembayaran' => 'required|boolean'
             ];

@@ -1,17 +1,19 @@
 <?php
 
+use App\Models\Pajak;
 use App\Models\Projek;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\DesaController;
+use App\Http\Controllers\PajakController;
 use App\Http\Controllers\ProjekController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\PerusahaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +73,8 @@ Route::get('projek', [ProjekController::class, 'index']);
 Route::get('projek', [ProjekController::class, 'searchProjek']);
 //route untuk get projek
 Route::get('getProjek', [ProjekController::class, 'getProjekById']);
+//route untuk get projek
+Route::get('pajak', [PajakController::class, 'index']);
 
 
 //method POST

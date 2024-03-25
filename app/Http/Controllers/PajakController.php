@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pajak;
+use Illuminate\Http\Request;
+use App\Http\Resources\PajakResource;
 use App\Http\Requests\StorePajakRequest;
 use App\Http\Requests\UpdatePajakRequest;
 
@@ -11,9 +13,19 @@ class PajakController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $cari = $request->input('keyword');
+        if ($cari) {
+            $pajak = Pajak::where('jenis_pajak', 'LIKE', "%$cari%")
+            ->paginate($request->data);
+        } else {
+            # code...
+            $pajak = Pajak::paginate($request->data);
+        }
+
+
+        return PajakResource::collection($pajak);
     }
 
     /**

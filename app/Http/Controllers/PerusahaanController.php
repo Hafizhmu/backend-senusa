@@ -15,9 +15,17 @@ class PerusahaanController extends Controller
      */
     public function index(Request $request)
     {
-        $paginator = Perusahaan::paginate($request->data);
+        $cari = $request->input('keyword');
+        if ($cari) {
+            $perusahaan = Perusahaan::where('nama_perusahaan', 'LIKE', "%$cari%")
+            ->paginate($request->data);
+        } else {
+            # code...
+            $perusahaan = Perusahaan::paginate($request->data);
+        }
 
-        return PerusahaanResource::collection($paginator);
+
+        return PerusahaanResource::collection($perusahaan);
         // return response()->json(Perusahaan::paginate($request->has('data')),200);
     }
 

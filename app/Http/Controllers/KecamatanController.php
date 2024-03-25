@@ -17,14 +17,18 @@ class KecamatanController extends Controller
     public function index(Request $request)
     {
         // Lakukan paginasi pada kueri builder
-        $kec = Kecamatan::paginate($request->data);
+        $kec = Kecamatan::select('kecamatans.id', 'kecamatans.kecamatan', 'kecamatans.id_kabupaten', 'kabupatens.kabupaten')
+            ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
+            ->paginate($request->data);
         return KecamatanResource::collection($kec);
     }
 
     public function searchKec(Request $request)
     {
         $keyword = $request->input('keyword');
-        $kec = Kecamatan::where('kecamatan', 'LIKE', "%$keyword%")
+        $kec = Kecamatan::select('kecamatans.id', 'kecamatans.kecamatan', 'kecamatans.id_kabupaten', 'kabupatens.kabupaten')
+            ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
+            ->where('kecamatan','LIKE',"%$keyword%")
             ->orderBy('kecamatan')
             ->paginate($request->data);
 

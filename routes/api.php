@@ -35,8 +35,6 @@ Route::get('index', [DesaController::class, 'index']);
 Route::get('transaksi', [TransaksiController::class, 'index']);
 //route untuk get table transaksi
 Route::get('transaksiById', [TransaksiController::class, 'searchTransaksiById']);
-//route untuk get table transaksi
-Route::get('transaksi/search', [TransaksiController::class, 'searchTrans']);
 //pdf
 Route::get('transaksi/pdf', [TransaksiController::class, 'pdfTransById'])->name('transactions.pdf');
 //route untuk get desa

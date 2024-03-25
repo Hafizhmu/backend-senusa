@@ -15,12 +15,22 @@ class DesaController extends Controller
      */
     public function index(Request $request)
     {
-        //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
-            ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
-            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
 
-            ->paginate($request->data);
+        $keyword = $request->input('keyword');
+        if ($keyword) {
+            $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+                ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+                ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+                ->where('nama_desa', 'LIKE', "%$keyword%")
+                ->orderBy('nama_desa')
+                ->paginate($request->data);
+        } else {
+            //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
+            $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+                ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+                ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+                ->paginate($request->data);
+        }
 
 
         return DesaResource::collection($desa);
@@ -28,14 +38,17 @@ class DesaController extends Controller
 
     public function searchDesa(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
-            ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
-            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
-            ->where('nama_desa', 'LIKE', "%$keyword%")
-            ->orderBy('nama_desa')
+        if ($request->has('keyword')) {
+            # code...
+            $keyword = $request->input('keyword');
+            $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+                ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+                ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+                ->where('nama_desa', 'LIKE', "%$keyword%")
+                ->orderBy('nama_desa')
 
-            ->paginate($request->data);
+                ->paginate($request->data);
+        }
 
 
         return DesaResource::collection($desa);

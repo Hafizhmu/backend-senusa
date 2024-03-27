@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
-use Mpdf\Mpdf;
+use mPDF;
 use Dompdf\Dompdf;
 use App\Models\Desa;
 use App\Models\Transaksi;
@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Resources\TransaksiResource;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
+use Mpdf\Mpdf as MpdfMpdf;
 
 class TransaksiController extends Controller
 {
@@ -95,10 +96,10 @@ class TransaksiController extends Controller
 
         // Load view PDF dengan data transaksi
         $pdf = new Dompdf();
-        $pdf->loadHtml(view('kontrak_pdf_2', compact('data'))->render());
+        $pdf->loadHtml(view('kontrak', compact('data'))->render());
 
         // Atur ukuran dan orientasi halaman
-        $pdf->setPaper('A4', 'landscape');
+        $pdf->setPaper('A4', 'potrait');
 
         // Render PDF
         $pdf->render();
@@ -110,7 +111,7 @@ class TransaksiController extends Controller
     public function pdf(Request $request)
     {
         $data = $this->searchTransaksiById($request)->getData();
-        $mpdf = new Mpdf();
+        $mpdf = new \Mpdf\Mpdf();
         $html = view('kontrak', compact('data'))->render(); // Ganti 'nama_file_html' dengan nama file HTML Anda
         $mpdf->WriteHTML($html);
         $mpdf->Output();

@@ -42,7 +42,7 @@ Route::get('transaksi/pdf', [TransaksiController::class, 'pdfTransById'])->name(
 //route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
 //route untuk get desa by ID
-Route::get('desa', [DesaController::class, 'searchDesa']);
+// Route::get('desa', [DesaController::class, 'searchDesa']);
 //route untuk get desa by ID
 Route::get('desa/{id}', [DesaController::class, 'getDesaById']);
 //route untuk get filter desa by kecamatan and kabupaten

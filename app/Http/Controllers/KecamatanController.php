@@ -17,9 +17,27 @@ class KecamatanController extends Controller
     public function index(Request $request)
     {
         // Lakukan paginasi pada kueri builder
-        $kec = Kecamatan::select('kecamatans.id', 'kecamatans.kecamatan', 'kecamatans.id_kabupaten', 'kabupatens.kabupaten')
-            ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
-            ->paginate($request->data);
+        $query = Kecamatan::select('kecamatans.id', 'kecamatans.kecamatan', 'kecamatans.id_kabupaten', 'kabupatens.kabupaten')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id');
+
+        $query->when($request->has('kabupaten'), function ($query) use ($request) {
+            return $query->where('kabupatens.id', $request->kabupaten);
+        });
+
+        // Menambahkan kondisi pencarian berdasarkan keyword
+        $query->when($request->has('keyword'), function ($query) use ($request) {
+            $keyword = $request->keyword;
+            return $query->where('kecamatans.kecamatan', 'LIKE', "%$keyword%");
+        });
+
+        // Menambahkan kondisi jika terdapat kabupaten dan keyword
+        $query->when($request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
+            $keyword = $request->keyword;
+            return $query->where('kabupatens.id', $request->kabupaten)
+                ->where('kecamatans.kecamatan', 'LIKE', "%$keyword%");
+        });
+
+        $kec = $query->paginate($request->data);
         return KecamatanResource::collection($kec);
     }
 
@@ -28,7 +46,7 @@ class KecamatanController extends Controller
         $keyword = $request->input('keyword');
         $kec = Kecamatan::select('kecamatans.id', 'kecamatans.kecamatan', 'kecamatans.id_kabupaten', 'kabupatens.kabupaten')
             ->join('kabupatens', 'kabupatens.id', '=', 'kecamatans.id_kabupaten')
-            ->where('kecamatan','LIKE',"%$keyword%")
+            ->where('kecamatan', 'LIKE', "%$keyword%")
             ->orderBy('kecamatan')
             ->paginate($request->data);
 

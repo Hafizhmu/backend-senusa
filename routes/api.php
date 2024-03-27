@@ -54,7 +54,7 @@ Route::get('kecamatanFiltered', [KecamatanController::class, 'filterParams']);
 //route untuk get kecamatan
 Route::get('kecamatan', [KecamatanController::class, 'index']);
 //route untuk get kecamatan
-Route::get('kecamatan', [KecamatanController::class, 'searchKec']);
+// Route::get('kecamatan', [KecamatanController::class, 'searchKec']);
 //route untuk get kecamatan
 Route::get('getKecamatan', [KecamatanController::class, 'getKecamatanById']);
 //route untuk get kabupaten

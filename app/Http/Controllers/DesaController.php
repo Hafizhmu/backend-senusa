@@ -15,25 +15,88 @@ class DesaController extends Controller
      */
     public function index(Request $request)
     {
+        $query = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+            ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id');
 
-        $keyword = $request->input('keyword');
-        if ($keyword) {
-            $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
-                ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
-                ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
-                ->where('nama_desa', 'LIKE', "%$keyword%")
-                ->orderBy('nama_desa')
-                ->paginate($request->data);
-        } else {
-            //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-            $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
-                ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
-                ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
-                ->paginate($request->data);
-        }
+        $query->when($request->has('kecamatan'), function ($query) use ($request) {
+            return $query->where('kecamatans.id', $request->kecamatan);
+        });
 
+        // Menambahkan kondisi kabupaten jika tersedia
+        $query->when($request->has('kabupaten'), function ($query) use ($request) {
+            return $query->where('kabupatens.id', $request->kabupaten);
+        });
+
+        // Menambahkan kondisi kabupaten&kecamatan jika tersedia
+        $query->when($request->has('kabupaten') && $request->has('kecamatan'), function ($query) use ($request) {
+            return $query->where('kabupatens.id', $request->kabupaten)
+                ->where('kecamatans.id', $request->kecamatan);
+        });
+
+        // Menambahkan kondisi pencarian berdasarkan keyword
+        $query->when($request->has('keyword'), function ($query) use ($request) {
+            $keyword = $request->keyword;
+            return $query->where(function ($query) use ($keyword) {
+                $query->where('desas.nama_desa', 'LIKE', "%$keyword%");
+            });
+        });
+
+        $query->when($request->has('kecamatan') && $request->has('keyword'), function ($query) use ($request) {
+            $keyword = $request->keyword;
+            return $query->where('kecamatans.id', $request->kecamatan)
+                ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        });
+
+        $query->when($request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
+            $keyword = $request->keyword;
+            return $query->where('kabupatens.id', $request->kabupaten)
+                ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        });
+
+        $query->when($request->has('kecamatan') && $request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
+            $keyword = $request->keyword;
+            return $query->where('kabupatens.id', $request->kabupaten)
+                ->where('kecamatans.id', $request->kecamatan)
+                ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        });
+
+
+        $desa = $query->paginate($request->data);
 
         return DesaResource::collection($desa);
+        // $id_kabupaten = $request->id_kabupaten;
+        // $id_kecamatan = $request->id_kecamatan;
+        // $keyword = $request->input('keyword');
+        // if ($keyword) {
+        //     $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+        //         ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+        //         ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+        //         ->where('nama_desa', 'LIKE', "%$keyword%")
+        //         ->orderBy('nama_desa')
+        //         ->paginate($request->data);
+        // } elseif ($id_kabupaten) {
+        //     $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+        //         ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+        //         ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+        //         ->where('kecamatans.id_kabupaten', $id_kabupaten)
+        //         ->orderBy('nama_desa')
+        //         ->paginate($request->data);
+        // } elseif ($id_kecamatan) {
+        //     $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+        //         ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+        //         ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+        //         ->where('id_kecamatan', $id_kecamatan)
+        //         ->orderBy('nama_desa')
+        //         ->paginate($request->data);
+        // } else {
+        //     //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
+        //     $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.nama_kades', 'kecamatans.kecamatan', 'kabupatens.kabupaten')
+        //         ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+        //         ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+        //         ->paginate($request->data);
+        // }
+        // Menambahkan kondisi kecamatan jika tersedia
     }
 
     public function searchDesa(Request $request)
@@ -54,10 +117,17 @@ class DesaController extends Controller
         return DesaResource::collection($desa);
     }
 
-    public function getDesa()
+    public function getDesa(Request $request)
     {
+        $cari = $request->input('keyword');
+        if ($cari) {
+            $desa = Desa::where('nama_desa', 'LIKE', "%$cari%")
+                ->paginate($request->data);
+        } else {
+            $desa = Desa::paginate($request->data);
+        }
+
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $desa = Desa::paginate(10);
 
 
         return DesaResource::collection($desa);

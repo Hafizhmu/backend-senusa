@@ -17,10 +17,10 @@ return new class extends Migration
             $table->integer('id_desa');
             $table->integer('id_pajak');
             $table->double('harga');
-            $table->double('ppn');
-            $table->double('pph');
             $table->boolean('status_kontrak');
             $table->boolean('status_pembayaran');
+            $table->date('tanggal_pembayaran');
+            $table->date('tanggal_transaksi');
             $table->timestamps();
         });
     }

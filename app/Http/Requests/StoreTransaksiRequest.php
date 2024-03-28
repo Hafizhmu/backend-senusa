@@ -26,22 +26,20 @@ class StoreTransaksiRequest extends FormRequest
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
-                'ppn' => 'required|integer',
-                'pph' => 'required|integer',
-                'id_pajak' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
-                'status_pembayaran' => 'required|boolean'
+                'status_pembayaran' => 'required|boolean',
+                'tanggal_pembayaran' => 'required|date',
+                'tanggal_transaksi' => 'required|date',
             ];
         } else {
             return [
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
-                'ppn' => 'required|integer',
-                'pph' => 'required|integer',
-                'id_pajak' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
-                'status_pembayaran' => 'required|boolean'
+                'status_pembayaran' => 'required|boolean',
+                'tanggal_pembayaran' => 'required|date',
+                'tanggal_transaksi' => 'required|date',
             ];
         }
     }

@@ -14,6 +14,8 @@ use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\TransaksiPajakController;
+use App\Models\Transaksi_Pajak;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +77,8 @@ Route::get('projek', [ProjekController::class, 'searchProjek']);
 Route::get('getProjek', [ProjekController::class, 'getProjekById']);
 //route untuk get projek
 Route::get('pajak', [PajakController::class, 'index']);
+//route untuk get projek
+Route::get('transaksiPajak', [TransaksiPajakController::class, 'index']);
 
 
 //method POST
@@ -90,6 +94,9 @@ Route::post('add/projek', [ProjekController::class, 'store']);
 Route::post('add/transaksi', [TransaksiController::class, 'store']);
 //route untuk add perusahaan
 Route::post('add/perusahaan', [PerusahaanController::class, 'store']);
+//route untuk add perusahaan
+Route::post('add/transaksiPajak', [TransaksiPajakController::class, 'store']);
+
 
 
 //method PUT

@@ -18,7 +18,7 @@ class PajakSeeder extends Seeder
 
         for ($i = 0; $i < 3; $i++) {
             DB::table('pajaks')->insert([
-                'jenis_pajak' => 'Pajak ' . $faker->sentence
+                'jenis_pajak' => 'Pajak ' . $faker->word
             ]);
         }
     }

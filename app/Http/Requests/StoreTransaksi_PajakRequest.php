@@ -23,7 +23,7 @@ class StoreTransaksi_PajakRequest extends FormRequest
     {
         if (request()->isMethod('post')) {
             return [
-                'id_transaksi' => 'required|integer|exists:transaksis,id_transaksi',
+                'id_transaksi' => 'nullable|integer|exists:transaksis,id_transaksi',
                 'id_pajak' => 'required|array|exists:pajaks,id',
                 'nominal' => 'required|array'
             ];

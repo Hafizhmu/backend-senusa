@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use App\Models\Transaksi;
+use Illuminate\Http\Request;
 use App\Models\Transaksi_Pajak;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Resources\Transaksi_PajakResource;
 use App\Http\Requests\StoreTransaksi_PajakRequest;
 use App\Http\Requests\UpdateTransaksi_PajakRequest;
-use Illuminate\Http\Request;
-use Validator;
 
 class TransaksiPajakController extends Controller
 {
@@ -32,8 +35,42 @@ class TransaksiPajakController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransaksi_PajakRequest $request)
+    public function store(StoreTransaksi_PajakRequest $request, StoreTransaksiRequest $req)
     {
+        try {
+            $id_pajak = $request->id_pajak;
+            $nominal = $request->nominal;
+            Transaksi::create([
+                'id_projek' => $req->id_projek,
+                'id_desa' => $req->id_desa,
+                'harga' => $req->harga,
+                'status_kontrak' => $req->status_kontrak,
+                'status_pembayaran' => $req->status_pembayaran,
+                'tanggal_pembayaran' => $req->tanggal_pembayaran,
+                'tanggal_transaksi' => $req->tanggal_transaksi
+            ]);
+            $id_transaksi = DB::getPDO()->lastInsertId();
+            // Iterasi melalui array id_pajak
+            foreach ($id_pajak as $index => $key) {
+                $data = array(
+                    'id_transaksi' => $id_transaksi,
+                    'id_pajak' => $key,
+                    'nominal' => $nominal[$index]
+                );
+                Transaksi_Pajak::create($data);
+            }
+
+
+            // Response JSON
+            return response()->json([
+                'message' => 'Data berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            // Tangani kesalahan
+            return response()->json([
+                'message' => "Terjadi Kesalahan: " . $e->getMessage()
+            ], 500);
+        }
         // try {
         //     Transaksi_Pajak::create([
         //         'id_projek' => $request->id_projek,
@@ -74,29 +111,6 @@ class TransaksiPajakController extends Controller
         //     ], 500);
         // }
 
-        try {
-            $id_pajak = $request->id_pajak;
-            $nominal = $request->nominal;
-            // Iterasi melalui array id_pajak
-            foreach ($id_pajak as $index => $key) {
-                $data = array(
-                    'id_transaksi' => $request->id_transaksi,
-                    'id_pajak' => $key,
-                    'nominal' => $nominal[$index]
-                );
-                Transaksi_Pajak::create($data);
-            }
-
-            // Response JSON
-            return response()->json([
-                'message' => 'Data berhasil ditambahkan'
-            ], 200);
-        } catch (\Exception $e) {
-            // Tangani kesalahan
-            return response()->json([
-                'message' => "Terjadi Kesalahan: " . $e->getMessage()
-            ], 500);
-        }
 
         // this will decode your json data that you're getting in the post data
         // $postdata = json_decode($request->all(), true);

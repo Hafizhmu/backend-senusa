@@ -19,7 +19,6 @@ class TransaksiSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             DB::table('transaksis')->insert([
                 'id_projek' => $faker->numberBetween(1, 3),
-                'id_pajak' => $faker->numberBetween(1, 3),
                 'id_desa' => $faker->numberBetween(1, 20),
                 'harga' => $faker->randomNumber(),
                 'status_kontrak' => $faker->boolean(),

@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pajak extends Model
 {
-    use HasFactory;
+    protected $guarded =['id'];
 }

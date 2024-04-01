@@ -11,7 +11,7 @@ class UpdatePajakRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,14 @@ class UpdatePajakRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if (request()->isMethod('put')) {
+            return [
+                'jenis_pajak' => 'required|string'
+            ];
+        } else {
+            return [
+                'jenis_pajak' => 'required|string'
+            ];
+        }
     }
 }

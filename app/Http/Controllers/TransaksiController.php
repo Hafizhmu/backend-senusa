@@ -177,7 +177,8 @@ class TransaksiController extends Controller
                 'status_kontrak' => $request->status_kontrak,
                 'status_pembayaran' => $request->status_pembayaran,
                 'tanggal_pembayaran' => $request->tanggal_pembayaran,
-                'tanggal_transaksi' => $request->tanggal_transaksi
+                'tanggal_transaksi' => $request->tanggal_transaksi,
+                'id_perusahaan' => $request->id_perusahaan
             ]);
 
             //return response json
@@ -225,6 +226,7 @@ class TransaksiController extends Controller
             $update->status_pembayaran = $request->status_pembayaran;
             $update->tanggal_pembayaran = $request->tanggal_pembayaran;
             $update->tanggal_transaksi = $request->tanggal_transaksi;
+            $update->id_perusahaan = $request->id_perusahaan;
 
             $update->save();
 

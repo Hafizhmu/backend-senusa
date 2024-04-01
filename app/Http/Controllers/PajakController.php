@@ -18,7 +18,7 @@ class PajakController extends Controller
         $cari = $request->input('keyword');
         if ($cari) {
             $pajak = Pajak::where('jenis_pajak', 'LIKE', "%$cari%")
-            ->paginate($request->data);
+                ->paginate($request->data);
         } else {
             # code...
             $pajak = Pajak::paginate($request->data);
@@ -41,7 +41,20 @@ class PajakController extends Controller
      */
     public function store(StorePajakRequest $request)
     {
-        //
+        try {
+            Pajak::create([
+                'jenis_pajak' => $request->jenis_pajak
+            ]);
+
+            //return response json
+            return response()->json([
+                'message' => 'Data Berhasil ditambahkan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan" . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -63,16 +76,56 @@ class PajakController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePajakRequest $request, Pajak $pajak)
+    public function update(UpdatePajakRequest $request, $id)
     {
-        //
+        try {
+            $update = Pajak::find($id);
+            if (!$update) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $update->jenis_pajak = $request->jenis_pajak;
+
+            $update->save();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil diperbarui'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui data', $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pajak $pajak)
+    public function destroy($id)
     {
-        //
+        try {
+            $delete = Pajak::find($id);
+            if (!$delete) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $delete->delete();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
     }
 }

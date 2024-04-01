@@ -94,6 +94,8 @@ Route::post('add/projek', [ProjekController::class, 'store']);
 Route::post('add/transaksi', [TransaksiController::class, 'store']);
 //route untuk add perusahaan
 Route::post('add/perusahaan', [PerusahaanController::class, 'store']);
+//route untuk add pajak
+Route::post('add/pajak', [PajakController::class, 'store']);
 //route untuk add perusahaan
 Route::post('add/transaksiPajak', [TransaksiPajakController::class, 'store']);
 
@@ -112,6 +114,8 @@ Route::put('update/projek/{id}', [ProjekController::class, 'update']);
 Route::put('update/transaksi/{id}', [TransaksiController::class, 'update']);
 //route untuk update perusahaan
 Route::put('update/perusahaan/{id}', [PerusahaanController::class, 'update']);
+//route untuk update perusahaan
+Route::put('update/pajak/{id}', [PajakController::class, 'update']);
 
 //method DELETE
 //route untuk mengapus desa
@@ -126,3 +130,5 @@ Route::delete('delete/projek/{id}', [ProjekController::class, 'destroy']);
 Route::delete('delete/transaksi/{id}', [TransaksiController::class, 'destroy']);
 //route untuk mengapus transaksi
 Route::delete('delete/perusahaan/{id}', [PerusahaanController::class, 'destroy']);
+//route untuk mengapus transaksi
+Route::delete('delete/pajak/{id}', [PajakController::class, 'destroy']);

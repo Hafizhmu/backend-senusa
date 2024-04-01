@@ -24,7 +24,8 @@ class TransaksiSeeder extends Seeder
                 'status_kontrak' => $faker->boolean(),
                 'status_pembayaran' => $faker->boolean(),
                 'tanggal_pembayaran' => $faker->date,
-                'tanggal_transaksi' => $faker->date
+                'tanggal_transaksi' => $faker->date,
+                'id_perusahaan' => $faker->numberBetween(1,3)
             ]);
         }
     }

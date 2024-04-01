@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('status_pembayaran');
             $table->date('tanggal_pembayaran');
             $table->date('tanggal_transaksi');
+            $table->integer('id_perusahaan');
             $table->timestamps();
         });
     }

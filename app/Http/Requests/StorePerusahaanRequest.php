@@ -25,13 +25,15 @@ class StorePerusahaanRequest extends FormRequest
             return [
                 'nama_perusahaan' => 'required|string',
                 'nama_direktur' => 'required|string',
-                'format_nomor_surat' => 'required|string'
+                'format_nomor_surat' => 'required|string',
+                'id_perusahaan' => 'required|integer'
             ];
         } else {
             return [
                 'nama_perusahaan' => 'required|string',
                 'nama_direktur' => 'required|string',
-                'format_nomor_surat' => 'required|string'
+                'format_nomor_surat' => 'required|string',
+                'id_perusahaan' => 'required|integer'
             ];
         }
     }

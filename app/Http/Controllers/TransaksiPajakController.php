@@ -37,19 +37,30 @@ class TransaksiPajakController extends Controller
      */
     public function store(StoreTransaksi_PajakRequest $request, StoreTransaksiRequest $req)
     {
+
         try {
             $id_pajak = $request->id_pajak;
             $nominal = $request->nominal;
-            Transaksi::create([
-                'id_projek' => $req->id_projek,
-                'id_desa' => $req->id_desa,
-                'harga' => $req->harga,
-                'status_kontrak' => $req->status_kontrak,
-                'status_pembayaran' => $req->status_pembayaran,
-                'tanggal_pembayaran' => $req->tanggal_pembayaran,
-                'tanggal_transaksi' => $req->tanggal_transaksi
-            ]);
-            $id_transaksi = DB::getPDO()->lastInsertId();
+            // $id_transaksi = null;
+
+            // Membuat transaksi jika id_transaksi tersedia dalam request
+            if (!$request->has('id_transaksi')) {
+                $transaksi = Transaksi::create([
+                    'id_projek' => $req->id_projek,
+                    'id_desa' => $req->id_desa,
+                    'harga' => $req->harga,
+                    'status_kontrak' => $req->status_kontrak,
+                    'status_pembayaran' => $req->status_pembayaran,
+                    'tanggal_pembayaran' => $req->tanggal_pembayaran,
+                    'tanggal_transaksi' => $req->tanggal_transaksi,
+                    'id_perusahaan' => $req->id_perusahaan
+                ]);
+                $id_transaksi = DB::getPDO()->lastInsertId(); // Mengambil ID transaksi yang baru saja dibuat
+            }
+
+            // Jika id_transaksi tidak tersedia atau transaksi tidak dibuat, lanjutkan dengan mengambil ID dari request
+            $id_transaksi = $request->input('id_transaksi') ?? $id_transaksi;
+
             // Iterasi melalui array id_pajak
             foreach ($id_pajak as $index => $key) {
                 $data = array(
@@ -59,7 +70,6 @@ class TransaksiPajakController extends Controller
                 );
                 Transaksi_Pajak::create($data);
             }
-
 
             // Response JSON
             return response()->json([
@@ -71,6 +81,41 @@ class TransaksiPajakController extends Controller
                 'message' => "Terjadi Kesalahan: " . $e->getMessage()
             ], 500);
         }
+
+        // try {
+        //     $id_pajak = $request->id_pajak;
+        //     $nominal = $request->nominal;
+        //     Transaksi::create([
+        //         'id_projek' => $req->id_projek,
+        //         'id_desa' => $req->id_desa,
+        //         'harga' => $req->harga,
+        //         'status_kontrak' => $req->status_kontrak,
+        //         'status_pembayaran' => $req->status_pembayaran,
+        //         'tanggal_pembayaran' => $req->tanggal_pembayaran,
+        //         'tanggal_transaksi' => $req->tanggal_transaksi
+        //     ]);
+        //     $id_transaksi = DB::getPDO()->lastInsertId();
+        //     // Iterasi melalui array id_pajak
+        //     foreach ($id_pajak as $index => $key) {
+        //         $data = array(
+        //             'id_transaksi' => $id_transaksi,
+        //             'id_pajak' => $key,
+        //             'nominal' => $nominal[$index]
+        //         );
+        //         Transaksi_Pajak::create($data);
+        //     }
+
+
+        //     // Response JSON
+        //     return response()->json([
+        //         'message' => 'Data berhasil ditambahkan'
+        //     ], 200);
+        // } catch (\Exception $e) {
+        //     // Tangani kesalahan
+        //     return response()->json([
+        //         'message' => "Terjadi Kesalahan: " . $e->getMessage()
+        //     ], 500);
+        // }
         // try {
         //     Transaksi_Pajak::create([
         //         'id_projek' => $request->id_projek,

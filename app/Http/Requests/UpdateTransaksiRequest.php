@@ -30,7 +30,7 @@ class UpdateTransaksiRequest extends FormRequest
                 'status_pembayaran' => 'required|boolean',
                 'tanggal_pembayaran' => 'required|date',
                 'tanggal_transaksi' => 'required|date',
-                'id_perusahaan' => 'required|integer'
+                'id_perusahaan' => 'required|integer',
             ];
         } else {
             return [

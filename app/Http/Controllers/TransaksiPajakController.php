@@ -24,6 +24,25 @@ class TransaksiPajakController extends Controller
         return Transaksi_PajakResource::collection($tp);
     }
 
+    public function getTransById(Request $request)
+    {
+        $query = Transaksi_Pajak::query();
+        if (!$query) {
+            return response()->json(['message' => 'ID desa harus disediakan.'], 400);
+        }
+
+        $query->when($request->id_transaksi, function ($query) use ($request) {
+            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak')
+                ->join('transaksis', 'transaksi_pajaks.id_transaksi', '=', 'transaksis.id_transaksi')
+                ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
+                ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+                ->join('pajaks', 'transaksi_pajaks.id_pajak', '=', 'pajaks.id')
+                ->where('transaksi_pajaks.id_transaksi', $request->id_transaksi);
+        });
+
+        return response()->json($query->get(), 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -41,7 +60,6 @@ class TransaksiPajakController extends Controller
         try {
             $id_pajak = $request->id_pajak;
             $nominal = $request->nominal;
-            // $id_transaksi = null;
 
             // Membuat transaksi jika id_transaksi tersedia dalam request
             if (!$request->has('id_transaksi')) {
@@ -183,15 +201,65 @@ class TransaksiPajakController extends Controller
      */
     public function edit(Transaksi_Pajak $transaksi_Pajak)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransaksi_PajakRequest $request, Transaksi_Pajak $transaksi_Pajak)
+    public function update(UpdateTransaksi_PajakRequest $request)
     {
-        //
+        try {
+            $id_pajak = $request->id_pajak;
+            // $nominal = $request->nominal;
+            $id_transaksi = $request->id_transaksi;
+            $i = -1;
+            var_dump($id_pajak);
+            // var_dump($nominal);
+            var_dump('id_transaksi = ' . $id_transaksi);
+            foreach ($id_pajak as $index) {
+                // Lakukan pencarian berdasarkan id_transaksi dan id_pajak
+                $update = Transaksi_Pajak::where('id_transaksi', $id_transaksi)->get();
+                // Jika entri sudah ada, update nilai nominal
+                $counter = count($update);
+                var_dump('jumlah loop yang akan terjadi = ' . $counter);
+                foreach ($update as $data) {
+                    $i++;
+                    // Update nilai nominal
+                    $data->id_pajak = $request->id_pajak[$i];
+                    $data->nominal = $request->nominal[$i];
+                    $data->save();
+
+                    var_dump('Loop ke - ' . $i);
+                }
+                return response()->json([
+                    'message' => 'Data berhasil diperbarui'
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan: " . $e->getMessage()
+            ], 500);
+        }
+
+        // $nominal = $request->get('nominal');
+        // $id_pajak = $request->get('id_pajak');
+        // $id_transaksi = $request->get('id_transaksi');
+
+        // $find = Transaksi_Pajak::where('id_transaksi', '=', $id_transaksi)->get();
+        // $counter = count($find);
+
+        // for ($i = 0; $i < $counter; $i++) {
+        //     $update = Transaksi_Pajak::where('id_transaksi', $id_transaksi[$i])->first();
+
+        //     $update->update([
+        //         'nominal' => $nominal[$i],
+        //         'id_pajak' => $id_pajak[$i],
+        //         'id_transaksi' => $id_transaksi
+        //     ]);
+        // }
+        // return response()->json([
+        //     'message' => 'Data berhasil diperbarui'
+        // ], 200);
     }
 
     /**

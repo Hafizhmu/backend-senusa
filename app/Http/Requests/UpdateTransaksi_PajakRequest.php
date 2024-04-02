@@ -25,13 +25,13 @@ class UpdateTransaksi_PajakRequest extends FormRequest
             return [
                 'id_transaksi' => 'required|integer|exists:projeks,id_projek',
                 'id_pajak' => 'required|array|exists:pajaks,id',
-                'nominal' => 'required|double'
+                'nominal' => 'required|array'
             ];
         } else {
             return [
                 'id_transaksi' => 'required|integer|exists:projeks,id_projek',
                 'id_pajak' => 'required|array|exists:pajaks,id',
-                'nominal' => 'required|double'
+                'nominal' => 'required|array'
             ];
         }
     }

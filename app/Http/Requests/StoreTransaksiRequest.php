@@ -30,6 +30,7 @@ class StoreTransaksiRequest extends FormRequest
                 'status_pembayaran' => 'required|boolean',
                 'tanggal_pembayaran' => 'required|date',
                 'tanggal_transaksi' => 'required|date',
+                'id_perusahaan' => 'required|integer|exists:perusahaans,id'
             ];
         } else {
             return [
@@ -40,6 +41,7 @@ class StoreTransaksiRequest extends FormRequest
                 'status_pembayaran' => 'required|boolean',
                 'tanggal_pembayaran' => 'required|date',
                 'tanggal_transaksi' => 'required|date',
+                'id_perusahaan' => 'required|integer|exists:perusahaans,id'
             ];
         }
     }

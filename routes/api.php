@@ -1,10 +1,5 @@
 <?php
 
-use App\Models\Pajak;
-use App\Models\Projek;
-use App\Models\Kabupaten;
-use App\Models\Kecamatan;
-use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DesaController;
@@ -15,7 +10,6 @@ use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\TransaksiPajakController;
-use App\Models\Transaksi_Pajak;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +73,8 @@ Route::get('getProjek', [ProjekController::class, 'getProjekById']);
 Route::get('pajak', [PajakController::class, 'index']);
 //route untuk get projek
 Route::get('transaksiPajak', [TransaksiPajakController::class, 'index']);
+//route untuk get projek
+Route::get('getTransaksiPajak', [TransaksiPajakController::class, 'getTransById']);
 
 
 //method POST
@@ -116,6 +112,8 @@ Route::put('update/transaksi/{id}', [TransaksiController::class, 'update']);
 Route::put('update/perusahaan/{id}', [PerusahaanController::class, 'update']);
 //route untuk update perusahaan
 Route::put('update/pajak/{id}', [PajakController::class, 'update']);
+//route untuk update perusahaan
+Route::put('update/transaksiPajak', [TransaksiPajakController::class, 'update']);
 
 //method DELETE
 //route untuk mengapus desa

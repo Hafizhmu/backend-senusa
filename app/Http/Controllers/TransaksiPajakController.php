@@ -40,12 +40,15 @@ class TransaksiPajakController extends Controller
         }
 
         $query->when($request->id_transaksi, function ($query) use ($request) {
-            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak')
+            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
                 ->join('transaksis', 'transaksi_pajaks.id_transaksi', '=', 'transaksis.id_transaksi')
+                ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->join('pajaks', 'transaksi_pajaks.id_pajak', '=', 'pajaks.id')
-                ->where('transaksi_pajaks.id_transaksi', $request->id_transaksi);
+                ->orderByDesc('id_transaksi')
+                ->where('transaksi_pajaks.id_transaksi', $request->id_transaksi)
+                ->paginate($request->data);
         });
 
         return response()->json($query->get(), 200);

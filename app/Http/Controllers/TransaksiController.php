@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi_Pajak;
 use DB;
 use mPDF;
 use Dompdf\Dompdf;
@@ -256,6 +257,7 @@ class TransaksiController extends Controller
             }
 
             $delete->delete();
+            Transaksi_Pajak::where('id_transaksi',$id)->delete();
 
             // Return success response
             return response()->json([

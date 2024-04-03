@@ -23,13 +23,13 @@ class UpdateTransaksi_PajakRequest extends FormRequest
     {
         if (request()->isMethod('put')) {
             return [
-                'id_transaksi' => 'required|integer|exists:projeks,id_projek',
+                'id_transaksi' => 'required|integer|exists:transaksis,id_transaksi',
                 'id_pajak' => 'required|array|exists:pajaks,id',
                 'nominal' => 'required|array'
             ];
         } else {
             return [
-                'id_transaksi' => 'required|integer|exists:projeks,id_projek',
+                'id_transaksi' => 'required|integer|exists:transaksis,id_transaksi',
                 'id_pajak' => 'required|array|exists:pajaks,id',
                 'nominal' => 'required|array'
             ];

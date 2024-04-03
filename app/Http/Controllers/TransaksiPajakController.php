@@ -19,7 +19,7 @@ class TransaksiPajakController extends Controller
      */
     public function index(Request $request)
     {
-        $tp = Transaksi_Pajak::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
+        $tp = Transaksi_Pajak::select('id_pajak', 'transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
             ->join('transaksis', 'transaksi_pajaks.id_transaksi', '=', 'transaksis.id_transaksi')
             ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
@@ -40,7 +40,7 @@ class TransaksiPajakController extends Controller
         }
 
         $query->when($request->id_transaksi, function ($query) use ($request) {
-            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
+            return $query->select('id_pajak', 'transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'pajaks.jenis_pajak', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
                 ->join('transaksis', 'transaksi_pajaks.id_transaksi', '=', 'transaksis.id_transaksi')
                 ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')

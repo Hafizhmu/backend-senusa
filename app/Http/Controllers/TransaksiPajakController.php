@@ -208,37 +208,61 @@ class TransaksiPajakController extends Controller
      */
     public function update(UpdateTransaksi_PajakRequest $request)
     {
-        try {
-            $id_pajak = $request->id_pajak;
-            // $nominal = $request->nominal;
-            $id_transaksi = $request->id_transaksi;
-            $i = -1;
-            var_dump($id_pajak);
-            // var_dump($nominal);
-            var_dump('id_transaksi = ' . $id_transaksi);
-            foreach ($id_pajak as $index) {
-                // Lakukan pencarian berdasarkan id_transaksi dan id_pajak
-                $update = Transaksi_Pajak::where('id_transaksi', $id_transaksi)->get();
-                // Jika entri sudah ada, update nilai nominal
-                $counter = count($update);
-                var_dump('jumlah loop yang akan terjadi = ' . $counter);
-                foreach ($update as $data) {
-                    $i++;
-                    // Update nilai nominal
-                    $data->id_pajak = $request->id_pajak[$i];
-                    $data->nominal = $request->nominal[$i];
-                    $data->save();
 
-                    var_dump('Loop ke - ' . $i);
+        $id_pajak = $request->id_pajak;
+        $nominal = $request->nominal;
+        $id_transaksi = $request->id_transaksi;
+        $count = count(Transaksi_Pajak::where('id_transaksi', $id_transaksi)->get());
+        var_dump($id_transaksi);
+        $i = -1;
+        var_dump('jmlh ' . count($id_pajak));
+        // var_dump($nominal);
+        var_dump('id_transaksi = ' . $id_transaksi);
+        if (count($id_pajak) < $count || count($id_pajak) > $count) {
+            try {
+                Transaksi_Pajak::where('id_transaksi', $id_transaksi)->delete();
+                foreach ($id_pajak as $index => $key) {
+                    $data = array(
+                        'id_transaksi' => $id_transaksi,
+                        'id_pajak' => $key,
+                        'nominal' => $nominal[$index]
+                    );
+                    Transaksi_Pajak::create($data);
                 }
                 return response()->json([
                     'message' => 'Data berhasil diperbarui'
                 ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => "Terjadi Kesalahan: " . $e->getMessage()
+                ], 500);
             }
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => "Terjadi Kesalahan: " . $e->getMessage()
-            ], 500);
+        } else {
+            try {
+                foreach ($id_pajak as $index) {
+                    // Lakukan pencarian berdasarkan id_transaksi dan id_pajak
+                    $update = Transaksi_Pajak::where('id_transaksi', $id_transaksi)->get();
+                    // Jika entri sudah ada, update nilai nominal
+                    $counter = count($update);
+                    var_dump('jumlah loop yang akan terjadi = ' . $counter);
+                    foreach ($update as $data) {
+                        $i++;
+                        // Update nilai nominal
+                        $data->id_pajak = $request->id_pajak[$i];
+                        $data->nominal = $request->nominal[$i];
+                        $data->save();
+
+                        var_dump('Loop ke - ' . $i);
+                    }
+                    return response()->json([
+                        'message' => 'Data berhasil diperbarui'
+                    ], 200);
+                }
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => "Terjadi Kesalahan: " . $e->getMessage()
+                ], 500);
+            }
         }
 
         // $nominal = $request->get('nominal');

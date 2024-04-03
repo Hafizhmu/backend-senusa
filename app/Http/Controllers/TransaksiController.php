@@ -98,7 +98,7 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga','transaksis.status_pembayaran', 'transaksis.status_kontrak')
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->where('transaksis.id_desa', $find->id_desa)
@@ -120,9 +120,10 @@ class TransaksiController extends Controller
         }
 
         $query->when($request->id_transaksi, function ($query) use ($request) {
-            return $query->select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak')
+            return $query->select('transaksis.id_transaksi', 'projeks.id_projek', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'perusahaans.id AS id_perusahaan', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
+                ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->where('transaksis.id_transaksi', $request->id_transaksi);
         });
 
@@ -257,7 +258,7 @@ class TransaksiController extends Controller
             }
 
             $delete->delete();
-            Transaksi_Pajak::where('id_transaksi',$id)->delete();
+            Transaksi_Pajak::where('id_transaksi', $id)->delete();
 
             // Return success response
             return response()->json([

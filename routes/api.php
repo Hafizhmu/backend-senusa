@@ -34,7 +34,11 @@ Route::get('transaksi', [TransaksiController::class, 'index']);
 //route untuk get table transaksi
 Route::get('transaksiById', [TransaksiController::class, 'searchTransaksiById']);
 //pdf
-Route::get('transaksi/pdf', [TransaksiController::class, 'pdfTransById'])->name('transactions.pdf');
+Route::get('kontrak/pdf', [TransaksiController::class, 'pdfKontrak'])->name('transactions.pdf');
+//pdf
+Route::get('invoice/pdf', [TransaksiController::class, 'pdfInvoice'])->name('transactions.pdf');
+//pdf
+Route::get('kwitansi/pdf', [TransaksiController::class, 'pdfKwitansi'])->name('transactions.pdf');
 //route untuk get desa
 Route::get('desa', [DesaController::class, 'getDesa']);
 //route untuk get desa by ID

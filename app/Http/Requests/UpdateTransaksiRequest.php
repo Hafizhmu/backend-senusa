@@ -28,7 +28,7 @@ class UpdateTransaksiRequest extends FormRequest
                 'harga' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
                 'status_pembayaran' => 'required|boolean',
-                'tanggal_pembayaran' => 'required|date',
+                'tanggal_pembayaran' => 'nullable|date',
                 'tanggal_transaksi' => 'required|date',
                 'id_perusahaan' => 'required|integer',
             ];
@@ -39,7 +39,7 @@ class UpdateTransaksiRequest extends FormRequest
                 'harga' => 'required|integer',
                 'status_kontrak' => 'required|boolean',
                 'status_pembayaran' => 'required|boolean',
-                'tanggal_pembayaran' => 'required|date',
+                'tanggal_pembayaran' => 'nullable|date',
                 'id_perusahaan' => 'required|integer',
                 'tanggal_transaksi' => 'required|date'
             ];

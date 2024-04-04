@@ -11,6 +11,7 @@ use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Resources\Transaksi_PajakResource;
 use App\Http\Requests\StoreTransaksi_PajakRequest;
 use App\Http\Requests\UpdateTransaksi_PajakRequest;
+use App\Http\Requests\UpdateTransaksiRequest;
 
 class TransaksiPajakController extends Controller
 {
@@ -217,7 +218,7 @@ class TransaksiPajakController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransaksi_PajakRequest $request)
+    public function update(UpdateTransaksi_PajakRequest $request, UpdateTransaksiRequest $req)
     {
 
         $id_pajak = $request->id_pajak;
@@ -229,6 +230,15 @@ class TransaksiPajakController extends Controller
         var_dump('jmlh ' . count($id_pajak));
         // var_dump($nominal);
         var_dump('id_transaksi = ' . $id_transaksi);
+        $update = $id_transaksi;
+        $update->harga = $req->harga;
+        $update->status_kontrak = $req->status_kontrak;
+        $update->status_pembayaran = $req->status_pembayaran;
+        $update->tanggal_pembayaran = $req->tanggal_pembayaran;
+        $update->tanggal_transaksi = $req->tanggal_transaksi;
+        $update->id_perusahaan = $req->id_perusahaan;
+
+        $update->save();
         if (count($id_pajak) < $count || count($id_pajak) > $count) {
             try {
                 Transaksi_Pajak::where('id_transaksi', $id_transaksi)->delete();

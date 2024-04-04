@@ -230,15 +230,22 @@ class TransaksiPajakController extends Controller
         var_dump('jmlh ' . count($id_pajak));
         // var_dump($nominal);
         var_dump('id_transaksi = ' . $id_transaksi);
-        $update = $id_transaksi;
-        $update->harga = $req->harga;
-        $update->status_kontrak = $req->status_kontrak;
-        $update->status_pembayaran = $req->status_pembayaran;
-        $update->tanggal_pembayaran = $req->tanggal_pembayaran;
-        $update->tanggal_transaksi = $req->tanggal_transaksi;
-        $update->id_perusahaan = $req->id_perusahaan;
+        $transaksi = Transaksi::find($id_transaksi);
+        if (!$transaksi) {
+            return response()->json([
+                'message' => 'Transaksi not found'
+            ], 404);
+        }
 
-        $update->save();
+        // Update Transaksi attributes
+        $transaksi->harga = $req->harga;
+        $transaksi->status_kontrak = $req->status_kontrak;
+        $transaksi->status_pembayaran = $req->status_pembayaran;
+        $transaksi->tanggal_pembayaran = $req->tanggal_pembayaran;
+        $transaksi->tanggal_transaksi = $req->tanggal_transaksi;
+        $transaksi->id_perusahaan = $req->id_perusahaan;
+        $transaksi->save();
+
         if (count($id_pajak) < $count || count($id_pajak) > $count) {
             try {
                 Transaksi_Pajak::where('id_transaksi', $id_transaksi)->delete();

@@ -217,7 +217,7 @@ class TransaksiController extends Controller
                 'harga' => $request->harga,
                 'status_kontrak' => $request->status_kontrak,
                 'status_pembayaran' => $request->status_pembayaran,
-                'tanggal_pembayaran' => $request->tanggal_pembayaran,
+                'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
                 'tanggal_transaksi' => $request->tanggal_transaksi,
                 'id_perusahaan' => $request->id_perusahaan
             ]);

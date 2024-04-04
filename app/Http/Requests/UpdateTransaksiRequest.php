@@ -26,10 +26,10 @@ class UpdateTransaksiRequest extends FormRequest
                 'id_projek' => 'integer|exists:projeks,id_projek',
                 'id_desa' => 'integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
-                'status_kontrak' => 'required|boolean',
-                'status_pembayaran' => 'required|boolean',
-                'tanggal_pembayaran' => 'nullable|date',
-                'tanggal_transaksi' => 'required|date',
+                'status_kontrak' => 'required|integer',
+                'status_pembayaran' => 'required|integer',
+                'tanggal_pembayaran' => 'nullable|string',
+                'tanggal_transaksi' => 'required|string',
                 'id_perusahaan' => 'required|integer',
             ];
         } else {
@@ -37,11 +37,11 @@ class UpdateTransaksiRequest extends FormRequest
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
-                'status_kontrak' => 'required|boolean',
-                'status_pembayaran' => 'required|boolean',
-                'tanggal_pembayaran' => 'nullable|date',
+                'status_kontrak' => 'required|integer',
+                'status_pembayaran' => 'required|integer',
+                'tanggal_pembayaran' => 'nullable|string',
                 'id_perusahaan' => 'required|integer',
-                'tanggal_transaksi' => 'required|date'
+                'tanggal_transaksi' => 'required|string'
             ];
         }
     }

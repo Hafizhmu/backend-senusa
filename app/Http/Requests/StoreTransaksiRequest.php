@@ -26,10 +26,10 @@ class StoreTransaksiRequest extends FormRequest
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
-                'status_kontrak' => 'required|boolean',
-                'status_pembayaran' => 'required|boolean',
-                'tanggal_pembayaran' => 'nullable|date',
-                'tanggal_transaksi' => 'required|date',
+                'status_kontrak' => 'required|integer',
+                'status_pembayaran' => 'required|integer',
+                'tanggal_pembayaran' => 'nullable|string',
+                'tanggal_transaksi' => 'required|string',
                 'id_perusahaan' => 'required|integer|exists:perusahaans,id'
             ];
         } else {
@@ -37,10 +37,10 @@ class StoreTransaksiRequest extends FormRequest
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
                 'id_desa' => 'required|integer|exists:desas,id_desa',
                 'harga' => 'required|integer',
-                'status_kontrak' => 'required|boolean',
-                'status_pembayaran' => 'required|boolean',
-                'tanggal_pembayaran' => 'nullable|date',
-                'tanggal_transaksi' => 'required|date',
+                'status_kontrak' => 'required|integer',
+                'status_pembayaran' => 'required|integer',
+                'tanggal_pembayaran' => 'nullable|string',
+                'tanggal_transaksi' => 'required|string',
                 'id_perusahaan' => 'required|integer|exists:perusahaans,id'
             ];
         }

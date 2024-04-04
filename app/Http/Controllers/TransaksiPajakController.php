@@ -81,7 +81,7 @@ class TransaksiPajakController extends Controller
                     'harga' => $req->harga,
                     'status_kontrak' => $req->status_kontrak,
                     'status_pembayaran' => $req->status_pembayaran,
-                    'tanggal_pembayaran' => $req->input('tanggal_pembayaran'),
+                    'tanggal_pembayaran' => $req->input('tanggal_pembayaran') ?? null,
                     'tanggal_transaksi' => $req->tanggal_transaksi,
                     'id_perusahaan' => $req->id_perusahaan
                 ]);

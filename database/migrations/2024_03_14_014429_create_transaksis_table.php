@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('harga');
             $table->boolean('status_kontrak');
             $table->boolean('status_pembayaran');
-            $table->date('tanggal_pembayaran');
+            $table->date('tanggal_pembayaran')->nullable();
             $table->date('tanggal_transaksi');
             $table->integer('id_perusahaan');
             $table->timestamps();

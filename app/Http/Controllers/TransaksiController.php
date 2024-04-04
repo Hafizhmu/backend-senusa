@@ -130,17 +130,55 @@ class TransaksiController extends Controller
         return response()->json($query->get(), 200);
     }
 
-    public function pdfTransById(Request $request)
+    public function pdfKontrak(Request $request)
     {
 
-        $data = $this->searchTransaksiById($request)->getData();
+        $getTrans = (new TransaksiPajakController)->getTransById($request);
+        $data = $getTrans->getData();
 
         // Load view PDF dengan data transaksi
         $pdf = new Dompdf();
         $pdf->loadHtml(view('kontrak', compact('data'))->render());
 
         // Atur ukuran dan orientasi halaman
-        $pdf->setPaper('A4', 'potrait');
+        $pdf->setPaper('F4', 'potrait');
+
+        // Render PDF
+        $pdf->render();
+
+        // Simpan atau kirimkan PDF kepada pengguna
+        return $pdf->stream("invoice-pdf", array("Attachment" => false));
+    }
+    public function pdfInvoice(Request $request)
+    {
+        $getTrans = (new TransaksiPajakController)->getTransById($request);
+        $data = $getTrans->getData();
+
+        // Load view PDF dengan data transaksi
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('invoice-gides-manis', compact('data'))->render());
+
+        // Atur ukuran dan orientasi halaman
+        $pdf->setPaper('F4', 'landscape');
+
+        // Render PDF
+        $pdf->render();
+
+        // Simpan atau kirimkan PDF kepada pengguna
+        return $pdf->stream("invoice-pdf", array("Attachment" => false));
+    }
+    public function pdfKwitansi(Request $request)
+    {
+
+        $getTrans = (new TransaksiPajakController)->getTransById($request);
+        $data = $getTrans->getData();
+
+        // Load view PDF dengan data transaksi
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('kwitansi', compact('data'))->render());
+
+        // Atur ukuran dan orientasi halaman
+        $pdf->setPaper('F4', 'landscape');
 
         // Render PDF
         $pdf->render();
@@ -157,6 +195,7 @@ class TransaksiController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+
 
     /**
      * Show the form for creating a new resource.

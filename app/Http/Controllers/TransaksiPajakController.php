@@ -29,8 +29,59 @@ class TransaksiPajakController extends Controller
             ->orderByDesc('id_transaksi')
             ->paginate($request->data);
 
+        $grouped = $tp->groupBy('id_transaksi');
 
-        return Transaksi_PajakResource::collection($tp);
+        $grouped = $grouped->map(function ($item) {
+            return [
+                'id_transaksi' => $item->first()->id_transaksi,
+                'id_projek' => $item->first()->id_projek,
+                'nama_projek' => $item->first()->nama_projek,
+                'id_desa' => $item->first()->id_desa,
+                'nama_desa' => $item->first()->nama_desa,
+                'harga' => $item->first()->harga,
+                'status_pembayaran' => $item->first()->status_pembayaran,
+                'status_kontrak' => $item->first()->status_kontrak,
+                'id_perusahaan' => $item->first()->id_perusahaan,
+                'nama_perusahaan' => $item->first()->nama_perusahaan,
+                'tanggal_transaksi' => $item->first()->tanggal_transaksi,
+                'tanggal_pembayaran' => $item->first()->tanggal_pembayaran,
+                'data' => $item->map(function ($row) {
+                    return [
+                        'id_pajak' => $row->id_pajak,
+                        'nominal' => $row->nominal,
+                        'jenis_pajak' => $row->jenis_pajak,
+                    ];
+                }),
+            ];
+        });
+        // $data = $grouped->toArray();
+
+        // $meta = [
+        //     'current_page' => $data['current_page'],
+        //     'from' => $data['from'],
+        //     'last_page' => $data['last_page'],
+        //     'path' => $data['path'],
+        //     'per_page' => $data['per_page'],
+        //     'to' => $data['to'],
+        //     'total' => $data['total'],
+        // ];
+
+        // $links = [
+        //     'first' => $data['first_page_url'],
+        //     'last' => $data['last_page_url'],
+        //     'prev' => $data['prev_page_url'],
+        //     'next' => $data['next_page_url'],
+        // ];
+
+        // $response = [
+        //     'data' => $data['data'],
+        //     'meta' => $meta,
+        //     'links' => $links,
+        // ];
+
+        return response()->json([
+            'data' => $grouped
+        ],200);
     }
 
     public function getTransById(Request $request)

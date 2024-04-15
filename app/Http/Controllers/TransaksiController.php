@@ -29,7 +29,7 @@ class TransaksiController extends Controller
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
             ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
             ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
-            ->orderBy('transaksis.id_transaksi');
+            ->orderByDesc('transaksis.id_transaksi');
 
         $query->when($request->has('kecamatan'), function ($query) use ($request) {
             return $query->where('kecamatans.id', $request->kecamatan);

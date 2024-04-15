@@ -24,7 +24,7 @@ class StoreTransaksiRequest extends FormRequest
         if (request()->isMethod('post')) {
             return [
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
-                'id_desa' => 'required|integer|exists:desas,id_desa',
+                'id_desa' => 'required|array|exists:desas,id_desa',
                 'harga' => 'required|integer',
                 'status_kontrak' => 'required|integer',
                 'status_pembayaran' => 'required|integer',

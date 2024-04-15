@@ -97,14 +97,30 @@ class ProjekController extends Controller
                 Transaksi::create($data);
                 $id_transaksi = DB::getPdo()->lastInsertId();
                 var_dump($id_transaksi);
-                foreach ($id_desa as $index => $key) {
-                    $dataTransaksiPajak = [
-                        'id_transaksi' => $id_transaksi,
-                        // Tambahkan data lainnya untuk transaksi pajak sesuai kebutuhan
-                    ];
-
-                    // Membuat transaksi pajak baru
-                    Transaksi_Pajak::create($dataTransaksiPajak);
+                $id_pajak = $request->id_pajak;
+                $nominal = $request->nominal;
+                if ($request->has($id_pajak)) {
+                    foreach ($id_desa as $index => $key) {
+                        $dataTransaksiPajak = [
+                            'id_transaksi' => $id_transaksi,
+                            'id_pajak' => $id_pajak[$index],
+                            'nominal' => $nominal[$index]
+                            // Tambahkan data lainnya untuk transaksi pajak sesuai kebutuhan
+                        ];
+    
+                        // Membuat transaksi pajak baru
+                        Transaksi_Pajak::create($dataTransaksiPajak);
+                    }
+                }else {
+                    foreach ($id_desa as $index => $key) {
+                        $dataTransaksiPajak = [
+                            'id_transaksi' => $id_transaksi
+                            // Tambahkan data lainnya untuk transaksi pajak sesuai kebutuhan
+                        ];
+    
+                        // Membuat transaksi pajak baru
+                        Transaksi_Pajak::create($dataTransaksiPajak);
+                    }
                 }
             }
 

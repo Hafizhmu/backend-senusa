@@ -101,7 +101,7 @@ class ProjekController extends Controller
                 $nominal = $request->nominal;
                 if ($request->has('id_pajak')) {
                     var_dump('id pajak = ', $id_pajak);
-                    foreach ($id_desa as $index => $key) {
+                    foreach ($id_pajak as $index => $key) {
                         $dataTransaksiPajak = [
                             'id_transaksi' => $id_transaksi,
                             'id_pajak' => $id_pajak[$index],

@@ -27,6 +27,21 @@ class PajakController extends Controller
 
         return PajakResource::collection($pajak);
     }
+    public function getPajakById(Request $request)
+    {
+        $find = Pajak::find($request->id);
+        // Ambil data Perusahaan berdasarkan id_kabupaten
+
+        if (!$find) {
+            return response()->json(['message' => 'Data Tidak Ditemukan'], 400);
+        }
+
+        $perusahaan = Pajak::where('id', $find->id)->get();
+
+
+        // Jika ada, kembalikan data kecamatan dalam format JSON
+        return response()->json($perusahaan, 200);
+    }
 
     /**
      * Show the form for creating a new resource.

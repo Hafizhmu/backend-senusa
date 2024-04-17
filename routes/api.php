@@ -76,6 +76,8 @@ Route::get('getProjek', [ProjekController::class, 'getProjekById']);
 //route untuk get projek
 Route::get('pajak', [PajakController::class, 'index']);
 //route untuk get projek
+Route::get('getPajakById', [PajakController::class, 'getPajakById']);
+//route untuk get projek
 Route::get('transaksiPajak', [TransaksiPajakController::class, 'index']);
 //route untuk get projek
 Route::get('getTransaksiPajak', [TransaksiPajakController::class, 'getTransById']);

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DesaController;
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\PajakController;
 use App\Http\Controllers\ProjekController;
 use App\Http\Controllers\KabupatenController;
@@ -102,6 +103,8 @@ Route::post('add/pajak', [PajakController::class, 'store']);
 Route::post('add/transaksiPajak', [TransaksiPajakController::class, 'store']);
 //route untuk add perusahaan
 Route::post('add/projekTransaksi', [ProjekController::class, 'bulkTrans']);
+//route untuk add perusahaan
+Route::post('add/dokumen', [DokumenController::class, 'store']);
 
 
 

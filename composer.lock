@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13d0fef41e0c199103bfd9b73c381d27",
+    "content-hash": "0846f8f42f2c0125d4e6c7d51950c062",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2973,6 +2973,168 @@
             "time": "2024-02-23T20:39:24+00:00"
         },
         {
+            "name": "phpoffice/math",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/Math.git",
+                "reference": "f0f8cad98624459c540cdd61d2a174d834471773"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/Math/zipball/f0f8cad98624459c540cdd61d2a174d834471773",
+                "reference": "f0f8cad98624459c540cdd61d2a174d834471773",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.88 || ^1.0.0",
+                "phpunit/phpunit": "^7.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpOffice\\Math\\": "src/Math/",
+                    "Tests\\PhpOffice\\Math\\": "tests/Math/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Progi1984",
+                    "homepage": "https://lefevre.dev"
+                }
+            ],
+            "description": "Math - Manipulate Math Formula",
+            "homepage": "https://phpoffice.github.io/Math/",
+            "keywords": [
+                "MathML",
+                "officemathml",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPOffice/Math/issues",
+                "source": "https://github.com/PHPOffice/Math/tree/0.1.0"
+            },
+            "time": "2023-09-25T12:08:20+00:00"
+        },
+        {
+            "name": "phpoffice/phpword",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPWord.git",
+                "reference": "e76b701ef538cb749641514fcbc31a68078550fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/e76b701ef538cb749641514fcbc31a68078550fa",
+                "reference": "e76b701ef538cb749641514fcbc31a68078550fa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-xml": "*",
+                "php": "^7.1|^8.0",
+                "phpoffice/math": "^0.1"
+            },
+            "require-dev": {
+                "dompdf/dompdf": "^2.0",
+                "ext-gd": "*",
+                "ext-libxml": "*",
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3.3",
+                "mpdf/mpdf": "^8.1",
+                "phpmd/phpmd": "^2.13",
+                "phpstan/phpstan-phpunit": "@stable",
+                "phpunit/phpunit": ">=7.0",
+                "symfony/process": "^4.4 || ^5.0",
+                "tecnickcom/tcpdf": "^6.5"
+            },
+            "suggest": {
+                "dompdf/dompdf": "Allows writing PDF",
+                "ext-gd2": "Allows adding images",
+                "ext-xmlwriter": "Allows writing OOXML and ODF",
+                "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
+                "ext-zip": "Allows writing OOXML and ODF"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpOffice\\PhpWord\\": "src/PhpWord"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com",
+                    "homepage": "http://gabrielbull.com/"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "https://rootslabs.net/blog/"
+                },
+                {
+                    "name": "Ivan Lanin",
+                    "homepage": "http://ivan.lanin.org"
+                },
+                {
+                    "name": "Roman Syroeshko",
+                    "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+                },
+                {
+                    "name": "Antoine de Troostembergh"
+                }
+            ],
+            "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
+            "homepage": "https://phpoffice.github.io/PHPWord/",
+            "keywords": [
+                "ISO IEC 29500",
+                "OOXML",
+                "Office Open XML",
+                "OpenDocument",
+                "OpenXML",
+                "PhpOffice",
+                "PhpWord",
+                "Rich Text Format",
+                "WordprocessingML",
+                "doc",
+                "docx",
+                "html",
+                "odf",
+                "odt",
+                "office",
+                "pdf",
+                "php",
+                "reader",
+                "rtf",
+                "template",
+                "template processor",
+                "word",
+                "writer"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPOffice/PHPWord/issues",
+                "source": "https://github.com/PHPOffice/PHPWord/tree/1.2.0"
+            },
+            "time": "2023-11-30T11:22:23+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.9.2",
             "source": {
@@ -3762,6 +3924,105 @@
                 }
             ],
             "time": "2023-11-08T05:53:05+00:00"
+        },
+        {
+            "name": "rmunate/spell-number",
+            "version": "v4.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmunate/SpellNumber.git",
+                "reference": "3077e3dd884f130b81e4138a19b9054b9654dabf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmunate/SpellNumber/zipball/3077e3dd884f130b81e4138a19b9054b9654dabf",
+                "reference": "3077e3dd884f130b81e4138a19b9054b9654dabf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Rmunate\\Utilities\\Providers\\SpellNumberProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Rmunate\\Utilities\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Raul Mauricio Uñate Castro",
+                    "email": "raulmauriciounate@gmail.com",
+                    "homepage": "https://github.com/rmunate",
+                    "role": "owner"
+                },
+                {
+                    "name": "Olsza",
+                    "homepage": "https://github.com/olsza",
+                    "role": "developer"
+                },
+                {
+                    "name": "Er. Ashok Devatwal",
+                    "email": "ashokdev78@gmail.com",
+                    "homepage": "https://github.com/ashokdevatwal",
+                    "role": "developer"
+                },
+                {
+                    "name": "Siros Fakhri",
+                    "homepage": "https://github.com/sirosfakhri",
+                    "role": "developer"
+                },
+                {
+                    "name": "Jens Twesmann",
+                    "homepage": "https://github.com/jetwes",
+                    "role": "developer"
+                },
+                {
+                    "name": "Gabriel Rausch",
+                    "homepage": "https://github.com/gdsrmygdsrjr",
+                    "role": "developer"
+                },
+                {
+                    "name": "Alejandro Diaz",
+                    "homepage": "https://github.com/alejandrodiazpinilla",
+                    "role": "developer"
+                }
+            ],
+            "description": "Easily convert numbers to letters, this library supports the native PHP INTL extension with which we can easily convert numbers to letters. This library provides us with the possibility of converting only to numbers or to currency formats depending on the language to be used, this package has support in the languages en: English, es: Spanish, pt: Portuguese, fr: French, it: Italian, ro: Romanian, fa: Farsi, hi: Hindi, pl: Polish.",
+            "homepage": "https://github.com/rmunate/SpellNumber",
+            "keywords": [
+                "code-maestro",
+                "numbers",
+                "rmunate",
+                "spell",
+                "spell-number",
+                "spell-numbers",
+                "toletters",
+                "towords"
+            ],
+            "support": {
+                "issues": "https://github.com/rmunate/SpellNumber/issues",
+                "source": "https://github.com/rmunate/SpellNumber/tree/v4.2.2"
+            },
+            "time": "2023-11-28T11:25:24+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",

@@ -82,6 +82,8 @@ Route::get('getPajakById', [PajakController::class, 'getPajakById']);
 Route::get('transaksiPajak', [TransaksiPajakController::class, 'index']);
 //route untuk get projek
 Route::get('getTransaksiPajak', [TransaksiPajakController::class, 'getTransById']);
+//route untuk get projek
+Route::get('print', [DokumenController::class, 'show']);
 
 
 //method POST
@@ -100,7 +102,7 @@ Route::post('add/perusahaan', [PerusahaanController::class, 'store']);
 //route untuk add pajak
 Route::post('add/pajak', [PajakController::class, 'store']);
 //route untuk add perusahaan
-Route::post('add/transaksiPajak', [TransaksiPajakController::class, 'store']);
+Route::post('add/transaksiPajak', [TransaksiPajakController::class, 's  tore']);
 //route untuk add perusahaan
 Route::post('add/projekTransaksi', [ProjekController::class, 'bulkTrans']);
 //route untuk add perusahaan

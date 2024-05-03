@@ -81,25 +81,25 @@ class TransaksiPajakController extends Controller
 
         return response()->json([
             'data' => $grouped
-        ],200);
+        ], 200);
     }
 
     public function getTransById(Request $request)
     {
         $query = Transaksi_Pajak::query();
         if (!$query) {
-            return response()->json(['message' => 'ID desa harus disediakan.'], 400);
+            return response()->json(['message' => 'ID Transaksi harus disediakan.'], 400);
         }
 
-        $query->when($request->id_transaksi, function ($query) use ($request) {
-            return $query->select('transaksis.id_transaksi', 'projeks.id_projek', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'id_pajak', 'pajaks.jenis_pajak', 'perusahaans.id AS id_perusahaan', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
+        $query->when($request->input('id_transaksi'), function ($query) use ($request) {
+            return $query->select('transaksis.id_transaksi', 'projeks.id_projek', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'id_pajak', 'pajaks.jenis_pajak', 'perusahaans.id AS id_perusahaan', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
                 ->join('transaksis', 'transaksi_pajaks.id_transaksi', '=', 'transaksis.id_transaksi')
                 ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
                 ->join('pajaks', 'transaksi_pajaks.id_pajak', '=', 'pajaks.id')
                 ->orderByDesc('id_transaksi')
-                ->where('transaksi_pajaks.id_transaksi', $request->id_transaksi)
+                ->where('transaksi_pajaks.id_transaksi', $request->input('id_transaksi'))
                 ->paginate($request->data);
         });
 

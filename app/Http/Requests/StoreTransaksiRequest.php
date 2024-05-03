@@ -24,7 +24,27 @@ class StoreTransaksiRequest extends FormRequest
         if (request()->isMethod('post')) {
             return [
                 'id_projek' => 'required|integer|exists:projeks,id_projek',
-                'id_desa' => 'required|array|exists:desas,id_desa',
+                'id_desa' => [
+                    'required', function ($attribute, $value, $validator) {
+                        // Check if value is an integer
+                        if (is_numeric($value) && intval($value) == $value) {
+                            return true; // Valid integer
+                        }
+
+                        // Check if value is an array
+                        if (is_array($value)) {
+                            // Validate each element in the array as an integer
+                            foreach ($value as $element) {
+                                if (!is_numeric($element) || intval($element) != $element) {
+                                    return false; // Invalid element
+                                }
+                            }
+                            return true; // Valid array of integers
+                        }
+
+                        return false; // Invalid value type
+                    },
+                ],
                 'harga' => 'required|integer',
                 'status_kontrak' => 'required|integer',
                 'status_pembayaran' => 'required|integer',

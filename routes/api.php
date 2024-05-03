@@ -83,6 +83,8 @@ Route::get('transaksiPajak', [TransaksiPajakController::class, 'index']);
 //route untuk get projek
 Route::get('getTransaksiPajak', [TransaksiPajakController::class, 'getTransById']);
 //route untuk get projek
+Route::get('dokumen', [DokumenController::class, 'index']);
+//route untuk get projek
 Route::get('print', [DokumenController::class, 'show']);
 //route untuk get projek
 Route::get('getName', [DokumenController::class, 'getName']);

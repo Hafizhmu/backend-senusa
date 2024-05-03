@@ -130,7 +130,7 @@ class DesaController extends Controller
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
 
 
-        return DesaResource::collection($desa);
+        return response()->json($desa, 200);
     }
 
     public function filterDesa(Request $request)
@@ -162,9 +162,9 @@ class DesaController extends Controller
         // return DesaResource::collection($desa);
     }
 
-    public function getDesaById($id)
+    public function getDesaById(Request $request)
     {
-        $find = Desa::find($id);
+        $find = Desa::find($request->input('id_desa'));
 
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
         $desa = Desa::select('desas.id_desa', 'desas.nama_desa', 'desas.alamat', 'desas.telepon', 'desas.nama_kades', 'kecamatans.id as id_kecamatan', 'kecamatans.kecamatan', 'kabupatens.id as id_kabupaten', 'kabupatens.kabupaten')
@@ -175,6 +175,41 @@ class DesaController extends Controller
 
 
         return response()->json($desa, 200);
+    }
+
+    public function getDoc(Request $request)
+    {
+        $request->validate([
+            'id_transaksi' => 'required|exists:transaksis,id_transaksi' // Pastikan id_transaksi ada dalam tabel transaksis
+        ]);
+
+        // Ambil id_transaksi dari request
+        $id_transaksi = $request->input('id_transaksi');
+
+        // Ambil data sesuai dengan id_transaksi
+        $data = Desa::select(
+            'desas.nama_desa',
+            'kecamatans.kecamatan',
+            'kabupatens.kabupaten',
+            'perusahaans.nama_perusahaan',
+            'desas.nama_kades',
+            'perusahaans.nama_direktur',
+            'transaksis.harga',
+            'transaksis.tanggal_transaksi'
+        )
+            ->join('transaksis', 'desas.id_desa', '=', 'transaksis.id_desa')
+            ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
+            ->join('kecamatans', 'desas.id_kecamatan', '=', 'kecamatans.id')
+            ->join('kabupatens', 'kecamatans.id_kabupaten', '=', 'kabupatens.id')
+            ->where('transaksis.id_transaksi', $id_transaksi)
+            ->get(); // Menggunakan first() untuk mendapatkan model tunggal
+
+        // Periksa apakah data ditemukan
+        if (!$data) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        return response()->json($data, 200);
     }
 
     /**

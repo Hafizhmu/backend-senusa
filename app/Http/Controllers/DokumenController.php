@@ -28,6 +28,18 @@ class DokumenController extends Controller
     {
         //
     }
+    public function getName(Request $request)
+    {
+        $dokumen = Dokumen::select('nama_dokumen')
+            ->where('id', $request->input('id'))
+            ->get();
+
+        if (!$dokumen) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        return response()->json($dokumen, 200);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -37,7 +49,7 @@ class DokumenController extends Controller
         try {
             $dokumen = $request->file('nama_dokumen');
             var_dump($dokumen);
-            $nama_dokumen = 'kontrak' . '.' . $request->file('nama_dokumen')->getClientOriginalExtension();
+            $nama_dokumen = $request->input('nama_file') . '.' . $request->file('nama_dokumen')->getClientOriginalExtension();
             $dokumen->move('docs/', $nama_dokumen);
             Dokumen::create([
                 'nama_dokumen' => $nama_dokumen
@@ -60,6 +72,9 @@ class DokumenController extends Controller
         Carbon::setLocale('id'); // Atur lokal ke bahasa Indonesia
         try {
             $getTrans = (new DesaController)->getDoc($request);
+            $getName = (new DokumenController)->getName($request);
+            $dataDokumen = $getName->getData();
+            // var_dump($dataDokumen[0]->nama_dokumen);
             $data = json_decode($getTrans->getContent()); // Mendekode JSON menjadi objek
             $nama_desa = $data[0]->nama_desa; // Mengakses properti 'nama_desa' dari objek dalam array
             $nama_kades = $data[0]->nama_kades; // Mengakses properti 'nama_desa' dari objek dalam array
@@ -77,10 +92,10 @@ class DokumenController extends Controller
             $format_day = Str::title($formatter->format($date->day));
             $format_day = $format_day . ' bulan' . $format_m . 'tahun' . $format_y;
             // var_dump($nama_desa);
-            $phpword = new \PhpOffice\PhpWord\TemplateProcessor('docs/kontrak.docx');
-            var_dump($format_harga);
-            var_dump($format_day);
-            var_dump($format_date);
+            $phpword = new \PhpOffice\PhpWord\TemplateProcessor('docs/'.$dataDokumen[0]->nama_dokumen);
+            // var_dump($format_harga);
+            // var_dump($format_day);
+            // var_dump($format_date);
             $phpword->setValues([
                 'nama_desa' => Str::upper($nama_desa),
                 'nama_kades' => Str::upper($nama_kades),

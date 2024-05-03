@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use NumberFormatter;
 use App\Models\Dokumen;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Rmunate\Utilities\SpellNumber;
+use App\Http\Resources\DokumenResource;
 use App\Http\Requests\StoreDokumenRequest;
 use App\Http\Requests\UpdateDokumenRequest;
-use Carbon\Carbon;
-use NumberFormatter;
-use Rmunate\Utilities\SpellNumber;
 
 class DokumenController extends Controller
 {
@@ -18,7 +19,9 @@ class DokumenController extends Controller
      */
     public function index()
     {
-        //
+        $dokumen = Dokumen::all();
+
+        return DokumenResource::collection($dokumen);
     }
 
     /**

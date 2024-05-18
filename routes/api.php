@@ -11,6 +11,7 @@ use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\TransaksiPajakController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +112,10 @@ Route::post('add/transaksiPajak', [TransaksiPajakController::class, 's  tore']);
 Route::post('add/projekTransaksi', [ProjekController::class, 'bulkTrans']);
 //route untuk add perusahaan
 Route::post('add/dokumen', [DokumenController::class, 'store']);
+//route untuk add perusahaan
+Route::post('auth/register', [UserController::class, 'createUser']);
+//route untuk auth perusahaan
+Route::post('auth/login', [UserController::class, 'loginUser']);
 
 
 

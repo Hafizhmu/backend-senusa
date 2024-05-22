@@ -10,6 +10,7 @@ use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\RiwayatCetakController;
 use App\Http\Controllers\TransaksiPajakController;
 use App\Http\Controllers\UserController;
 
@@ -89,6 +90,8 @@ Route::get('dokumen', [DokumenController::class, 'index']);
 Route::get('print', [DokumenController::class, 'show']);
 //route untuk get projek
 Route::get('getName', [DokumenController::class, 'getName']);
+//route untuk get projek
+Route::get('riwayatCetak', [RiwayatCetakController::class, 'index']);
 
 
 //method POST
@@ -116,6 +119,8 @@ Route::post('add/dokumen', [DokumenController::class, 'store']);
 Route::post('auth/register', [UserController::class, 'createUser']);
 //route untuk auth perusahaan
 Route::post('auth/login', [UserController::class, 'loginUser']);
+//route untuk auth perusahaan
+Route::post('add/riwayatCetak', [RiwayatCetakController::class, 'store']);
 
 
 

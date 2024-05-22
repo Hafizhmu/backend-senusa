@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use NumberFormatter;
 use App\Models\Dokumen;
 use Illuminate\Support\Str;
+use App\Models\RiwayatCetak;
 use Illuminate\Http\Request;
 use Rmunate\Utilities\SpellNumber;
 use App\Http\Resources\DokumenResource;
 use App\Http\Requests\StoreDokumenRequest;
+use App\Http\Requests\StoreRiwayatCetakRequest;
 use App\Http\Requests\UpdateDokumenRequest;
 
 class DokumenController extends Controller
@@ -70,7 +72,7 @@ class DokumenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(Request $request, StoreRiwayatCetakRequest $requestRiwayat)
     {
         Carbon::setLocale('id'); // Atur lokal ke bahasa Indonesia
         try {
@@ -95,7 +97,7 @@ class DokumenController extends Controller
             $format_day = Str::title($formatter->format($date->day));
             $format_day = $format_day . ' bulan' . $format_m . 'tahun' . $format_y;
             // var_dump($nama_desa);
-            $phpword = new \PhpOffice\PhpWord\TemplateProcessor('docs/'.$dataDokumen[0]->nama_dokumen);
+            $phpword = new \PhpOffice\PhpWord\TemplateProcessor('docs/' . $dataDokumen[0]->nama_dokumen);
             // var_dump($format_harga);
             // var_dump($format_day);
             // var_dump($format_date);
@@ -118,10 +120,16 @@ class DokumenController extends Controller
                 'format_day' => $format_day
             ]);
 
-            $phpword->saveAs('hasilDokumen/' . $request->input('nama_file') .  '.' . 'docx');
-            return response()->json([
-                'message' => 'Berkas berhasil disimpan'
-            ], 200);
+            RiwayatCetak::create([
+                'id_transaksi' => $requestRiwayat->id_transaksi,
+                'jenis_dokumen' => $requestRiwayat->jenis_dokumen,
+                'nama_pencetak' => $requestRiwayat->nama_pencetak,
+                'tanggal' => Carbon::now()
+            ]);
+
+            $phpword->saveAs(fileName: $request->input('nama_file') .  '.' . 'docx');
+
+            return response()->download(file: $request->input('nama_file') . '.docx')->deleteFileAfterSend(shouldDelete: true);
         } catch (\Throwable $e) {
             return response()->json([
                 'message' => "Terjadi Kesalahan " . $e->getMessage()

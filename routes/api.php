@@ -110,7 +110,7 @@ Route::post('add/perusahaan', [PerusahaanController::class, 'store']);
 //route untuk add pajak
 Route::post('add/pajak', [PajakController::class, 'store']);
 //route untuk add perusahaan
-Route::post('add/transaksiPajak', [TransaksiPajakController::class, 's  tore']);
+Route::post('add/transaksiPajak', [TransaksiPajakController::class, 'store']);
 //route untuk add perusahaan
 Route::post('add/projekTransaksi', [ProjekController::class, 'bulkTrans']);
 //route untuk add perusahaan

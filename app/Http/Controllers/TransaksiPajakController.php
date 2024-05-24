@@ -334,13 +334,13 @@ class TransaksiPajakController extends Controller
         }
 
         // Update Transaksi attributes
-        $transaksi->harga = $req->harga;
-        $transaksi->status_kontrak = $req->status_kontrak;
-        $transaksi->status_pembayaran = $req->status_pembayaran;
-        $transaksi->tanggal_pembayaran = $req->tanggal_pembayaran;
-        $transaksi->tanggal_transaksi = $req->tanggal_transaksi;
-        $transaksi->id_perusahaan = $req->id_perusahaan;
-        $transaksi->save();
+        // $transaksi->harga = $req->harga;
+        // $transaksi->status_kontrak = $req->status_kontrak;
+        // $transaksi->status_pembayaran = $req->status_pembayaran;
+        // $transaksi->tanggal_pembayaran = $req->tanggal_pembayaran;
+        // $transaksi->tanggal_transaksi = $req->tanggal_transaksi;
+        // $transaksi->id_perusahaan = $req->id_perusahaan;
+        // $transaksi->save();
 
         if (count($id_pajak) < $count || count($id_pajak) > $count) {
             try {

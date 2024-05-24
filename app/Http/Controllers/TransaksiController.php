@@ -40,11 +40,11 @@ class TransaksiController extends Controller
             return $query->where('kabupatens.id', $request->kabupaten);
         });
 
-        // Menambahkan kondisi kabupaten&kecamatan jika tersedia
-        $query->when($request->has('kabupaten') && $request->has('kecamatan'), function ($query) use ($request) {
-            return $query->where('kabupatens.id', $request->kabupaten)
-                ->where('kecamatans.id', $request->kecamatan);
-        });
+        // // Menambahkan kondisi kabupaten&kecamatan jika tersedia
+        // $query->when($request->has('kabupaten') && $request->has('kecamatan'), function ($query) use ($request) {
+        //     return $query->where('kabupatens.id', $request->kabupaten)
+        //         ->where('kecamatans.id', $request->kecamatan);
+        // });
 
         // Menambahkan kondisi pencarian berdasarkan keyword
         $query->when($request->has('keyword'), function ($query) use ($request) {
@@ -54,24 +54,40 @@ class TransaksiController extends Controller
             });
         });
 
-        $query->when($request->has('kecamatan') && $request->has('keyword'), function ($query) use ($request) {
-            $keyword = $request->keyword;
-            return $query->where('kecamatans.id', $request->kecamatan)
-                ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        // $query->when($request->has('kecamatan') && $request->has('keyword'), function ($query) use ($request) {
+        //     $keyword = $request->keyword;
+        //     return $query->where('kecamatans.id', $request->kecamatan)
+        //         ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        // });
+
+        // $query->when($request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
+        //     $keyword = $request->keyword;
+        //     return $query->where('kabupatens.id', $request->kabupaten)
+        //         ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        // });
+
+        // $query->when($request->has('kecamatan') && $request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
+        //     $keyword = $request->keyword;
+        //     return $query->where('kabupatens.id', $request->kabupaten)
+        //         ->where('kecamatans.id', $request->kecamatan)
+        //         ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        // });
+
+        // Kondisi berdasarkan status pembayaran
+        $query->when($request->has('status_pembayaran'), function ($query) use ($request) {
+            return $query->where('transaksis.status_pembayaran', $request->status_pembayaran);
         });
 
-        $query->when($request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
-            $keyword = $request->keyword;
-            return $query->where('kabupatens.id', $request->kabupaten)
-                ->where('desas.nama_desa', 'LIKE', "%$keyword%");
+        // Kondisi berdasarkan status kontrak
+        $query->when($request->has('status_kontrak'), function ($query) use ($request) {
+            return $query->where('transaksis.status_kontrak', $request->status_kontrak);
         });
 
-        $query->when($request->has('kecamatan') && $request->has('kabupaten') && $request->has('keyword'), function ($query) use ($request) {
-            $keyword = $request->keyword;
-            return $query->where('kabupatens.id', $request->kabupaten)
-                ->where('kecamatans.id', $request->kecamatan)
-                ->where('desas.nama_desa', 'LIKE', "%$keyword%");
-        });
+        // Kondisi berdasarkan status pembayaran dan status kontrak
+        // $query->when($request->has('status_pembayaran') && $request->has('status_kontrak'), function ($query) use ($request) {
+        //     return $query->where('transaksis.status_pembayaran', $request->status_pembayaran)
+        //         ->where('transaksis.status_kontrak', $request->status_kontrak);
+        // });
 
         $transaksis = $query->paginate($request->data);
         return TransaksiResource::collection($transaksis);
@@ -99,7 +115,7 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan','desas.nama_kades')
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan', 'desas.nama_kades')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')

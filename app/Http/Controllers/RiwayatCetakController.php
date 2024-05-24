@@ -17,7 +17,7 @@ class RiwayatCetakController extends Controller
     public function index(Request $request)
     {
         $riwayat = RiwayatCetak::where('id_transaksi', $request->input('id_transaksi'))
-            ->orderByDesc('tanggal')
+            ->orderByDesc('id')
             ->get();
 
         return RiwayatCetakResource::collection($riwayat);

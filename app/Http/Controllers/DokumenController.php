@@ -127,9 +127,9 @@ class DokumenController extends Controller
                 'tanggal' => Carbon::now()
             ]);
 
-            $phpword->saveAs(fileName: $request->input('nama_file') .  '.' . 'docx');
+            $phpword->saveAs(fileName: $request->input('nama_file'));
 
-            return response()->download(file: $request->input('nama_file') . '.docx')->deleteFileAfterSend(shouldDelete: true);
+            return response()->download(file: $request->input('nama_file'))->deleteFileAfterSend(shouldDelete: true);
         } catch (\Throwable $e) {
             return response()->json([
                 'message' => "Terjadi Kesalahan " . $e->getMessage()

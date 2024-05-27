@@ -41,6 +41,10 @@ class TransaksiController extends Controller
             return $query->where('kabupatens.id', $request->kabupaten);
         });
 
+        $query->when($request->has('projek'), function ($query) use ($request) {
+            return $query->where('projeks.id_projek', $request->projek);
+        });
+
         // // Menambahkan kondisi kabupaten&kecamatan jika tersedia
         // $query->when($request->has('kabupaten') && $request->has('kecamatan'), function ($query) use ($request) {
         //     return $query->where('kabupatens.id', $request->kabupaten)

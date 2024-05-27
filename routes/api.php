@@ -163,3 +163,5 @@ Route::delete('delete/transaksi/{id}', [TransaksiController::class, 'destroy']);
 Route::delete('delete/perusahaan/{id}', [PerusahaanController::class, 'destroy']);
 //route untuk mengapus transaksi
 Route::delete('delete/pajak/{id}', [PajakController::class, 'destroy']);
+//route untuk mengapus transaksi
+Route::delete('delete/dokumen/{id}', [DokumenController::class, 'destroy']);

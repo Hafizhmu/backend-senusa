@@ -103,7 +103,7 @@ class TransaksiController extends Controller
         $query2 = Transaksi::where('status_pembayaran', 0)->get();
         $counter_pay = $query->count();
         $counter_not = $query2->count();
-        $array = ['Bayar' => $counter_pay, 'Belum Bayar' => $counter_not];
+        $array = ['bayar' => $counter_pay, 'belum_bayar' => $counter_not];
 
 
         return response()->json($array, 200);

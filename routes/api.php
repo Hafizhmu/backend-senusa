@@ -96,6 +96,8 @@ Route::get('riwayatCetak', [RiwayatCetakController::class, 'index']);
 Route::get('countTrans', [TransaksiController::class, 'hitungTransaksi']);
 //route untuk get projek
 Route::get('countProjek', [TransaksiController::class, 'hitungProyek']);
+//route untuk get projek
+Route::get('countMonthly', [TransaksiController::class, 'hitungBulanan']);
 
 
 //method POST

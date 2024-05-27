@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi_Pajak;
 use DB;
 use mPDF;
+use Carbon\Carbon;
 use Dompdf\Dompdf;
 use App\Models\Desa;
+use App\Models\Projek;
 use App\Models\Transaksi;
+use App\Models\Perusahaan;
+use Mpdf\Mpdf as MpdfMpdf;
 use Illuminate\Http\Request;
+use App\Models\Transaksi_Pajak;
 use Illuminate\Routing\Controller;
 use App\Http\Resources\TransaksiResource;
 use App\Http\Requests\StoreTransaksiRequest;
-use App\Http\Requests\UpdateTransaksiRequest;
-use App\Models\Perusahaan;
-use App\Models\Projek;
 use Illuminate\Database\Eloquent\Casts\Json;
-use Mpdf\Mpdf as MpdfMpdf;
+use App\Http\Requests\UpdateTransaksiRequest;
 
 class TransaksiController extends Controller
 {
@@ -39,9 +40,6 @@ class TransaksiController extends Controller
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
         $query = DB::table('projeks')->pluck('nama');
-        $counter_pay = $query->count();
-        $array = array();
-        $value = array();
         $hitung = 1;
         // Loop melalui setiap proyek berdasarkan id proyek
         foreach ($query as $key => $nama_projek) {
@@ -54,13 +52,55 @@ class TransaksiController extends Controller
             ];
             $hitung++;
         }
-        var_dump($value);
         return response()->json($result, 200);
         // $query2 = Transaksi::where('status_pembayaran', 0)->get();
         // $counter_not = $query2->count();
         // $array = ['Bayar' => $counter_pay, 'Belum Bayar' => $counter_not];
 
 
+    }
+    public function hitungBulanan(Request $request)
+    {
+        Carbon::setLocale('id'); // Atur lokal ke bahasa Indonesia
+        $year = $request->input('year');
+        $monthlyTransaksi = Transaksi::select(
+            DB::raw('YEAR(tanggal_transaksi) as year'),
+            DB::raw('MONTH(tanggal_transaksi) as month'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->whereYear('tanggal_transaksi',$year)
+            ->groupBy(DB::raw('YEAR(tanggal_transaksi)'), DB::raw('MONTH(tanggal_transaksi)'))
+            ->orderBy(DB::raw('YEAR(tanggal_transaksi)'), 'asc')
+            ->orderBy(DB::raw('MONTH(tanggal_transaksi)'), 'asc')
+            ->get();
+
+        $result = $monthlyTransaksi->map(function ($item) {
+            $monthName = Carbon::createFromDate($item->year, $item->month)->translatedFormat('F');
+            return [
+                'year' => $item->year,
+                'month' => $monthName,
+                'jumlah' => $item->count
+            ];
+        });
+
+    //     // Create an array to hold the results with all months initialized to 0
+    // $results = [];
+    // for ($month = 1; $month <= 12; $month++) {
+    //     $results[$month] = [
+    //         'year' => $year,
+    //         'month' => Carbon::createFromDate($year, $month, 1)->translatedFormat('F'),
+    //         'jumlah' => 0
+    //     ];
+    // }
+
+    // // Merge the actual transaction counts into the results array
+    // foreach ($monthlyTransaksi as $item) {
+    //     $results[$item->month]['jumlah'] = $item->count;
+    // }
+
+    // // Convert the results array to a collection
+    // $result = collect($results)->values();
+        return response()->json($result, 200);
     }
 
     public function searchTrans(Request $request)

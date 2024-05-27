@@ -66,7 +66,7 @@ class TransaksiController extends Controller
         $monthlyTransaksi = Transaksi::select(
             DB::raw('YEAR(tanggal_transaksi) as year'),
             DB::raw('MONTH(tanggal_transaksi) as month'),
-            DB::raw('COUNT(*) as count')
+            DB::raw('SUM(harga) as count')
         )
             ->whereYear('tanggal_transaksi',$year)
             ->groupBy(DB::raw('YEAR(tanggal_transaksi)'), DB::raw('MONTH(tanggal_transaksi)'))

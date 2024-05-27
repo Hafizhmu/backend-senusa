@@ -156,8 +156,28 @@ class DokumenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Dokumen $dokumen)
+    public function destroy($id)
     {
-        //
+        try {
+            $delete = Dokumen::find($id);
+            if (!$delete) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            $delete->delete();
+            Dokumen::where('id', $id)->delete();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Data berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
     }
 }

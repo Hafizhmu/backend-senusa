@@ -13,6 +13,8 @@ use Illuminate\Routing\Controller;
 use App\Http\Resources\TransaksiResource;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
+use App\Models\Perusahaan;
+use App\Models\Projek;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Mpdf\Mpdf as MpdfMpdf;
 
@@ -21,7 +23,7 @@ class TransaksiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function hitungTransaksi(Request $request)
+    public function hitungTransaksi()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
         $query = Transaksi::where('status_pembayaran', 1)->get();
@@ -32,6 +34,33 @@ class TransaksiController extends Controller
 
 
         return response()->json($array, 200);
+    }
+    public function hitungProyek()
+    {
+        //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
+        $query = DB::table('projeks')->pluck('nama');
+        $counter_pay = $query->count();
+        $array = array();
+        $value = array();
+        $hitung = 1;
+        // Loop melalui setiap proyek berdasarkan id proyek
+        foreach ($query as $key => $nama_projek) {
+            // Menghitung jumlah transaksi untuk setiap perusahaan berdasarkan id proyek
+            $count = Transaksi::where('id_projek', $hitung)->count();
+            // Memasukkan nilai ke dalam array dengan nama proyek sebagai kunci dan jumlah transaksi sebagai nilai
+            $result[] = [
+                "nama" => $nama_projek,
+                "jumlah" => $count
+            ];
+            $hitung++;
+        }
+        var_dump($value);
+        return response()->json($result, 200);
+        // $query2 = Transaksi::where('status_pembayaran', 0)->get();
+        // $counter_not = $query2->count();
+        // $array = ['Bayar' => $counter_pay, 'Belum Bayar' => $counter_not];
+
+
     }
 
     public function searchTrans(Request $request)

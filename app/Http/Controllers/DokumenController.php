@@ -167,7 +167,7 @@ class DokumenController extends Controller
             }
 
             $delete->delete();
-            Dokumen::where('id_transaksi', $id)->delete();
+            Dokumen::where('id', $id)->delete();
 
             // Return success response
             return response()->json([

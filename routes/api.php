@@ -92,6 +92,8 @@ Route::get('print', [DokumenController::class, 'show']);
 Route::get('getName', [DokumenController::class, 'getName']);
 //route untuk get projek
 Route::get('riwayatCetak', [RiwayatCetakController::class, 'index']);
+//route untuk get projek
+Route::get('count', [TransaksiController::class, 'hitungTransaksi']);
 
 
 //method POST

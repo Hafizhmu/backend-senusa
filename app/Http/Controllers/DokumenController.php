@@ -81,6 +81,9 @@ class DokumenController extends Controller
             $getTrans = (new DesaController)->getDoc($request);
             $getName = (new DokumenController)->getName($request);
             $dataDokumen = $getName->getData();
+            $harga_pajak = $request->integer('harga');
+            $harga_string2 = (string)$harga_pajak;
+            // var_dump($harga_pajak);
             // var_dump($dataDokumen[0]->nama_dokumen);
             $data = json_decode($getTrans->getContent()); // Mendekode JSON menjadi objek
             $nama_desa = $data[0]->nama_desa; // Mengakses properti 'nama_desa' dari objek dalam array
@@ -89,13 +92,16 @@ class DokumenController extends Controller
             $nama_perusahaan = $data[0]->nama_perusahaan; // Mengakses properti 'nama_desa' dari objek dalam array
             $kecamatan = $data[0]->kecamatan; // Mengakses properti 'nama_desa' dari objek dalam array
             $kabupaten = $data[0]->kabupaten; // Mengakses properti 'nama_desa' dari objek dalam array
-            $harga = Money::IDR($data[0]->harga, true); // Mengakses properti 'nama_desa' dari objek dalam array
+            // $harga = Money::IDR($data[0]->harga, true); // Mengakses properti 'nama_desa' dari objek dalam array
+            $harga = Money::IDR($harga_pajak, true); // Mengakses properti 'nama_desa' dari objek dalam array
+            $harga_string = (string)$harga;
+            var_dump($harga);
             $date = Carbon::parse($data[0]->tanggal_transaksi);
             $format_date = $date->translatedFormat('d F Y');
             $format_m = $date->translatedFormat(' F ');
             $format_y = $date->translatedFormat(' Y');
             $formatter = new NumberFormatter("id", NumberFormatter::SPELLOUT);
-            $format_harga = Str::title($formatter->format($data[0]->harga));
+            $format_harga = Str::title($formatter->format($harga_string2));
             $format_day = Str::title($formatter->format($date->day));
             $format_day = $format_day . ' bulan' . $format_m . 'tahun' . $format_y;
             // var_dump($nama_desa);
@@ -103,6 +109,7 @@ class DokumenController extends Controller
             // var_dump($format_harga);
             // var_dump($format_day);
             // var_dump($format_date);
+            // var_dump($harga);
             $phpword->setValues([
                 'nama_desa' => Str::upper($nama_desa),
                 'nama_kades' => Str::upper($nama_kades),
@@ -116,7 +123,7 @@ class DokumenController extends Controller
                 'nama_perusahaan_tittle' => Str::title($nama_perusahaan),
                 'kecamatan_tittle' => Str::title($kecamatan),
                 'kabupaten_tittle' => Str::title($kabupaten),
-                'harga' => Str::upper($harga),
+                'harga' => $harga_string,
                 'format_harga' => $format_harga,
                 'format_date' => $format_date,
                 'format_day' => $format_day

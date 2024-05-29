@@ -68,7 +68,7 @@ class KabupatenController extends Controller
     {
         try {
             Kabupaten::create([
-                'kabupaten' => $request->kabupaten
+                'kabupaten' => 'Kabupaten '.$request->kabupaten
             ]);
 
             //return response json

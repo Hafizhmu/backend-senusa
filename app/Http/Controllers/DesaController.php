@@ -227,7 +227,7 @@ class DesaController extends Controller
     {
         try {
             Desa::create([
-                'nama_desa' => $request->nama_desa,
+                'nama_desa' => 'Desa '.$request->nama_desa,
                 'nama_kades' => $request->nama_kades,
                 'id_kecamatan' => $request->id_kecamatan,
                 'alamat' => $request->alamat,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Akaunting\Money\Money;
 use Carbon\Carbon;
 use NumberFormatter;
 use App\Models\Dokumen;
@@ -75,6 +76,7 @@ class DokumenController extends Controller
     public function show(Request $request, StoreRiwayatCetakRequest $requestRiwayat)
     {
         Carbon::setLocale('id'); // Atur lokal ke bahasa Indonesia
+        Money::setLocale('id');
         try {
             $getTrans = (new DesaController)->getDoc($request);
             $getName = (new DokumenController)->getName($request);
@@ -87,7 +89,7 @@ class DokumenController extends Controller
             $nama_perusahaan = $data[0]->nama_perusahaan; // Mengakses properti 'nama_desa' dari objek dalam array
             $kecamatan = $data[0]->kecamatan; // Mengakses properti 'nama_desa' dari objek dalam array
             $kabupaten = $data[0]->kabupaten; // Mengakses properti 'nama_desa' dari objek dalam array
-            $harga = $data[0]->harga; // Mengakses properti 'nama_desa' dari objek dalam array
+            $harga = Money::IDR($data[0]->harga, true); // Mengakses properti 'nama_desa' dari objek dalam array
             $date = Carbon::parse($data[0]->tanggal_transaksi);
             $format_date = $date->translatedFormat('d F Y');
             $format_m = $date->translatedFormat(' F ');

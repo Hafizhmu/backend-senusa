@@ -9,6 +9,7 @@ use Dompdf\Dompdf;
 use App\Models\Desa;
 use App\Models\Projek;
 use App\Models\Transaksi;
+use Akaunting\Money\Money;
 use App\Models\Perusahaan;
 use Mpdf\Mpdf as MpdfMpdf;
 use Illuminate\Http\Request;
@@ -112,6 +113,15 @@ class TransaksiController extends Controller
 
         return response()->json($array, 200);
     }
+    public function cuba()
+    {
+
+
+        $harga = 100000;
+        $data = Money::IDR($harga, true);
+        var_dump($data);
+        return response()->json($data, 200);
+    }
     public function hitungProyek()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
@@ -144,7 +154,7 @@ class TransaksiController extends Controller
             DB::raw('MONTH(tanggal_transaksi) as month'),
             DB::raw('SUM(harga) as count')
         )
-            ->whereYear('tanggal_transaksi',$year)
+            ->whereYear('tanggal_transaksi', $year)
             ->groupBy(DB::raw('YEAR(tanggal_transaksi)'), DB::raw('MONTH(tanggal_transaksi)'))
             ->orderBy(DB::raw('YEAR(tanggal_transaksi)'), 'asc')
             ->orderBy(DB::raw('MONTH(tanggal_transaksi)'), 'asc')
@@ -159,23 +169,23 @@ class TransaksiController extends Controller
             ];
         });
 
-    //     // Create an array to hold the results with all months initialized to 0
-    // $results = [];
-    // for ($month = 1; $month <= 12; $month++) {
-    //     $results[$month] = [
-    //         'year' => $year,
-    //         'month' => Carbon::createFromDate($year, $month, 1)->translatedFormat('F'),
-    //         'jumlah' => 0
-    //     ];
-    // }
+        //     // Create an array to hold the results with all months initialized to 0
+        // $results = [];
+        // for ($month = 1; $month <= 12; $month++) {
+        //     $results[$month] = [
+        //         'year' => $year,
+        //         'month' => Carbon::createFromDate($year, $month, 1)->translatedFormat('F'),
+        //         'jumlah' => 0
+        //     ];
+        // }
 
-    // // Merge the actual transaction counts into the results array
-    // foreach ($monthlyTransaksi as $item) {
-    //     $results[$item->month]['jumlah'] = $item->count;
-    // }
+        // // Merge the actual transaction counts into the results array
+        // foreach ($monthlyTransaksi as $item) {
+        //     $results[$item->month]['jumlah'] = $item->count;
+        // }
 
-    // // Convert the results array to a collection
-    // $result = collect($results)->values();
+        // // Convert the results array to a collection
+        // $result = collect($results)->values();
         return response()->json($result, 200);
     }
 

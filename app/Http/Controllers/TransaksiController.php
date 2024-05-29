@@ -125,18 +125,16 @@ class TransaksiController extends Controller
     public function hitungProyek()
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $query = DB::table('projeks')->pluck('nama');
-        $hitung = 1;
+        $query = DB::table('projeks')->pluck('nama', 'id_projek');
         // Loop melalui setiap proyek berdasarkan id proyek
-        foreach ($query as $key => $nama_projek) {
+        foreach ($query as $id_projek => $nama_projek) {
             // Menghitung jumlah transaksi untuk setiap perusahaan berdasarkan id proyek
-            $count = Transaksi::where('id_projek', $hitung)->count();
+            $count = Transaksi::where('id_projek', $id_projek)->count();
             // Memasukkan nilai ke dalam array dengan nama proyek sebagai kunci dan jumlah transaksi sebagai nilai
             $result[] = [
                 "nama" => $nama_projek,
                 "jumlah" => $count
             ];
-            $hitung++;
         }
         return response()->json($result, 200);
         // $query2 = Transaksi::where('status_pembayaran', 0)->get();

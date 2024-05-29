@@ -98,6 +98,8 @@ Route::get('countTrans', [TransaksiController::class, 'hitungTransaksi']);
 Route::get('countProjek', [TransaksiController::class, 'hitungProyek']);
 //route untuk get projek
 Route::get('countMonthly', [TransaksiController::class, 'hitungBulanan']);
+//route untuk get projek
+Route::get('cuba', [TransaksiController::class, 'cuba']);
 
 
 //method POST

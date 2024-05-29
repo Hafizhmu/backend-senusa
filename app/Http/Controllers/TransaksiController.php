@@ -113,13 +113,14 @@ class TransaksiController extends Controller
 
         return response()->json($array, 200);
     }
-    public function cuba()
+    public function cuba(Request $request)
     {
 
 
-        $harga = 100000;
+        $harga = $request->integer('harga');
+        var_dump($harga);
         $data = Money::IDR($harga, true);
-        var_dump($data);
+        // var_dump($data);
         return response()->json($data, 200);
     }
     public function hitungProyek()

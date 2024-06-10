@@ -393,7 +393,8 @@ class TransaksiController extends Controller
                 Storage::disk('public')->put($path, file_get_contents($foto));
                 $update->bukti = $filename;
             }
-            var_dump($request->harga);
+            var_dump($update->bukti);
+            // var_dump($request->harga);
             $update->harga = $request->harga;
             $update->status_kontrak = $request->status_kontrak;
             $update->status_pembayaran = $request->status_pembayaran;

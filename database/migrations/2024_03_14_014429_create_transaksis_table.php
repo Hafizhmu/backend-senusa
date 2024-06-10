@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('tanggal_pembayaran')->nullable();
             $table->date('tanggal_transaksi');
             $table->integer('id_perusahaan');
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }

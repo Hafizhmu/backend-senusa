@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Akaunting\Money\Money;
 use Carbon\Carbon;
 use NumberFormatter;
 use App\Models\Dokumen;
+use App\Models\Transaksi;
+use Akaunting\Money\Money;
 use Illuminate\Support\Str;
 use App\Models\RiwayatCetak;
 use Illuminate\Http\Request;
 use Rmunate\Utilities\SpellNumber;
 use App\Http\Resources\DokumenResource;
 use App\Http\Requests\StoreDokumenRequest;
-use App\Http\Requests\StoreRiwayatCetakRequest;
 use App\Http\Requests\UpdateDokumenRequest;
+use App\Http\Requests\UpdateTransaksiRequest;
+use App\Http\Requests\StoreRiwayatCetakRequest;
 
 class DokumenController extends Controller
 {
@@ -135,6 +137,19 @@ class DokumenController extends Controller
                 'nama_pencetak' => $requestRiwayat->nama_pencetak,
                 'tanggal' => Carbon::now()
             ]);
+
+            $update = Transaksi::find($requestRiwayat->id_transaksi);
+            if (!$update) {
+                return response()->json([
+                    'message' => "ID tidak ditemukan"
+                ], 404);
+            }
+
+            $update->status_kontrak = 1;
+
+            $update->save();
+
+
 
             $phpword->saveAs(fileName: $request->input('nama_file'));
 

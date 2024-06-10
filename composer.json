@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.8",
         "mpdf/mpdf": "v8.2.1",
         "phpoffice/phpword": "^1.2",
-        "rmunate/spell-number": "^4.2"
+        "rmunate/spell-number": "^4.2",
+        "wandersonwhcr/romans": "^1.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

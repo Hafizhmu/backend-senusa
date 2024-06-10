@@ -8,6 +8,7 @@ use App\Http\Controllers\PajakController;
 use App\Http\Controllers\ProjekController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\NomorSuratController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\RiwayatCetakController;
@@ -129,6 +130,8 @@ Route::post('auth/register', [UserController::class, 'createUser']);
 Route::post('auth/login', [UserController::class, 'loginUser']);
 //route untuk auth perusahaan
 Route::post('add/riwayatCetak', [RiwayatCetakController::class, 'store']);
+//route untuk auth perusahaan
+Route::post('add/nomorSurat', [NomorSuratController::class, 'store']);
 
 
 

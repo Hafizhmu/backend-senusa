@@ -31,6 +31,7 @@ class UpdateTransaksiRequest extends FormRequest
                 'tanggal_pembayaran' => 'nullable|string',
                 'tanggal_transaksi' => 'required|string',
                 'id_perusahaan' => 'required|integer',
+                'bukti' => 'file|mimes:png,jpg,jpeg'
             ];
         } else {
             return [
@@ -41,7 +42,8 @@ class UpdateTransaksiRequest extends FormRequest
                 'status_pembayaran' => 'required|integer',
                 'tanggal_pembayaran' => 'nullable|string',
                 'id_perusahaan' => 'required|integer',
-                'tanggal_transaksi' => 'required|string'
+                'tanggal_transaksi' => 'required|string',
+                'bukti' => 'file|mimes:png,jpg,jpeg'
             ];
         }
     }

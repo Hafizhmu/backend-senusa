@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Transaksi_Pajak;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ProjekResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProjekRequest;
 use App\Http\Requests\UpdateProjekRequest;
 use App\Http\Requests\StoreTransaksiRequest;
@@ -81,6 +82,11 @@ class ProjekController extends Controller
     }
     public function bulkTrans(StoreTransaksiRequest $request)
     {
+        $foto = $request->file('foto');
+        $filename = $foto->getClientOriginalName();
+        $path = 'bukti-pembayaran/' . $filename;
+        // $foto->move('bukti-pembayaran/', $filename);
+        Storage::disk('public')->put($path, file_get_contents($foto));
         $id_desa = $request->id_desa;
         try {
             foreach ($id_desa as $index => $key) {
@@ -92,7 +98,8 @@ class ProjekController extends Controller
                     'status_pembayaran' => $request->status_pembayaran,
                     'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
                     'tanggal_transaksi' => $request->tanggal_transaksi,
-                    'id_perusahaan' => $request->id_perusahaan
+                    'id_perusahaan' => $request->id_perusahaan,
+                    'bukti' => $filename
                 );
                 Transaksi::create($data);
                 $id_transaksi = DB::getPdo()->lastInsertId();

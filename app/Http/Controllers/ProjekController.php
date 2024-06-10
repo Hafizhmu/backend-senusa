@@ -83,7 +83,7 @@ class ProjekController extends Controller
     public function bulkTrans(StoreTransaksiRequest $request)
     {
         $foto = $request->file('foto');
-        $filename = $foto->getClientOriginalName();
+        $filename = date('Y-m-d') . '-'.$foto->getClientOriginalName();
         $path = 'bukti-pembayaran/' . $filename;
         // $foto->move('bukti-pembayaran/', $filename);
         Storage::disk('public')->put($path, file_get_contents($foto));

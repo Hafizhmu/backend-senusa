@@ -100,7 +100,7 @@ Route::get('countProjek', [TransaksiController::class, 'hitungProyek']);
 //route untuk get projek
 Route::get('countMonthly', [TransaksiController::class, 'hitungBulanan']);
 //route untuk get projek
-Route::get('cuba', [TransaksiController::class, 'cuba']);
+Route::get('getImage', [TransaksiPajakController::class, 'getImage']);
 
 
 //method POST

@@ -26,7 +26,7 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $query = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan')
+        $query = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan','bukti','tanggal_pembayaran','tanggal_transaksi')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
@@ -365,6 +365,11 @@ class TransaksiController extends Controller
      */
     public function update(UpdateTransaksiRequest $request, $id)
     {
+        $foto = $request->file('foto');
+        $filename = $foto->getClientOriginalName();
+        $path = 'bukti-pembayaran/' . $filename;
+        // $foto->move('bukti-pembayaran/', $filename);
+        Storage::disk('public')->put($path, file_get_contents($foto));
         try {
             $update = Transaksi::find($id);
             if (!$update) {
@@ -379,6 +384,7 @@ class TransaksiController extends Controller
             $update->tanggal_pembayaran = $request->tanggal_pembayaran;
             $update->tanggal_transaksi = $request->tanggal_transaksi;
             $update->id_perusahaan = $request->id_perusahaan;
+            $update->bukti = $filename;
 
             $update->save();
 

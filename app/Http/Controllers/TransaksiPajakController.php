@@ -7,11 +7,13 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Models\Transaksi_Pajak;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreTransaksiRequest;
+use App\Http\Requests\UpdateTransaksiRequest;
 use App\Http\Resources\Transaksi_PajakResource;
 use App\Http\Requests\StoreTransaksi_PajakRequest;
 use App\Http\Requests\UpdateTransaksi_PajakRequest;
-use App\Http\Requests\UpdateTransaksiRequest;
 
 class TransaksiPajakController extends Controller
 {
@@ -20,7 +22,7 @@ class TransaksiPajakController extends Controller
      */
     public function index(Request $request)
     {
-        $tp = Transaksi_Pajak::select('transaksis.id_transaksi', 'projeks.id_projek', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'id_pajak', 'pajaks.jenis_pajak', 'perusahaans.id AS id_perusahaan', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran')
+        $tp = Transaksi_Pajak::select('transaksis.id_transaksi', 'projeks.id_projek', 'projeks.nama AS nama_projek', 'desas.id_desa', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'status_kontrak', 'nominal', 'id_pajak', 'pajaks.jenis_pajak', 'perusahaans.id AS id_perusahaan', 'perusahaans.nama_perusahaan', 'tanggal_transaksi', 'tanggal_pembayaran', 'transaksis.bukti')
             ->join('transaksis', 'transaksi_pajaks.id_transaksi', '=', 'transaksis.id_transaksi')
             ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
@@ -45,6 +47,7 @@ class TransaksiPajakController extends Controller
                 'nama_perusahaan' => $item->first()->nama_perusahaan,
                 'tanggal_transaksi' => $item->first()->tanggal_transaksi,
                 'tanggal_pembayaran' => $item->first()->tanggal_pembayaran,
+                'bukti' => $item->first()->bukti,
                 'data' => $item->map(function ($row) {
                     return [
                         'id_pajak' => $row->id_pajak,
@@ -119,6 +122,11 @@ class TransaksiPajakController extends Controller
      */
     public function store(StoreTransaksi_PajakRequest $request, StoreTransaksiRequest $req)
     {
+        $foto = $request->file('foto');
+        $filename = $foto->getClientOriginalName();
+        $path = 'bukti-pembayaran/' . $filename;
+        // $foto->move('bukti-pembayaran/', $filename);
+        Storage::disk('public')->put($path, file_get_contents($foto));
         if ($request->has('id_pajak')) {
             try {
                 $id_pajak = $request->id_pajak;
@@ -134,7 +142,8 @@ class TransaksiPajakController extends Controller
                         'status_pembayaran' => $req->status_pembayaran,
                         'tanggal_pembayaran' => $req->input('tanggal_pembayaran') ?? null,
                         'tanggal_transaksi' => $req->tanggal_transaksi,
-                        'id_perusahaan' => $req->id_perusahaan
+                        'id_perusahaan' => $req->id_perusahaan,
+                        'bukti' => $filename
                     ]);
                     $id_transaksi = DB::getPDO()->lastInsertId(); // Mengambil ID transaksi yang baru saja dibuat
                 }
@@ -294,6 +303,20 @@ class TransaksiPajakController extends Controller
 
 
         // $order = Transaksi_Pajak::create($data);
+    }
+
+    public function getImage(Request $request)
+    {
+        $path = storage_path('app/public/bukti-pembayaran/' . $request->input('foto'));
+
+        if (!File::exists($path)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        return response($file, 200)->header("Content-Type", $type);
     }
 
     /**

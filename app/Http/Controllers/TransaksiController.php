@@ -365,11 +365,11 @@ class TransaksiController extends Controller
      */
     public function update(UpdateTransaksiRequest $request, $id)
     {
-        $foto = $request->file('foto');
-        $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
-        $path = 'bukti-pembayaran/' . $filename;
+        // $foto = $request->file('foto');
+        // $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
+        // $path = 'bukti-pembayaran/' . $filename;
         // $foto->move('bukti-pembayaran/', $filename);
-        Storage::disk('public')->put($path, file_get_contents($foto));
+        // Storage::disk('public')->put($path, file_get_contents($foto));
         try {
             $update = Transaksi::find($id);
             if (!$update) {
@@ -377,23 +377,30 @@ class TransaksiController extends Controller
                     'message' => "Data dengan ID $id tidak ditemukan"
                 ], 404);
             }
-            if ($update->bukti) {
-                $oldPath = 'bukti-pembayaran/' . $update->bukti;
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
+            if ($request->hasFile('foto')) {
+                $foto = $request->file('foto');
+                dd($foto);
+                $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
+                $path = 'bukti-pembayaran/' . $filename;
+
+                // Hapus file lama jika ada
+                if ($update->bukti) {
+                    $oldPath = 'bukti-pembayaran/' . $update->bukti;
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
                 }
+                Storage::disk('public')->put($path, file_get_contents($foto));
+                $update->bukti = $filename;
             }
-
-
-
-
+            var_dump($request->harga);
             $update->harga = $request->harga;
             $update->status_kontrak = $request->status_kontrak;
             $update->status_pembayaran = $request->status_pembayaran;
             $update->tanggal_pembayaran = $request->tanggal_pembayaran;
             $update->tanggal_transaksi = $request->tanggal_transaksi;
             $update->id_perusahaan = $request->id_perusahaan;
-            $update->bukti = $filename;
+            // $update->bukti = $filename;
 
             $update->save();
 

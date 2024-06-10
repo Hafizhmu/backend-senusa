@@ -316,7 +316,7 @@ class TransaksiController extends Controller
     public function store(StoreTransaksiRequest $request)
     {
         $foto = $request->file('foto');
-        $filename = $foto->getClientOriginalName();
+        $filename = date('Y-m-d') . '-'.$foto->getClientOriginalName();
         $path = 'bukti-pembayaran/' . $filename;
         // $foto->move('bukti-pembayaran/', $filename);
         Storage::disk('public')->put($path, file_get_contents($foto));
@@ -366,7 +366,7 @@ class TransaksiController extends Controller
     public function update(UpdateTransaksiRequest $request, $id)
     {
         $foto = $request->file('foto');
-        $filename = $foto->getClientOriginalName();
+        $filename = date('Y-m-d') . '-'.$foto->getClientOriginalName();
         $path = 'bukti-pembayaran/' . $filename;
         // $foto->move('bukti-pembayaran/', $filename);
         Storage::disk('public')->put($path, file_get_contents($foto));

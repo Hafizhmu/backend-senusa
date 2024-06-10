@@ -26,7 +26,7 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //Query untuk get table desa dengan atribut nama desa,nama kades,kecamatan,kabupaten
-        $query = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan','bukti','tanggal_pembayaran','tanggal_transaksi')
+        $query = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan', 'bukti', 'tanggal_pembayaran', 'tanggal_transaksi')
             ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
             ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
             ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
@@ -377,6 +377,15 @@ class TransaksiController extends Controller
                     'message' => "Data dengan ID $id tidak ditemukan"
                 ], 404);
             }
+            if ($update->bukti) {
+                $oldPath = 'bukti-pembayaran/' . $update->bukti;
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+
+
+
 
             $update->harga = $request->harga;
             $update->status_kontrak = $request->status_kontrak;

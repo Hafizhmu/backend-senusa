@@ -316,7 +316,7 @@ class TransaksiController extends Controller
     public function store(StoreTransaksiRequest $request)
     {
         $foto = $request->file('foto');
-        $filename = date('Y-m-d') . '-'.$foto->getClientOriginalName();
+        $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
         $path = 'bukti-pembayaran/' . $filename;
         // $foto->move('bukti-pembayaran/', $filename);
         Storage::disk('public')->put($path, file_get_contents($foto));
@@ -366,7 +366,7 @@ class TransaksiController extends Controller
     public function update(UpdateTransaksiRequest $request, $id)
     {
         $foto = $request->file('foto');
-        $filename = date('Y-m-d') . '-'.$foto->getClientOriginalName();
+        $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
         $path = 'bukti-pembayaran/' . $filename;
         // $foto->move('bukti-pembayaran/', $filename);
         Storage::disk('public')->put($path, file_get_contents($foto));
@@ -433,6 +433,39 @@ class TransaksiController extends Controller
             // Return error response
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menghapus data', $e->getMessage()
+            ], 500);
+        }
+    }
+    public function deleteBukti($id)
+    {
+        try {
+            $transaksi = Transaksi::find($id);
+            if (!$transaksi) {
+                return response()->json([
+                    'message' => "Data dengan ID $id tidak ditemukan"
+                ], 404);
+            }
+
+            // Hapus file dari penyimpanan jika ada
+            if ($transaksi->bukti) {
+                $path = 'bukti-pembayaran/' . $transaksi->bukti;
+                if (Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
+
+            // Kosongkan kolom bukti di database
+            $transaksi->bukti = null;
+            $transaksi->save();
+
+            // Return success response
+            return response()->json([
+                'message' => 'Gambar berhasil dihapus'
+            ], 200);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus gambar: ' . $e->getMessage()
             ], 500);
         }
     }

@@ -186,7 +186,8 @@ class TransaksiPajakController extends Controller
                         'status_pembayaran' => $req->status_pembayaran,
                         'tanggal_pembayaran' => $req->input('tanggal_pembayaran') ?? null,
                         'tanggal_transaksi' => $req->tanggal_transaksi,
-                        'id_perusahaan' => $req->id_perusahaan
+                        'id_perusahaan' => $req->id_perusahaan,
+                        'bukti' => $filename
                     ]);
                     $id_transaksi = DB::getPDO()->lastInsertId(); // Mengambil ID transaksi yang baru saja dibuat
                 }

@@ -15,6 +15,7 @@ use Mpdf\Mpdf as MpdfMpdf;
 use Illuminate\Http\Request;
 use App\Models\Transaksi_Pajak;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\TransaksiResource;
 use App\Http\Requests\StoreTransaksiRequest;
 use Illuminate\Database\Eloquent\Casts\Json;
@@ -314,6 +315,11 @@ class TransaksiController extends Controller
      */
     public function store(StoreTransaksiRequest $request)
     {
+        $foto = $request->file('foto');
+        $filename = $foto->getClientOriginalName();
+        $path = 'bukti-pembayaran/' . $filename;
+        // $foto->move('bukti-pembayaran/', $filename);
+        Storage::disk('public')->put($path, file_get_contents($foto));
         try {
             Transaksi::create([
                 'id_projek' => $request->id_projek,
@@ -323,7 +329,8 @@ class TransaksiController extends Controller
                 'status_pembayaran' => $request->status_pembayaran,
                 'tanggal_pembayaran' => $request->input('tanggal_pembayaran'),
                 'tanggal_transaksi' => $request->tanggal_transaksi,
-                'id_perusahaan' => $request->id_perusahaan
+                'id_perusahaan' => $request->id_perusahaan,
+                'bukti' => $filename
             ]);
 
             //return response json

@@ -25,25 +25,25 @@ class UpdateTransaksiRequest extends FormRequest
             return [
                 'id_projek' => 'integer|exists:projeks,id_projek',
                 'id_desa' => 'integer|exists:desas,id_desa',
-                'harga' => 'required|integer',
-                'status_kontrak' => 'required|integer',
-                'status_pembayaran' => 'required|integer',
+                'harga' => 'nullable|integer',
+                'status_kontrak' => 'nullable|integer',
+                'status_pembayaran' => 'nullable|integer',
                 'tanggal_pembayaran' => 'nullable|string',
-                'tanggal_transaksi' => 'required|string',
-                'id_perusahaan' => 'required|integer',
-                'bukti' => 'file|mimes:png,jpg,jpeg'
+                'tanggal_transaksi' => 'nullable|string',
+                'id_perusahaan' => 'nullable|integer',
+                'bukti' => 'nullable|file|mimes:png,jpg,jpeg'
             ];
         } else {
             return [
-                'id_projek' => 'required|integer|exists:projeks,id_projek',
-                'id_desa' => 'required|integer|exists:desas,id_desa',
-                'harga' => 'required|integer',
-                'status_kontrak' => 'required|integer',
-                'status_pembayaran' => 'required|integer',
+                'id_projek' => 'nullable|integer|exists:projeks,id_projek',
+                'id_desa' => 'nullable|integer|exists:desas,id_desa',
+                'harga' => 'nullable|integer',
+                'status_kontrak' => 'nullable|integer',
+                'status_pembayaran' => 'nullable|integer',
                 'tanggal_pembayaran' => 'nullable|string',
-                'id_perusahaan' => 'required|integer',
-                'tanggal_transaksi' => 'required|string',
-                'bukti' => 'file|mimes:png,jpg,jpeg'
+                'id_perusahaan' => 'nullable|integer',
+                'tanggal_transaksi' => 'nullable|string',
+                'bukti' => 'nullable|file|mimes:png,jpg,jpeg'
             ];
         }
     }

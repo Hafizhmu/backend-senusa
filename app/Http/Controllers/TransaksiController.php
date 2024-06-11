@@ -379,7 +379,6 @@ class TransaksiController extends Controller
             }
             if ($request->hasFile('foto')) {
                 $foto = $request->file('foto');
-                dd($foto);
                 $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
                 $path = 'bukti-pembayaran/' . $filename;
 

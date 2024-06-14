@@ -21,21 +21,38 @@ class StoreDesaRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('nama_desa')) {
+            $this->merge([
+                'nama_desa' => 'Desa ' . $this->nama_desa,
+            ]);
+        }
         if (request()->isMethod('post')) {
             return [
-                'nama_desa' => 'required|string',
-                'nama_kades' => 'required|string',
+                'nama_desa' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    // Aturan unik dengan klausa where
+                    'unique:desas,nama_desa,NULL,id,id_kecamatan,' . $this->id_kecamatan,
+                ],
+                'nama_kades' => 'required|string|max:255',
                 'id_kecamatan' => 'required|integer|exists:kecamatans,id',
-                'alamat' => 'required|string',
-                'telepon' => 'required|string'
+                'alamat' => 'required|string|max:255',
+                'telepon' => 'required|string|max:15',
             ];
         } else {
             return [
-                'nama_desa' => 'required|string',
-                'nama_kades' => 'required|string',
+                'nama_desa' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    // Aturan unik dengan klausa where
+                    'unique:desas,nama_desa,NULL,id,id_kecamatan,' . $this->id_kecamatan,
+                ],
+                'nama_kades' => 'required|string|max:255',
                 'id_kecamatan' => 'required|integer|exists:kecamatans,id',
-                'alamat' => 'required|string',
-                'telepon' => 'required|string'
+                'alamat' => 'required|string|max:255',
+                'telepon' => 'required|string|max:15',
             ];
         }
     }

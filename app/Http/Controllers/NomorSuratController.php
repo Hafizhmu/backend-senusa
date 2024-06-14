@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNomorRequest;
+use Carbon\Carbon;
 use App\Models\Desa;
 use App\Models\nomor_surat;
 use Illuminate\Http\Request;
-use App\Http\Requests\Storenomor_suratRequest;
-use App\Http\Requests\Updatenomor_suratRequest;
 use Illuminate\Support\Facades\DB;
 
 class NomorSuratController extends Controller
@@ -26,21 +26,67 @@ class NomorSuratController extends Controller
     {
         //
     }
+    public function generateSuratNumber()
+    {
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $req)
+    public function store(StoreNomorRequest $request, Request $req)
     {
-        $desa = DB::table('desas')
-            ->where('id_kecamatan', $req->input('id_kecamatan'))
-            ->pluck('id_desa');
-        // var_dump($desa);
+        try {
+            $desa = DB::table('desas')->pluck('id_desa', 'id_kecamatan')->where('id_kecamatan', $req->input('id_kecamatan'));
+            $currentDate = Carbon::now();
+            $year = $currentDate->year;
+            $month = $currentDate->month;
+            foreach ($desa as $key) {
+                $id_desa = $key->id_desa;
+                $kecamatanId = $key->id_kecamatan; // Asumsikan tabel 'villages' memiliki kolom 'kecamatan_id'
 
-        foreach ($desa as $id_desa) {
-            var_dump('Id desa : ' . $id_desa);
-            // mavs in 5;
+                // Cek apakah ada entry untuk desa, bulan, dan tahun ini
+                $suratNumber = DB::table('surat_numbers')
+                    ->where('id_desa', $id_desa)
+                    ->where('id_kecamatan', $kecamatanId)
+                    ->whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month)
+                    ->orderBy('no_surat', 'desc')
+                    ->first();
 
+                if ($suratNumber) {
+                    // Increment nomor surat terakhir
+                    $lastSuratNumberParts = explode('/', $suratNumber->no_surat);
+                    $lastNumber = end($lastSuratNumberParts);
+                    $newNumber = (int)$lastNumber + 1;
+                } else {
+                    // Reset nomor surat jika bulan atau tahun berganti
+                    $newNumber = 1;
+                }
+
+                // Format nomor surat sesuai kebutuhan
+                $formattedNumber = sprintf('%04d', $newNumber); // Misalnya: 0001, 0002, dll
+                $noSurat = "SURAT/{$id_desa}/{$year}/{$month}/{$formattedNumber}";
+
+                // Insert nomor surat baru ke database
+                DB::table('surat_numbers')->insert([
+                    'id_desa' => $id_desa,
+                    'id_kecamatan' => $kecamatanId,
+                    'id_transaksi' => $request->id_transaksi, // Atur sesuai kebutuhan atau biarkan $request->
+                    'id_dokumen' => $request->id_dokumen, // Atur sesuai kebutuhan atau biarkan $request->
+                    'id_projek' => $request->id_dokumen, // Atur sesuai kebutuhan atau biarkan null
+                    'no_surat' => $noSurat,
+                    'created_at' => $currentDate,
+                    'updated_at' => $currentDate
+                ]);
+
+                return response()->json([
+                    'message' => 'Data berhasil ditambahkan'
+                ], 200);
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => "Terjadi Kesalahan" . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -63,7 +109,7 @@ class NomorSuratController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Updatenomor_suratRequest $request, nomor_surat $nomor_surat)
+    public function update()
     {
         //
     }

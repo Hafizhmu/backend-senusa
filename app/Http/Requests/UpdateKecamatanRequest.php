@@ -21,15 +21,28 @@ class UpdateKecamatanRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('kecamatan')) {
+            $this->merge([
+                'kecamatan' => 'Kecamatan ' . $this->kecamatan,
+            ]);
+        }
         if (request()->isMethod('put')) {
             return [
                 'id_kabupaten' => 'required|integer|exists:kabupatens,id',
-                'kecamatan' => 'required|string'
+                'kecamatan' => [
+                    'required',
+                    'string',
+                    'unique:kecamatans,kecamatan,NULL,id,id_kabupaten,' . $this->id_kabupaten,
+                ]
             ];
         } else {
             return [
                 'id_kabupaten' => 'required|integer|exists:kabupatens,id',
-                'kecamatan' => 'required|string'
+                'kecamatan' => [
+                    'required',
+                    'string',
+                    'unique:kecamatans,kecamatan,NULL,id,id_kabupaten,' . $this->id_kabupaten,
+                ]
             ];
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreKabupatenRequest extends FormRequest
@@ -21,9 +22,19 @@ class StoreKabupatenRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('kabupaten')) {
+            $this->merge([
+                'kabupaten' => 'Kabupaten ' . $this->kabupaten,
+            ]);
+        }
         if (request()->isMethod('post')) {
             return [
-                'kabupaten' => 'required|string'
+                'kabupaten' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('kabupatens', 'kabupaten') // Gantilah 'your_table_name' dengan nama tabel yang sesuai
+                ],
             ];
         } else {
             return [

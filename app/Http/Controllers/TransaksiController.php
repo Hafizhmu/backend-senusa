@@ -211,7 +211,7 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan', 'desas.nama_kades','tanggal_pembayaran','tanggal_transaksi')
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan', 'desas.nama_kades', 'tanggal_pembayaran', 'tanggal_transaksi')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
@@ -315,17 +315,16 @@ class TransaksiController extends Controller
      */
     public function store(StoreTransaksiRequest $request)
     {
-        if ($request->has('foto')) {
-            $foto = $request->file('foto');
-            $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
-            $path = 'bukti-pembayaran/' . $filename;
-            // $foto->move('bukti-pembayaran/', $filename);
-            Storage::disk('public')->put($path, file_get_contents($foto));
-        }else{
-            $filename = null;
-        }
 
         try {
+            $filename = null;
+            if ($request->hasFile('foto')) {
+                $foto = $request->file('foto');
+                $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
+                $path = 'bukti-pembayaran/' . $filename;
+                // $foto->move('bukti-pembayaran/', $filename);
+                Storage::disk('public')->put($path, file_get_contents($foto));
+            }
             Transaksi::create([
                 'id_projek' => $request->id_projek,
                 'id_desa' => $request->id_desa,

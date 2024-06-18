@@ -51,7 +51,7 @@ class StoreTransaksiRequest extends FormRequest
                 'tanggal_pembayaran' => 'nullable|string',
                 'tanggal_transaksi' => 'required|string',
                 'id_perusahaan' => 'required|integer|exists:perusahaans,id',
-                'bukti' => 'file|mimes:png,jpg,jpeg'
+                'bukti' => 'nullable|image|mimes:png,jpg,jpeg'
             ];
         } else {
             return [
@@ -63,7 +63,7 @@ class StoreTransaksiRequest extends FormRequest
                 'tanggal_pembayaran' => 'nullable|string',
                 'tanggal_transaksi' => 'required|string',
                 'id_perusahaan' => 'required|integer|exists:perusahaans,id',
-                'bukti' => 'file|mimes:png,jpg,jpeg'
+                'bukti' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ];
         }
     }

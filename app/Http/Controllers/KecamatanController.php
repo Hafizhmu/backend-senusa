@@ -123,7 +123,7 @@ class KecamatanController extends Controller
         try {
             Kecamatan::create([
                 'id_kabupaten' => $request->id_kabupaten,
-                'kecamatan' => 'Kecamatan '.$request->kecamatan
+                'kecamatan' => $request->kecamatan
             ]);
 
             //return response json

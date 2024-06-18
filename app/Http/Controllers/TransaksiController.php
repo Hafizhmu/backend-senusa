@@ -211,7 +211,7 @@ class TransaksiController extends Controller
         // Cek jika ID desa telah diberikan
         if ($find) {
             // Mengambil data transaksi yang dilakukan di desa dengan ID tertentu
-            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan', 'desas.nama_kades')
+            $transaksis = Transaksi::select('transaksis.id_transaksi', 'projeks.nama AS nama_projek', 'desas.nama_desa', 'transaksis.harga', 'transaksis.status_pembayaran', 'transaksis.status_kontrak', 'perusahaans.nama_perusahaan', 'desas.nama_kades','tanggal_pembayaran','tanggal_transaksi')
                 ->join('projeks', 'transaksis.id_projek', '=', 'projeks.id_projek')
                 ->join('perusahaans', 'transaksis.id_perusahaan', '=', 'perusahaans.id')
                 ->join('desas', 'transaksis.id_desa', '=', 'desas.id_desa')
@@ -315,11 +315,16 @@ class TransaksiController extends Controller
      */
     public function store(StoreTransaksiRequest $request)
     {
-        $foto = $request->file('foto');
-        $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
-        $path = 'bukti-pembayaran/' . $filename;
-        // $foto->move('bukti-pembayaran/', $filename);
-        Storage::disk('public')->put($path, file_get_contents($foto));
+        if ($request->has('foto')) {
+            $foto = $request->file('foto');
+            $filename = date('Y-m-d') . '-' . $foto->getClientOriginalName();
+            $path = 'bukti-pembayaran/' . $filename;
+            // $foto->move('bukti-pembayaran/', $filename);
+            Storage::disk('public')->put($path, file_get_contents($foto));
+        }else{
+            $filename = null;
+        }
+
         try {
             Transaksi::create([
                 'id_projek' => $request->id_projek,
@@ -395,6 +400,9 @@ class TransaksiController extends Controller
             var_dump($update->bukti);
             // var_dump($request->harga);
             $update->harga = $request->harga;
+            $update->id_desa = $request->id_desa;
+            $update->id_projek = $request->id_projek;
+            $update->id_perusahaan = $request->id_perusahaan;
             $update->status_kontrak = $request->status_kontrak;
             $update->status_pembayaran = $request->status_pembayaran;
             $update->tanggal_pembayaran = $request->tanggal_pembayaran;

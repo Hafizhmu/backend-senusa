@@ -24,14 +24,12 @@ class StorePerusahaanRequest extends FormRequest
         if (request()->isMethod('post')) {
             return [
                 'nama_perusahaan' => 'required|string',
-                'nama_direktur' => 'required|string',
-                'format_nomor_surat' => 'required|string'
+                'nama_direktur' => 'required|string'
             ];
         } else {
             return [
                 'nama_perusahaan' => 'required|string',
-                'nama_direktur' => 'required|string',
-                'format_nomor_surat' => 'required|string'
+                'nama_direktur' => 'required|string'
             ];
         }
     }

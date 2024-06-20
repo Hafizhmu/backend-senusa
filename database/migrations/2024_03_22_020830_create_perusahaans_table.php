@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nama_perusahaan');
             $table->string('nama_direktur');
-            $table->string('format_nomor_surat');
             $table->timestamps();
         });
     }

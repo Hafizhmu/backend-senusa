@@ -62,7 +62,6 @@ class PerusahaanController extends Controller
             Perusahaan::create([
                 'nama_perusahaan' => $request->nama_perusahaan,
                 'nama_direktur' => $request->nama_direktur,
-                'format_nomor_surat' => $request->format_nomor_surat
             ]);
 
             //return response json
@@ -107,7 +106,6 @@ class PerusahaanController extends Controller
 
             $update->nama_perusahaan = $request->nama_perusahaan;
             $update->nama_direktur = $request->nama_direktur;
-            $update->format_nomor_surat = $request->format_nomor_surat;
 
             $update->save();
 

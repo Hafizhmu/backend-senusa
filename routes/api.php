@@ -14,6 +14,9 @@ use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\RiwayatCetakController;
 use App\Http\Controllers\TransaksiPajakController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PenomoranController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +104,9 @@ Route::get('countProjek', [TransaksiController::class, 'hitungProyek']);
 Route::get('countMonthly', [TransaksiController::class, 'hitungBulanan']);
 //route untuk get projek
 Route::get('getImage', [TransaksiPajakController::class, 'getImage']);
+Route::get('penomoran', [PenomoranController::class, 'index']);
+Route::get('penomoran/options', [PenomoranController::class, 'getPenomoranOptions']);
+Route::get('getPenomoran', [PenomoranController::class, 'getPenomoranById']);
 
 
 //method POST
@@ -133,6 +139,7 @@ Route::post('add/riwayatCetak', [RiwayatCetakController::class, 'store']);
 //route untuk auth perusahaan
 Route::post('add/nomorSurat', [NomorSuratController::class, 'store']);
 
+Route::post('add/penomoran', [PenomoranController::class, 'store']);
 
 
 //method PUT
@@ -153,6 +160,9 @@ Route::put('update/pajak/{id}', [PajakController::class, 'update']);
 //route untuk update perusahaan
 Route::put('update/transaksiPajak', [TransaksiPajakController::class, 'update']);
 
+Route::put('update/penomoran/{id}', [PenomoranController::class, 'update']);
+Route::put('update/penomoran/increment/{id}', [PenomoranController::class, 'incrementCurrentNumber']);
+
 //method DELETE
 //route untuk mengapus desa
 Route::delete('delete/desa/{id}', [DesaController::class, 'destroy']);
@@ -172,3 +182,5 @@ Route::delete('delete/pajak/{id}', [PajakController::class, 'destroy']);
 Route::delete('delete/dokumen/{id}', [DokumenController::class, 'destroy']);
 //route untuk mengapus transaksi
 Route::delete('delete/bukti/{id}', [TransaksiController::class, 'deleteBukti']);
+
+Route::delete('delete/penomoran/{id}', [PenomoranController::class, 'destroy']);
